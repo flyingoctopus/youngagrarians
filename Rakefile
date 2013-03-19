@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Younagrarians::Application.load_tasks
+Youngagrarians::Application.load_tasks
