@@ -1,4 +1,4 @@
-Younagrarians::Application.routes.draw do
+Youngagrarians::Application.routes.draw do
   resources :locations
 
 
