@@ -3,7 +3,6 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
   className: 'nav nav-list'
 
   initialize: () ->
-    @types = @options.locations.pluck 'type'
     @options.locations.on 'reset', @reset, @
 
   reset: (col,data) =>

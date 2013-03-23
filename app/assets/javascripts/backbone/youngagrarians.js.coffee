@@ -18,8 +18,6 @@ YA.addRegions
 
 YA.addInitializer (options) ->
   window.Locations = new Youngagrarians.Collections.LocationsCollection()
-  window.Locations.on 'reset', (col,data) ->
-      console.log 'collection reset',col,data
   window.Locations.fetch
     reset: true
 
