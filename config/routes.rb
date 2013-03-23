@@ -1,6 +1,6 @@
 Youngagrarians::Application.routes.draw do
   resources :locations
-
+  match 'locations/excel_import' => 'locations#excel_import'
 
   get "home/index"
   root :to => "home#index"

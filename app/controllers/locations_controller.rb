@@ -1,4 +1,9 @@
 class LocationsController < ApplicationController
+  require 'spreadsheet'
+  require 'fileutils'
+  require 'iconv'
+
+
   # GET /locations
   # GET /locations.json
   def index
@@ -29,6 +34,21 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @location }
+    end
+  end
+
+  # custom!
+  def excel_import
+    tmp = params[:dump][:excel_file].tempfile
+
+    Spreadsheet.client_encoding = 'UTF-8'
+    book = Spreadsheet.open tmp.path
+    sheet1 = book.worksheet 0
+    sheet1.each_with_index do |row, i|
+      # skip the first row dummy
+      next if i == 0
+      # do things at your leeeisurrree
+      Location.new(:name => row[0], :address => row[1], :content => row[2], :type => row[3]).save
     end
   end
 
@@ -81,3 +101,6 @@ class LocationsController < ApplicationController
     end
   end
 end
+
+# WAT
+FileUtils.rm tmp.path
