@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="page-header">
+      <h1><%= t('accounts.sign_in') %></h1>
+    </div>
+
+    <% if params[:return_url] %>
+      <%= render 'login', :return_url => params[:return_url] %>
+    <% else %>
+      <%= render 'login' %>
+    <% end %>
+  </div>
+</div>

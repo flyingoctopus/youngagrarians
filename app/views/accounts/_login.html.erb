@@ -1,0 +1,31 @@
+<% return_url = nil if local_assigns[:return_url].nil? %>
+
+<%= form_tag :login_post, :class => 'form-horizontal' do %>
+  <fieldset>
+    <div class="control-group">
+      <%= label_tag :email, nil, :class => 'control-label', :for => 'inputIcon' %>
+      <div class="input-prepend">
+        <!-- <span class="add-on"><i class="icon-envelope"></i></span> -->
+        <%= text_field_tag :email, nil, :class => 'span3', :placeholder => 'Email' %>
+      </div>
+    </div>
+
+  <div class="control-group">
+    <%= label_tag :password, nil, :class => 'control-label', :for => 'inputIcon' %>
+    <div class="input-prepend">
+      <%= password_field_tag :password %>
+      <p class="help-block">
+        <%= link_to 'Forgot Password', :forgot_password %>
+      </p>
+    </div>
+  </div>
+
+  <% if return_url %>
+    <%= hidden_field_tag :return_url, return_url %>
+  <% end %>
+  
+  <div class="form-actions">
+    <%= submit_tag 'Sign In', :class => 'btn btn-primary' %>
+  </div>
+</fieldset>
+<% end %>
