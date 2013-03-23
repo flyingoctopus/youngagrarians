@@ -4,14 +4,11 @@
 #= require jquery.gomap
 #= require underscore
 #= require backbone
-#= require backbone_rails_sync
-#= require backbone_datalink
 #= require backbone.marionette
 #= require backbone/youngagrarians
-#= require_tree .
+#= require bootstrap-setup
 
-
-Backbone.View.make = (tagName, attributes, content ) ->
+make = (tagName, attributes, content ) ->
   $el = Backbone.$ "<" + tagName + "/>"
   if attributes
     $el.attr attributes
@@ -19,7 +16,8 @@ Backbone.View.make = (tagName, attributes, content ) ->
     $el.html content
   $el[0]
 
-Backbone.Marionette.View.make = Backbone.View.make
+Backbone.View.make = make
+Backbone.Marionette.View.make = make
 
 Backbone.Marionette.Renderer.render = (template, data) ->
   if !JST[template]
