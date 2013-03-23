@@ -6,7 +6,7 @@
     <th>Content</th>
     <th>Address</th>
     <th>Type</th>
-    <th></th>
+    <th>Is Approved</th>
     <th></th>
     <th></th>
   </tr>
@@ -17,6 +17,7 @@
     <td><%= location.content %></td>
     <td><%= location.address %></td>
     <td><%= location.type %></td>
+    <td><%= location.is_approved %></td>
     <td><%= link_to 'Show', location %></td>
     <td><%= link_to 'Edit', edit_location_path(location) %></td>
     <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>

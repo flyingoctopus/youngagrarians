@@ -1,41 +1,47 @@
-<%= form_for(@location) do |f| %>
-  <% if @location.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
+<% unless authenticated? %>
+  <%= form_for(@location) do |f| %>
+    <% if @location.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
 
-      <ul>
-      <% @location.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @location.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :content %><br />
+      <%= f.text_area :content %>
+    </div>
+    <div class="field">
+      <%= f.label :address %><br />
+      <%= f.text_field :address %>
+    </div>
+    <div class="field">
+      <%= f.label :type %><br />
+      <%= f.text_field :type %>
+    </div>
+    <div class="field"
+      <%= f.label :is_approved %>
+      <%= f.radio_button :is_approved, "1" %>
+      <%= f.radio_button :is_approved, "0" %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :content %><br />
-    <%= f.text_area :content %>
-  </div>
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br />
-    <%= f.text_field :type %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<% else %>
+  <h2>MOVE TO ADMIN PARTIAL</h2>
+  <%= form_for :dump, :url=>{:controller=>"locations", :action=>"excel_import"}, :html => { :multipart => true } do |f| %>
+  Select an Excel File :
+    <%= f.file_field :excel_file %>
+    <%= submit_tag 'Submit' %>
+  <% end %>
 <% end %>
-
-<h2>MOVE TO ADMIN PARTIAL</h2>
-<%= form_for :dump, :url=>{:controller=>"locations", :action=>"excel_import"}, :html => { :multipart => true } do |f| %>
-Select an Excel File :
-  <%= f.file_field :excel_file %>
-  <%= submit_tag 'Submit' %>
-<% end %>
-
