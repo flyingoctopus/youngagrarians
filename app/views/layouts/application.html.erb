@@ -8,6 +8,35 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">YoungAgrarians.com</a>
+          <div class="nav-collapse collapse">
+            <p class="nav navbar-text pull-right">
+              <% unless authenticated? %>
+              <%= link_to 'Login', { :controller => "accounts", :action => "login"}, :class => "navbar-link" %>&nbsp;&nbsp;&nbsp;
+              <%= link_to 'Register', { :controller => "accounts", :action => "new"}, :class => "navbar-link" %>
+              <% else %>
+              Welcome <%= current_user.username %> &nbsp;&nbsp;&nbsp;
+              <%= link_to 'Logout', { :controller => "accounts", :action => "logout"}, :class => "navbar-link" %>
+              <% end %>
+            </p>
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/st/about">About</a></li>
+              <li><a href="/st/contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
 
     <%= yield %>
 
@@ -15,9 +44,9 @@
 
     <script type="text/javascript">
       _.defer(
-        function(){
-          YA.start();
-        }
+      function(){
+      YA.start();
+      }
       );
     </script>
   </body>
