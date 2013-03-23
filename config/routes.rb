@@ -5,6 +5,23 @@ Youngagrarians::Application.routes.draw do
   get "home/index"
   root :to => "home#index"
 
+  # Authentication flow
+  get  '/login'                => 'accounts#login',              :as => :login
+  post '/login'                => 'accounts#login_post',         :as => :login_post
+  post '/login.json'           => 'accounts#login_post',         :as => :login_post_json, :format => 'json'
+  get  '/logout'               => 'accounts#logout',             :as => :logout
+  get  '/signup'               => 'accounts#new',                :as => :signup
+  post '/signup'               => 'accounts#create',             :as => :create_account
+  get  '/forgot_password'      => 'accounts#forgot_password',    :as => :forgot_password
+  post '/forgot_password'      => 'accounts#retrieve_password',  :as => :retrieve_password
+  get  '/password_sent'        => 'accounts#password_sent',      :as => :password_sent
+  get  '/password_reset/:code' => 'accounts#password_reset',     :as => :password_reset
+  put  '/password_reset/:code' => 'accounts#reset_password',     :as => :reset_password
+
+  get  '/verify_credentials'   => 'accounts#verify_credentials', :as => :verify_credentials
+
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
