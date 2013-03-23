@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="page-header">
+      <h1><%= t('accounts.create') %></h1>
+      <p class="help-block">
+        All your farms are belong to us.
+      </p>
+    </div>
+    <% if !@user.errors.empty? %>
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>Oh snap!</strong>
+        There was an error submitting your form.
+      </div>
+    <% end %>
+    <%= form_for @user, :url => url_for(:create_account) do |form| %>
+      <div class="fieldset form-horizontal">
+        <div class="row">
+          <div class="span3">
+            <i class="icon-user"></i>
+            <strong>Your Young Agrarians account</strong>
+            <span class="help-inline">Let's get started. It's easy to join. Jerk</span>
+          </div>
+          <div class="span9">
+            <div class="control-group <%= @user.errors.include?(:username) ? 'error' : ''%>" >
+              <%= form.label :username, :class => 'control-label' %>
+              <div class="controls">
+                <%= form.text_field :username %>
+                <% if @user.errors.include?(:username) %>
+                  <span class="help-inline">
+                    <%= "User name #{@user.errors[:username].first}" %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+            <div class="control-group <%= @user.errors.include?(:first_name) ? 'error' : ''%>" >
+              <%= form.label :first_name, :class => 'control-label' %>
+              <div class="controls">
+                <%= form.text_field :first_name %>
+                <% if @user.errors.include?(:first_name) %>
+                  <span class="help-inline">
+                    <%= "First name #{@user.errors[:first_name].first}" %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+            <div class="control-group <%= @user.errors.include?(:last_name) ? 'error' : '' %>" >
+              <%= form.label :last_name, :class => 'control-label' %>
+              <div class="controls">
+                <%= form.text_field :last_name %>
+                <% if @user.errors.include?(:last_name) %>
+                  <span class="help-inline">
+                    <%= "Last name #{@user.errors[:last_name].first}" %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+            <div class="control-group <%= @user.errors.include?(:email) ? 'error' : ''%>">
+              <%= form.label :email, :class => 'control-label' %>
+              <div class="controls">
+                <%= form.text_field :email %>
+                <% if @user.errors.include?(:email) %>
+                  <span class="help-inline">
+                    <%= "Email #{@user.errors[:email].first}" %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+            <div class="control-group <%= @user.errors.include?(:password) ? 'error' : '' %>">
+              <%= form.label :password, :class => 'control-label' %>
+              <div class="controls">
+                <%= form.password_field :password %>
+                <% if @user.errors.include?(:password) %>
+                  <span class="help-inline">
+                    <%= "Password #{@user.errors[:password].first}" %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span3">
+            &nbsp;
+          </div>
+          <div class="span9">
+            <div class="form-actions">
+              <%= hidden_field_tag :code, @code %>
+              <%= form.submit 'Register', :class => 'btn btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
