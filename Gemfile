@@ -20,15 +20,15 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem "mongoid", "~> 3.1.2"
+gem 'mongoid', '~> 3.1.2'
 
 gem 'jquery-rails'
 gem 'gmaps4rails'
 
-gem "therubyracer"
-gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem "twitter-bootstrap-rails"
-
+gem 'therubyracer'
+gem 'less-rails' #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem 'twitter-bootstrap-rails'
+gem 'spreadsheet', '~> 0.8.3'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
