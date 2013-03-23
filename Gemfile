@@ -7,7 +7,6 @@ gem 'rails', '3.2.12'
 
 gem 'sqlite3'
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -22,9 +21,10 @@ end
 
 gem "mongoid", "~> 3.1.2"
 
-gem 'jquery-rails'
 gem 'gmaps4rails'
+gem 'geocoder'
 
+gem 'jquery-rails'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
