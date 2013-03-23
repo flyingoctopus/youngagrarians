@@ -13,7 +13,7 @@
 
 <% @locations.each do |location| %>
   <tr>
-    <td><%= location.name %></td>
+    <td><%= link_to location.name, location %></td>
     <td><%= location.content %></td>
     <td><%= location.address %></td>
     <td><%= location.type %></td>
