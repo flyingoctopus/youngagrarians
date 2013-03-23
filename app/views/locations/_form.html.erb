@@ -31,3 +31,11 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+<h2>MOVE TO ADMIN PARTIAL</h2>
+<%= form_for :dump, :url=>{:controller=>"locations", :action=>"excel_import"}, :html => { :multipart => true } do |f| %>
+Select an Excel File :
+  <%= f.file_field :excel_file %>
+  <%= submit_tag 'Submit' %>
+<% end %>
+
