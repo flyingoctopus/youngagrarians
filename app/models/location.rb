@@ -1,9 +1,19 @@
 class Location
   include Mongoid::Document
-  acts_as_gmappable :position => :address
+  include Gmaps4rails::ActsAsGmappable
+  acts_as_gmappable
 
+  field :latitude, type: Float
+  field :longitude, type: Float
+  field :gmaps, type: Boolean
+
+  field :address, type: String
   field :name, type: String
   field :content, type: String
-  field :address, type: Array
   field :type, type: String
+
+  def gmaps4rails_address
+    "#{address}"
+  end
+
 end
