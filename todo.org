@@ -1,0 +1,4 @@
+* Location list - backbone collection
+* Result list - backbone view
+* Category filter - backbone view
+* Marker list - backbone view

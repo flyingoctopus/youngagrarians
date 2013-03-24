@@ -13,8 +13,9 @@
 @YA = new Backbone.Marionette.Application()
 
 YA.addRegions
-  main: "#application"
+  map: "#map-container"
   categories: "#category-list"
+  results: "#results"
 
 YA.addInitializer (options) ->
   window.Locations = new Youngagrarians.Collections.LocationsCollection()
@@ -22,26 +23,11 @@ YA.addInitializer (options) ->
     reset: true
 
 YA.addInitializer (options) ->
-  @.categories.show new Youngagrarians.Views.Sidebar locations: Locations
-  @.main.show new Youngagrarians.Views.ApplicationLayout
+  sidebar = new Youngagrarians.Views.Sidebar locations: Locations
+  @.categories.show sidebar
+  map = new Youngagrarians.Views.Map collection: Locations
+  @.map.show map
+  results = new Youngagrarians.Views.Results collection: Locations
+  @.results.show results
 
-YA.addInitializer (options) ->
-  $("#map").goMap
-    latitude: 54.826008
-    longitude: -125.200195
-    zoom: 5
-    maptype: 'ROADMAP'
-
-  $.goMap.createListener(
-    {type:'map'}
-    'zoom_changed'
-    (event) ->
-      window.Locations.trigger 'map:update', 'zoom_changed'
-  )
-
-  $.goMap.createListener(
-    {type: 'map'}
-    'dragend'
-    (event) ->
-      window.Locations.trigger 'map:update', 'dragend'
-  )
+  sidebar.on 'filter', map.filter
