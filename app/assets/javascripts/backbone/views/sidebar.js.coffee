@@ -1,6 +1,9 @@
 class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
   tagName: 'ul'
-  className: 'nav nav-list'
+  className: 'nav nav-stacked nav-pills'
+
+  events:
+    'click li.category' : 'showHide'
 
   initialize: () ->
     @options.locations.on 'reset', @reset, @
@@ -16,7 +19,8 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     _(@types).each @addOne
 
   addOne: (type) =>
-    li =  @make 'li', {class: 'category'}, type
+    a = @make 'a', {href: '#'}, type
+    li =  @make 'li', {class: 'category', 'data-type': type}, a
     @$el.append li
 
   make: (tagName, attributes, content) ->
@@ -29,3 +33,22 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
 
   render: =>
     @reset()
+
+
+  showHide: (ev) =>
+    target = $ ev.target.parentNode
+    type = target.data 'type'
+    target.toggleClass 'active'
+
+    filter = @types
+
+    $(ev.target.parentNode.parentNode).find("li.category").each (index,li) =>
+      if $(li).hasClass 'active'
+        filter = _(filter).without $(li).data 'type'
+
+    if filter is @types
+      filter = []
+
+    @trigger 'filter', filter
+
+    #@options.locations.setModelShow @filter

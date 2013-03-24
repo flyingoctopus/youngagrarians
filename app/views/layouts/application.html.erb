@@ -54,25 +54,26 @@
               <li><a href="/st/about">About</a></li>
               <li><a href="/st/contact">Contact</a></li>
             </ul>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="container">
-        <div class="row">
-          <div class="span10">
-            <%= bootstrap_flash %>
-            <div id="application">
-              <%= yield %>
-            </div>
+      <div class="row">
+        <div class="span10">
+          <%= bootstrap_flash %>
+          <div id="map-container"></div>
+          <div id="results">
+            <%= yield %>
           </div>
+        </div>
 
-          <div class="span2">
-            <div class="well sidebar-nav" id="category-list">
-            </div><!--/.well -->
-          </div><!--/span-->
+        <div class="span2">
+          <div class="" id="category-list">
+          </div><!--/.well -->
+        </div><!--/span-->
 
-        </div><!--/row-->
+      </div><!--/row-->
 
       <footer>
         <p>&copy; Company 2013</p>
@@ -81,7 +82,7 @@
     </div> <!-- /container -->
 
     <!-- Javascripts
-    ================================================== -->
+         ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
     <%= javascript_include_tag "application", :debug => true %>
