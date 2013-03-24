@@ -3,12 +3,12 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
   className: "result-item"
   template: "backbone/templates/result-item"
 
-  onBeforeRender: () =>
-    @model.on 'change:show', @changeShow
-    #console.log 'result item onBeforeRender, model: ', @model
+  initialize: ->
+    @model.on 'change', @changeShow
 
   changeShow: (model) =>
-    console.log 'model result item view needs to be hidden: ', model
-
-  onRender: () =>
-    #console.log 'result item onRender, model: ', @model
+    if @model.get 'markerVisible'
+      @$el.show()
+    else
+      console.log 'result item needs to be hidden?'
+      @$el.hide()

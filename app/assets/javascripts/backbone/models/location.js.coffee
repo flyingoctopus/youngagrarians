@@ -1,5 +1,6 @@
 class Youngagrarians.Models.Location extends Backbone.Model
   paramRoot: 'location'
+  idAttribute: '_id'
 
   defaults:
     latitude: null
@@ -9,14 +10,28 @@ class Youngagrarians.Models.Location extends Backbone.Model
     name: null
     content: null
     type: null
-    markerShown: true
+    markerVisible: true
+
+  lat: =>
+    return @get 'latitude'
+
+  lng: =>
+    return @get 'longitude'
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
   url: '/locations'
 
   initialize: (options) ->
-    @on 'map:update', @mapUpdate
+    @on 'map:update', @mapUpdate, @
 
   mapUpdate: (data) =>
-    console.log 'updating location modles in collection, data: ', data
+    ids = $.goMap.markers
+    markers = $.goMap.getMarkers()
+
+    _(markers).each (latlng,i) =>
+      id = ids[i]
+      m = @get id
+      m.set 'markerVisible', $.goMap.isVisible m
+
+    true

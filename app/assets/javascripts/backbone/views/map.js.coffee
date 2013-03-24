@@ -14,21 +14,20 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       {type:'map'}
       'zoom_changed'
       (event) =>
-        @collection.trigger 'map:update', 'zoom_changed'
+        @collection.trigger 'map:update', {type: 'zoom', data: event}
     )
 
     $.goMap.createListener(
       {type: 'map'}
       'dragend'
       (event) =>
-      @collection.trigger 'map:update', 'dragend'
+        @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
-
-  mapUpdate: (data) =>
+      $.goMap.fitBounds 'visible'
 
   filter: (data) =>
     console.log 'got filter event: ', data
@@ -38,6 +37,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     _(data).each (d) ->
       $.goMap.showHideMarkerByGroup d, false
 
+    $.goMap.fitBounds 'visible'
 
   # move these somewhere else, like the view
   # the collection doesn't care about which ones are visible in the map
