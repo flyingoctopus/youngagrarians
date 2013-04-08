@@ -27,7 +27,7 @@ YA.addInitializer (options) ->
   @.categories.show sidebar
   map = new Youngagrarians.Views.Map collection: Locations
   @.map.show map
-  results = new Youngagrarians.Views.Results collection: Locations
+  results = new Youngagrarians.Views.Results collection: Locations, map: map
   @.results.show results
 
   sidebar.on 'filter', map.filter
