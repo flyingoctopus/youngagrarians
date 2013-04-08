@@ -3,10 +3,6 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
 
   initialize: () ->
     @marker = null
-    @model.on 'change:show', @showHideMarker, @
-
-  showHideMarker: (data) =>
-    console.log "mapMarker view, showHideMarker: ", data
 
   createMarker: =>
     @marker = $.goMap.createMarker

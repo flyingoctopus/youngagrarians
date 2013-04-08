@@ -26,12 +26,21 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
     @on 'map:update', @mapUpdate, @
 
   mapUpdate: (data) =>
+    data = data.data
     ids = $.goMap.markers
     markers = $.goMap.getMarkers()
-
     _(markers).each (latlng,i) =>
       id = ids[i]
       m = @get id
-      m.set 'markerVisible', $.goMap.isVisible m
-
+      if !_.isUndefined data
+        if data.length == 0 or _(data).indexOf( m.get('type') ) >= 0
+          console.log 'showing marker: ', m.get('name')
+          $.goMap.showHideMarker m.id, true
+          m.set 'markerVisible', true
+        else
+          console.log 'hiding marker: ', m.get('name')
+          $.goMap.showHideMarker m.id, false
+          m.set 'markerVisible', false
+      else
+        m.set 'markerVisible', $.goMap.isVisible m
     true
