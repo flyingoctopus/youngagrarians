@@ -1,6 +1,16 @@
-class Youngagrarians.Models.Location extends Backbone.Model
+class Youngagrarians.Models.Location extends Backbone.RelationalModel
   paramRoot: 'location'
-  idAttribute: '_id'
+
+  relations: [
+    type: 'HasOne'
+    key: 'category'
+    relatedModel: 'Youngagrarians.Models.Category'
+    includeInJSON: Backbone.Model.prototype.idAttribute,
+    collectionType: 'Youngagrarians.Collections.CategoriesCollection'
+    reverseRelation:
+      key: 'location'
+      includeInJSON: '_id'
+  ]
 
   defaults:
     latitude: null
@@ -9,7 +19,6 @@ class Youngagrarians.Models.Location extends Backbone.Model
     address: null
     name: null
     content: null
-    type: null
     markerVisible: true
 
   lat: =>
@@ -17,6 +26,8 @@ class Youngagrarians.Models.Location extends Backbone.Model
 
   lng: =>
     return @get 'longitude'
+
+Youngagrarians.Models.Location.setup()
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
@@ -33,12 +44,10 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
       id = ids[i]
       m = @get id
       if !_.isUndefined data
-        if data.length == 0 or _(data).indexOf( m.get('type') ) >= 0
-          console.log 'showing marker: ', m.get('name')
+        if _(data).indexOf( m.get('category').get('name') ) >= 0
           $.goMap.showHideMarker m.id, true
           m.set 'markerVisible', true
         else
-          console.log 'hiding marker: ', m.get('name')
           $.goMap.showHideMarker m.id, false
           m.set 'markerVisible', false
       else
