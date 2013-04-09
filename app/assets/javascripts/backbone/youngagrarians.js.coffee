@@ -19,7 +19,12 @@ YA.addRegions
 
 YA.addInitializer (options) ->
   window.Locations = new Youngagrarians.Collections.LocationsCollection()
+  window.Categories = new Youngagrarians.Collections.CategoriesCollection()
+
   window.Locations.fetch
+    reset: true
+
+  window.Categories.fetch
     reset: true
 
 YA.addInitializer (options) ->
