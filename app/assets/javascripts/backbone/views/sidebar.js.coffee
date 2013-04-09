@@ -15,12 +15,13 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     @addAll()
 
   addAll: (col,data) =>
-    @types = @options.locations.pluck 'type'
+    @types = _(@options.locations.pluck('category')).map (cat) ->
+      cat.get('name')
     _(@types).each @addOne
 
   addOne: (type) =>
     a = @make 'a', {href: '#'}, type
-    li =  @make 'li', {class: 'category', 'data-type': type}, a
+    li =  @make 'li', {class: 'category active', 'data-type': type}, a
     @$el.append li
 
   make: (tagName, attributes, content) ->
@@ -34,7 +35,6 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
   render: =>
     @reset()
 
-
   showHide: (ev) =>
     target = $ ev.target.parentNode
     type = target.data 'type'
@@ -43,12 +43,8 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     filter = @types
 
     $(ev.target.parentNode.parentNode).find("li.category").each (index,li) =>
-      if $(li).hasClass 'active'
+      if not $(li).hasClass 'active'
         filter = _(filter).without $(li).data 'type'
 
-    if filter is @types
-      filter = []
-
+    console.log 'filter: ', filter
     @trigger 'filter', filter
-
-    #@options.locations.setModelShow @filter

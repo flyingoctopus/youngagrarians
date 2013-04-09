@@ -30,14 +30,15 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       $.goMap.fitBounds 'visible'
 
   filter: (data) =>
-    console.log 'got filter event: ', data
+    ###
     _($.goMap.markers).each (marker) ->
       $.goMap.showHideMarker marker, true
 
     _(data).each (d) ->
       $.goMap.showHideMarkerByGroup d, false
-
-    $.goMap.fitBounds 'visible'
+    ###
+    @collection.trigger 'map:update', {type: 'filter', data: data}
+    #$.goMap.fitBounds 'visible'
 
   # move these somewhere else, like the view
   # the collection doesn't care about which ones are visible in the map

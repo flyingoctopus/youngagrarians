@@ -1,4 +1,7 @@
 Youngagrarians::Application.routes.draw do
+  resources :categories
+
+
   resources :locations
   match 'locations/excel_import' => 'locations#excel_import'
 
