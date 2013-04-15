@@ -15,8 +15,7 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     @addAll()
 
   addAll: (col,data) =>
-    @types = _(@options.locations.pluck('category')).map (cat) ->
-      cat.get('name')
+    @types = window.Categories.pluck 'name'
     _(@types).each @addOne
 
   addOne: (type) =>
@@ -46,5 +45,4 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
       if not $(li).hasClass 'active'
         filter = _(filter).without $(li).data 'type'
 
-    console.log 'filter: ', filter
     @trigger 'filter', filter
