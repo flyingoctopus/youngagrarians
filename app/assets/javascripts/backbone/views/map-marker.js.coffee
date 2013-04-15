@@ -5,8 +5,6 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
     @marker = null
 
   createMarker: =>
-    console.log 'location: ', @model.toJSON()
-    console.log 'category: ', @model.get('category')
     @marker = $.goMap.createMarker
       latitude: @model.get 'latitude'
       longitude: @model.get 'longitude'
