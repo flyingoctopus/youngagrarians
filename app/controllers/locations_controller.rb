@@ -7,8 +7,8 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    #@locations = Location.where( :is_approved => true ).all
-    @locations = Location.all
+    @locations = Location.where( :is_approved => true ).all
+    #@locations = Location.all
 
     respond_to do |format|
       format.html # index.html.erb
