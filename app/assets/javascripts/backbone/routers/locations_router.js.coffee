@@ -4,12 +4,12 @@ class Youngagrarians.Routers.LocationsRouter extends Backbone.Router
     "location/:id" : "show"
 
   show: (id) ->
-    _.delay @showLocation, 200, id
+    _.delay @showLocation, 400, id
 
   showLocation: (id) ->
     location = window.Locations.get id
-    console.log 'got location: ', location
     $.goMap.setMap
       latitude: location.lat()
       longitude: location.lng()
       zoom: 16
+    window.Locations.trigger 'map:update', {}

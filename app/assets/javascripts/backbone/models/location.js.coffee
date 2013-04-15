@@ -52,5 +52,6 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
           $.goMap.showHideMarker m.id, false
           m.set 'markerVisible', false
       else
+
         m.set 'markerVisible', $.goMap.isVisible m
     true
