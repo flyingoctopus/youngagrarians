@@ -12,14 +12,14 @@ class Location
   field :address,         type: String
   field :name,            type: String
   field :content,         type: String
-  field :is_approved,     type: Boolean
+  field :is_approved,     type: Boolean, default: false
 
   def gmaps4rails_address
     "#{address}"
   end
 
   def as_json(options)
-    super :include => :category, :except => :category_id
+    super :include => :category, :except => [ :category_id, :is_approved ]
   end
 
 end

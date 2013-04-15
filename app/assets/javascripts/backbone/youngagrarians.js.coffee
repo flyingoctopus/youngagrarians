@@ -21,11 +21,15 @@ YA.addInitializer (options) ->
   window.Locations = new Youngagrarians.Collections.LocationsCollection()
   window.Categories = new Youngagrarians.Collections.CategoriesCollection()
 
+  window.Categories.fetch
+    reset: true
+
   window.Locations.fetch
     reset: true
 
-  window.Categories.fetch
-    reset: true
+YA.addInitializer (options) ->
+  router = new Youngagrarians.Routers.LocationsRouter()
+  Backbone.history.start()
 
 YA.addInitializer (options) ->
   sidebar = new Youngagrarians.Views.Sidebar locations: Locations

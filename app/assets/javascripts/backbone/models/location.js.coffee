@@ -1,5 +1,6 @@
 class Youngagrarians.Models.Location extends Backbone.RelationalModel
   paramRoot: 'location'
+  url: '/locations'
 
   relations: [
     type: 'HasOne'
