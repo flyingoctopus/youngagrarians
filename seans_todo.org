@@ -1,0 +1,32 @@
+* TODO redo the layout
+** TODO create new branch
+** TODO redo layout so that it matches the wireframe
+   backbone should be handling the rendering
+   three sections
+*** TODO search / province filter
+**** province filter
+***** TODO default to british columbia
+***** TODO shows up as 'Search in British Columbia' with '( Province )' to select a different province
+*** TODO map
+**** TODO add to map button
+**** TODO 'about' dialog
+*** TODO categories
+** TODO layer the backbone stuff on top
+*** TODO map render
+*** TODO locations render
+*** TODO categories chooser render
+*** TODO add location modal/dropdown
+**** TODO choose type ( location vs resource )
+**** TODO add location flow
+***** TODO enter location
+***** TODO confirm location
+***** TODO add extra details
+**** TODO add resource flow
+***** TODO enter details
+*** TODO 'about' modal
+*** TODO result list
+**** TODO filters based on selected categories
+**** TODO filters based on locations visible on the map
+* TODO results list needs to be able handle non-location resources
+** TODO some resources aren't tied to a map location
+* TODO some locations have more than one category
