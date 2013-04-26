@@ -12,6 +12,14 @@ class Location
   field :address,         type: String
   field :name,            type: String
   field :content,         type: String
+  field :bioregion,       type: String
+  field :phone,           type: String
+  field :url,             type: String
+  field :fb_url,          type: String
+  field :twitter_url,     type: String
+  field :description,     type: String
+  field :subcategory,     type: String
+
   field :is_approved,     type: Boolean, default: false
 
   def gmaps4rails_address
@@ -22,4 +30,12 @@ class Location
     super :include => :category, :except => [ :category_id, :is_approved ]
   end
 
+  def self.search(term)
+      interested_fields = ["address", "name", "content","bioregion"]
+      leases = []
+      interested_fields.each do |i|
+        result = leases + Location.find(:all, :conditions => { i => /^#{term}/i})
+      end
+      return result.uniq
+   end
 end
