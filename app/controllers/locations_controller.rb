@@ -49,7 +49,16 @@ class LocationsController < ApplicationController
       # skip the first row dummy
       next if i == 0
       # do things at your leeeisurrree
-      Location.new(:name => row[0], :address => row[1], :content => row[2], :type => row[3]).save
+      Location.new(:icon => row[0] ||= '',
+                   :subcategory => row[1] ||= '',
+                   :name => row[3] ||= '',
+                   :bioregion => row[4] ||= '',
+                   :address => row[5] ||= '',
+                   :phone => row[5] ||= '',
+                   :url => row[6] ||= '',
+                   :facebook_url => row[7] ||= '',
+                   :twitter_url => row[8] ||= '',
+                   :content => row[9] ||= '').save
     end
   end
 
