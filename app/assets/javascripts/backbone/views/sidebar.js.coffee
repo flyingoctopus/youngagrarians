@@ -1,6 +1,7 @@
 class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
   tagName: 'ul'
   className: 'nav nav-stacked nav-pills'
+  id: 'sidebar'
 
   events:
     'click li.category' : 'showHide'
@@ -11,7 +12,7 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
   reset: (col,data) =>
     title = @make('li', {'class': 'nav-header'}, 'Categories')
     @$el.empty()
-    @$el.append title
+    #@$el.append title
     @addAll()
 
   addAll: (col,data) =>
@@ -19,7 +20,10 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     _(@types).each @addOne
 
   addOne: (type) =>
-    a = @make 'a', {href: '#'}, type
+    icon_name = type.replace(' ', '-').toLowerCase()
+    i = @make 'i', {class: 'icon icon-asterisk icon-'+icon_name }, ''
+    a = @make 'a', {href: '#', class: 'category-link'}, type
+    $(a).prepend i
     li =  @make 'li', {class: 'category active', 'data-type': type}, a
     @$el.append li
 

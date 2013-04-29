@@ -12,6 +12,11 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'click a#add-to-map' : 'addLocation'
     'click button.next'  : 'showNextStep'
     'click button.prev'  : 'showPrevStep'
+    'click button#go-search' : 'doSearch'
+
+  doSearch: (e) =>
+    e.preventDefault()
+    console.log 'search time!'
 
   showNextStep: (e) =>
     e.preventDefault()
