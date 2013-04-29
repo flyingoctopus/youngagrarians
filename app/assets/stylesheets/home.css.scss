@@ -1,0 +1,216 @@
+body.ya {
+  font-size: 12px;
+  color: #666666;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  line-height: 20px;
+
+  #ya-nav {
+    width: 960px;
+    margin: 0 auto;
+    background: none;
+
+    .navbar-inner {
+      border: 0px;
+      border-radius: 0px;
+      background: none;
+      padding-right: 0;
+      padding-left: 0;
+
+      h1.title {
+        margin: -10px 0 -0px -25px;
+        display: inline-block;
+        width: 960px;
+        font-weight: 800 !important;
+        font-size: 36px !important;
+        line-height: 36px;
+
+        a.brand {
+          font-style: italic;
+          font-size: 36px;
+          line-height: 36px;
+          margin: 0;
+          text-decoration: none;
+          height: 120px;
+          span {
+            color: black;
+            display: block;
+            padding: 64px 10px 0 10px;
+          }
+        }
+        a.brand:hover {
+          background: white;
+        }
+      }
+
+      div.nav-collapse {
+        width: 960px;
+        border-bottom: solid 1px black;
+        clear: both;
+        margin: -19px 0 -1px 0;
+        display: inline-block;
+
+        p.navbar-text {
+          position: absolute;
+          left: 785px;
+          z-index:200;
+        }
+
+        ul.nav {
+          background: white;
+          width: 100%;
+          margin: 0px;
+          padding: 0px;
+          float: left;
+
+          li {
+            background: none;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            margin: 0px;
+            margin-bottom: -6px;
+            padding: 0px;
+            float: left;
+            position: relative;
+
+            a {
+              background: none;
+              color: #666;
+              padding: 17px 10px 7px 10px;
+              font-size: 11px;
+              font-style: normal;
+              font-weight: bold;
+              font-family: Helvetica, Arial, Trebuchet MS, Verdana;
+
+            }
+          }
+
+          li:hover {
+            a {
+              border-bottom: 5px solid black;
+            }
+          }
+
+          li.active {
+            background: none;
+            a {
+              text-shadow: none;
+              box-shadow: none;
+              background: none;
+              color: black;
+              border-bottom: 5px solid black;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #main {
+    width: 960px;
+    margin: 0 auto;
+    border-top: solid 1px black;
+    padding-top: 15px;
+    position: relative;
+
+    #results {
+      width: 960px;
+
+      ul.results-list {
+        margin: 30px auto 0;
+        width: 700px;
+
+        li {
+          p.location-description {
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+    }
+
+    #map-search {
+      width: 960px;
+      display: block;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: solid 3px black;
+
+      form#map-search-form {
+        width: 660px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+
+        input#map-search {
+          width: 350px;
+          border: solid 1px black;
+          border-radius: 0px;
+          display: inline-block;
+          vertical-align: middle;
+          white-space: nowrap;
+        }
+
+        .btn-group {
+          margin: 0;
+          padding: 0;
+          top: -8px;
+        }
+      }
+    }
+
+    #map {
+      width: 960px;
+      height: 300px;
+      padding-top: 10px;
+    }
+
+    #add-to-map-container {
+
+      #add-to-map-form {
+        border: solid 1px black;
+      }
+
+      #actions {
+        float: right;
+        margin-right: 10px;
+        a {
+          margin: 10px 0 0 0;
+          padding: 5px;
+        }
+      }
+    }
+
+    #category-list {
+      position: absolute;
+      top: 130px;
+      right: -15px;
+      z-index: 200;
+
+      ul#sidebar {
+        li.category {
+          width: 150px;
+          a.category-link {
+            i.icon {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+footer {
+  background: black;
+  color: white;
+  margin-bottom: -10px;
+  margin-top: 10px;
+  padding-top: 20px;
+  p {
+    margin-top: -5px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    border-top: solid 1px #666;
+  }
+}
