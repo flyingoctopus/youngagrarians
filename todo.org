@@ -1,4 +1,12 @@
 * Location list - backbone collection
 * Result list - backbone view
-* Category filter - backbone view
+* Category filter - backbone view sub categories
 * Marker list - backbone view
+
+* Search functionality
+* Add new location form to admin page. right now Excel is the only way to add a new location as an admin.
+* do not validate against address - add two new resource categories.
+* location items can have multiple categories.
+* search by province dropdown 
+* database migrate to mysql (fields, since there are two new resource types)
+* allow for redundant data entries in location and 
