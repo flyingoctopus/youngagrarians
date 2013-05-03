@@ -31,11 +31,15 @@ class Location
   end
 
   def self.search(term)
+    result = []
+    if not term.nil? and not term.empty?
       interested_fields = ["address", "name", "content","bioregion"]
-      leases = []
+      puts "searching: #{term}"
       interested_fields.each do |i|
-        result = leases + Location.find(:all, :conditions => { i => /^#{term}/i})
+        result = result + Location.where( i.to_sym => /^#{term}/i )
       end
-      return result.uniq
-   end
+      puts "got #{result.length}"
+    end
+    return result.uniq
+  end
 end

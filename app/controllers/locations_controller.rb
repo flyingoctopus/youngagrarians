@@ -3,6 +3,12 @@ class LocationsController < ApplicationController
   require 'fileutils'
   require 'iconv'
 
+  def search
+    @locations = Location.search params[:terms]
+    respond_to do |format|
+      format.json { render json: @locations }
+    end
+  end
 
   # GET /locations
   # GET /locations.json

@@ -33,25 +33,71 @@ Youngagrarians.Models.Location.setup()
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
   url: '/locations'
+  show: []
 
   initialize: (options) ->
     @on 'map:update', @mapUpdate, @
 
+  setShow: (ids) =>
+    @show = ids
+    categories = []
+    $("li.category.active").each (i,el) ->
+      categories.push $(el).data 'type'
+
+    @mapUpdate
+      type:
+        'filter'
+      data:
+        categories
+
+  clearShow: () =>
+    @show = []
+    categories = []
+    $("li.category.active").each (i,el) ->
+      categories.push $(el).data 'type'
+
+    @mapUpdate
+      type:
+        'filter'
+      data:
+        categories
+
   mapUpdate: (data) =>
-    data = data.data
     ids = $.goMap.markers
     markers = $.goMap.getMarkers()
-    _(markers).each (latlng,i) =>
-      id = ids[i]
-      m = @get id
-      if !_.isUndefined data
-        if _(data).indexOf( m.get('category').get('name') ) >= 0
+
+    if data.type == "filter"
+      data = data.data
+      _(markers).each (latlng,i) =>
+        m = @get ids[i]
+
+        catGood = _(data).indexOf( m.get('category').get('name') ) >= 0
+        showGood = if @show.length > 0 then _(@show).indexOf(m.id) >= 0 else true
+
+        if catGood and showGood
           $.goMap.showHideMarker m.id, true
-          m.set 'markerVisible', true
+          m.marker.setVisible true
         else
           $.goMap.showHideMarker m.id, false
-          m.set 'markerVisible', false
-      else
+          m.marker.setVisible false
 
-        m.set 'markerVisible', $.goMap.isVisible m
+        m.set 'markerVisible', m.marker.visible
+
+    else
+      _(markers).each (latlng, i) =>
+        location = @get ids[i]
+        if !location.get('markerVisible') and $.goMap.isVisible(location)
+          categories = []
+          $("li.category.active").each (i,el) ->
+            categories.push $(el).data 'type'
+
+          catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
+          showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
+
+          if catGood and showGood
+            location.set 'markerVisible', true
+
+        else if location.get('markerVisible') and !$.goMap.isVisible(location)
+          location.set "markerVisible", false
+
     true

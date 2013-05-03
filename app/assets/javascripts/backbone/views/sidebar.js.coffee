@@ -39,6 +39,7 @@ class Youngagrarians.Views.Sidebar extends Backbone.Marionette.View
     @reset()
 
   showHide: (ev) =>
+    ev.preventDefault()
     target = $ ev.target.parentNode
     type = target.data 'type'
     target.toggleClass 'active'

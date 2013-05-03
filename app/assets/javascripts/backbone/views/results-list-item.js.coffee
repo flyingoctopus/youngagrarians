@@ -7,9 +7,11 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
     @model.on 'change', @changeShow, @
 
   changeShow: (model) =>
+    ###
     console.log 'name: ', @model.get 'name'
     console.log 'markerVisible:', @model.get 'markerVisible'
     console.log 'isVisible: ', $.goMap.isVisible(@model)
+    ###
     if @model.get 'markerVisible'
       if $.goMap.isVisible @model
         @$el.show()

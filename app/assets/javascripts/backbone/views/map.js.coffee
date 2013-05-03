@@ -13,10 +13,59 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'click button.next'  : 'showNextStep'
     'click button.prev'  : 'showPrevStep'
     'click button#go-search' : 'doSearch'
+    'click a#map-search-clear' : 'clearSearch'
+    'click li.province' : 'changeProvince'
+
+  changeProvince: (e) =>
+    console.log "change province"
+    province = $(e.target).text()
+    $("button#go-search").data('province', province).html("Search in "+province)
+
+  clearSearch: (e) =>
+    e.preventDefault()
+    @collection.clearShow()
 
   doSearch: (e) =>
     e.preventDefault()
     console.log 'search time!'
+    terms = $("#map-search-terms").val()
+
+    province = $(e.target).data('province') + ", Canada"
+    ###
+    geocoder = new GClientGeocoder()
+    geocoder.getLatLng province, (point) ->
+      console.log 'got point: ', point
+    ###
+    $.goMap.setMap
+      address: province
+      zoom: 5
+
+    console.log 'searching for: ', terms
+    $.ajax
+      type: "POST"
+      url: "/search"
+      data:
+        terms: terms
+      success: (data,status,xhr) =>
+        @collection.setShow _(data).pluck('_id')
+        ###
+        _($.goMap.markers).each (marker) =>
+          if show.indexOf(marker) >= 0
+            $.goMap.showHideMarker marker, true
+            @collection.get(marker).set('markerVisible', true)
+          else
+            $.goMap.showHideMarker marker, false
+            @collection.get(marker).set('markerVisible', false)
+        ###
+        ###
+        _(data).each (location) =>
+
+          console.log 'got location: ', location.latitude, location.longitude
+          _(@children).each (child) =>
+            if child.getLocation().lat == location.latitude and child.getLocation().long == location.longitutde
+              child.hideMarker()
+        $.goMap.fitBounds()
+        ###
 
   showNextStep: (e) =>
     e.preventDefault()
@@ -103,6 +152,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       select.append opt
 
   onRender: () =>
+    @show = []
     @map = $("#map").goMap
       latitude: 54.826008
       longitude: -125.200195
