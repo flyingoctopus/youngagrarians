@@ -23,7 +23,7 @@ Youngagrarians::Application.routes.draw do
 
   get  '/verify_credentials'   => 'accounts#verify_credentials', :as => :verify_credentials
 
-
+  post '/search' => 'locations#search', :as => :search
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

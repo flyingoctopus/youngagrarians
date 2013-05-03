@@ -149,6 +149,24 @@ body.ya {
           white-space: nowrap;
         }
 
+        a#map-search-clear {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-left: -20px;
+          i {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        a#mamp-search-clear:hover {
+          background: white;
+          i {
+            background: white;
+          }
+        }
+
         .btn-group {
           margin: 0;
           padding: 0;
@@ -159,7 +177,7 @@ body.ya {
 
     #map {
       width: 960px;
-      height: 300px;
+      height: 350px;
       padding-top: 10px;
     }
 

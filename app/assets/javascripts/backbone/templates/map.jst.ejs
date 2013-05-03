@@ -1,15 +1,16 @@
 <div id="map-search">
   <form id="map-search-form" class="form-horizontal">
-    <input id="map-search" type="text" />
+    <input id="map-search-terms" type="text" />
+    <a id="map-search-clear"><i class="icon-remove"></i></a>
     <div class="btn-group">
-      <button type="button" id="go-search" class="btn btn-primary">Search in British Columbia</button>
+      <button type="button" id="go-search" class="btn btn-primary" data-province="British Columbia">Search in British Columbia</button>
       <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">( Province )</button>
       <ul class="dropdown-menu">
-        <li>British Columbia</li>
-        <li>Alberta</li>
-        <li>Saskatchewan</li>
-        <li>Manitoba</li>
-        <li>Ontario</li>
+        <li class="province">British Columbia</li>
+        <li class="province">Alberta</li>
+        <li class="province">Saskatchewan</li>
+        <li class="province">Manitoba</li>
+        <li class="province">Ontario</li>
       </ul>
     </div>
   </form>

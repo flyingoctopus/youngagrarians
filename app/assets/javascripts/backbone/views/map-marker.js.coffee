@@ -13,6 +13,16 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       title: @model.get 'name'
       html: @model.get 'content'
       icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_greenA.png"
+    @model.marker = @marker
+
+  getLocation: =>
+    { lat: @model.get('latitude'), long: @model.get('longitude') }
+
+  hideMarker: =>
+    @marker.setVisible false
+
+  showMarker: =>
+    @marker.setVisible true
 
   onRender: () =>
     @$el.hide();
