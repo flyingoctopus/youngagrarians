@@ -48,6 +48,7 @@
               <%= link_to 'Register', { :controller => "accounts", :action => "new"}, :class => "navbar-link" %>
               <% else %>
               Welcome <%= current_user.username %> &nbsp;&nbsp;&nbsp;
+              <%= link_to 'Locations', { :controller => "locations", :action => "index" }, :class => "navbar-link" %>
               <%= link_to 'Logout', { :controller => "accounts", :action => "logout"}, :class => "navbar-link" %>
               <% end %>
             </p>

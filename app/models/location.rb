@@ -1,4 +1,4 @@
-class Location < ActiverRecord::Base
+class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
   acts_as_gmappable
 
