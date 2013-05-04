@@ -232,3 +232,34 @@ footer {
     border-top: solid 1px #666;
   }
 }
+
+#locations-admin-list {
+  table {
+    tr {
+      th {
+        text-align: center;
+      }
+
+      td {
+        border-bottom: solid 1px black;
+        margin-bottom: 5px;
+        text-align: center;
+        a:hover {
+          background: white;
+        }
+      }
+    }
+  }
+
+  ul#admin-locations-links {
+    li {
+      a {
+
+      }
+
+      a:hover {
+        background: white;
+      }
+    }
+  }
+}

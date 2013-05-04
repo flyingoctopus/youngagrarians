@@ -13,16 +13,17 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.where( :is_approved => true ).all
-    #@locations = Location.all
-
     respond_to do |format|
       format.html {
         if not authenticated?
           redirect_to :root
         end
+        @locations = Location.all
       }# index.html.erb
-      format.json { render json: @locations }
+      format.json {
+        @locations = Location.where( :is_approved => true ).all
+        render json: @locations
+      }
     end
   end
 
@@ -76,7 +77,13 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/edit
   def edit
-    @location = Location.find(params[:id])
+    @locations = nil
+    if params.has_key? :id
+      location = Location.find(params[:id])
+      @locations = [ location ]
+    elsif params.has_key? :ids
+      @locations = Location
+    end
   end
 
   # POST /locations
@@ -98,15 +105,28 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @location = Location.find(params[:id])
+    @locations = nil
+    if params.has_key? :id
+      location = Location.find(params[:id])
+      @locations = [ location ]
+    elsif params.has_key? :ids
+      @locations = Location.find params[:ids]
+    end
+
+    @errors = []
+    @locations.each do |l|
+      if not l.update_attributes params[l.id][:location]
+        @errors.push l.errors
+      end
+    end
 
     respond_to do |format|
-      if @location.update_attributes(params[:location])
-        format.html { redirect_to @location, notice: 'Location was successfully updated.' }
+      if @errors.empty?
+        format.html { redirect_to :locations, notice: 'Locations successfully updated.'}
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
+        format.json { render json: @errors, status: :unprocessable_entity }
       end
     end
   end
@@ -116,6 +136,19 @@ class LocationsController < ApplicationController
   def destroy
     @location = Location.find(params[:id])
     @location.destroy
+
+    respond_to do |format|
+      format.html { redirect_to locations_url }
+      format.json { head :no_content }
+    end
+  end
+
+  def approve
+    @locations = Location.find params[:ids]
+    @locations.each do |l|
+      l.is_approved = true
+      l.save
+    end
 
     respond_to do |format|
       format.html { redirect_to locations_url }

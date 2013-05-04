@@ -8,7 +8,8 @@
 #= require backbone-relational
 #= require backbone/youngagrarians
 #= require bootstrap-setup
-
+#= require admin_class
+#= require admin
 
 make = (tagName, attributes, content ) ->
   $el = Backbone.$ "<" + tagName + "/>"
