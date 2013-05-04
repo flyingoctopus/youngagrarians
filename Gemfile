@@ -5,7 +5,7 @@ gem 'rails', '3.2.12'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#gem 'mysql2'
+gem 'mysql2'
 gem 'sqlite3'
 
 # Gems used only for assets and not required
@@ -23,7 +23,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'mongoid', '~> 3.1.2'
+#gem 'mongoid', '~> 3.1.2'
 
 gem 'gmaps4rails'
 gem 'geocoder'
@@ -67,7 +67,7 @@ group :development, :test do
   gem 'jasmine',              '~> 1.2.1'
 
   # Mongoid RSpec
-  gem 'mongoid-rspec'
+  #gem 'mongoid-rspec'
 
   # Docs
   gem 'chef', '~> 11.4.0'
