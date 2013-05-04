@@ -14,7 +14,7 @@ puts "Requiring seeds"
 Dir["#{Rails.root}/db/seeds/*.rb"].each { |file| require file }
 
 # Don't log stuff!
-Mongoid.logger = nil
+#Mongoid.logger = nil
 #Paperclip.options[:log] = false
 
 # Clear everything.

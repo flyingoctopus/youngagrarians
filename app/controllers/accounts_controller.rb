@@ -171,7 +171,7 @@ class AccountsController < ApplicationController
       user_id = code[0, 24]
       encoded_email = code[24, 32]
 
-      if listee = MailingList.where(:_id => user_id).first
+      if listee = MailingList.where(:id => user_id).first
         if encoded_email == Digest::MD5.hexdigest(listee.email)
           return listee unless listee.deleted
           return false

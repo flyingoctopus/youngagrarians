@@ -1,6 +1,4 @@
-class Category
-  include Mongoid::Document
+class Category < ActiveRecord::Base
   has_many :locations
-
-  field :name, type: String
+  attr_accessible :name
 end
