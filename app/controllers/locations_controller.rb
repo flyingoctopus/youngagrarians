@@ -17,7 +17,11 @@ class LocationsController < ApplicationController
     #@locations = Location.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {
+        if not authenticated?
+          redirect_to :root
+        end
+      }# index.html.erb
       format.json { render json: @locations }
     end
   end
@@ -46,25 +50,27 @@ class LocationsController < ApplicationController
 
   # custom!
   def excel_import
-    tmp = params[:dump][:excel_file].tempfile
+    if params.has_key? :dump and params[:dump].has_key? :excel_file
+      tmp = params[:dump][:excel_file].tempfile
 
-    Spreadsheet.client_encoding = 'UTF-8'
-    book = Spreadsheet.open tmp.path
-    sheet1 = book.worksheet 0
-    sheet1.each_with_index do |row, i|
-      # skip the first row dummy
-      next if i == 0
-      # do things at your leeeisurrree
-      Location.new(:icon => row[0] ||= '',
-                   :subcategory => row[1] ||= '',
-                   :name => row[3] ||= '',
-                   :bioregion => row[4] ||= '',
-                   :address => row[5] ||= '',
-                   :phone => row[5] ||= '',
-                   :url => row[6] ||= '',
-                   :facebook_url => row[7] ||= '',
-                   :twitter_url => row[8] ||= '',
-                   :content => row[9] ||= '').save
+      Spreadsheet.client_encoding = 'UTF-8'
+      book = Spreadsheet.open tmp.path
+      sheet1 = book.worksheet 0
+      sheet1.each_with_index do |row, i|
+        # skip the first row dummy
+        next if i == 0
+        # do things at your leeeisurrree
+        Location.new(:icon => row[0] ||= '',
+                     :subcategory => row[1] ||= '',
+                     :name => row[3] ||= '',
+                     :bioregion => row[4] ||= '',
+                     :address => row[5] ||= '',
+                     :phone => row[5] ||= '',
+                     :url => row[6] ||= '',
+                     :facebook_url => row[7] ||= '',
+                     :twitter_url => row[8] ||= '',
+                     :content => row[9] ||= '').save
+      end
     end
   end
 
