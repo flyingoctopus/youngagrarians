@@ -95,7 +95,11 @@
     <script type="text/javascript">
       _.defer(
       function(){
+      <% if current_page?( root_url ) %>
       YA.start();
+      <% else %>
+      Admin.init();
+      <% end %>
       }
       );
     </script>
