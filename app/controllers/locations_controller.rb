@@ -72,7 +72,7 @@ class LocationsController < ApplicationController
         end
 
         # do things at your leeeisurrree
-        Location.new(:type => row[0] ||= '',
+        Location.new(:resource_type => row[0] ||= '',
                      :category => cat,
                      :subcategory => row[2] ||= '',
                      :name => row[3] ||= '',
@@ -84,6 +84,7 @@ class LocationsController < ApplicationController
                      :twitter_url => row[8] ||= '',
                      :content => row[9] ||= '').save
       end
+      redirect_to :locations
     end
   end
 
