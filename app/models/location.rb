@@ -4,7 +4,7 @@ class Location < ActiveRecord::Base
 
   belongs_to :category
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :subcategory, :is_approved, :category, :type
+  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :subcategory, :is_approved, :category, :resource_type
 
   def gmaps4rails_address
     "#{address}"
