@@ -30,7 +30,8 @@ class window.Admin
         console.log 'got ids: ', ids
 
         if type == "edit"
-          console.log 'need to edit!'
+
+          console.log 'need to edit!', window.location.href
         else if type == "delete"
           if confirm 'Are you sure you want to delete all of these?'
             console.log "they're sure!"

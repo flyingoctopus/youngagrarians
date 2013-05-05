@@ -15,17 +15,17 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-	Rails.logger.info '---------------------------------'
+  Rails.logger.info '---------------------------------'
     respond_to do |format|
       format.html {
         if not authenticated?
           redirect_to :root
         end
-	Rails.logger.info '+++++++++=========------------------'
+  Rails.logger.info '+++++++++=========------------------'
         @locations = Location.all
       }# index.html.erb
       format.json {
-	Rails.logger.info '==================------------------'
+  Rails.logger.info '==================------------------'
         @locations = Location.where( :is_approved => true ).all
         render :json =>  @locations
       }
@@ -68,19 +68,19 @@ class LocationsController < ApplicationController
 
         cat = nil
         if not row[1].empty?
-          cat = Category.create( :name => row[1] )
+          cat = Category.find_or_create_by_name( row[1] )
         end
 
         # do things at your leeeisurrree
-        Location.new(:icon => row[0] ||= '',
-                     :category => cat
+        Location.new(:type => row[0] ||= '',
+                     :category => cat,
                      :subcategory => row[2] ||= '',
                      :name => row[3] ||= '',
                      :bioregion => row[4] ||= '',
                      :address => row[5] ||= '',
                      :phone => row[5] ||= '',
                      :url => row[6] ||= '',
-                     :facebook_url => row[7] ||= '',
+                     :fb_url => row[7] ||= '',
                      :twitter_url => row[8] ||= '',
                      :content => row[9] ||= '').save
       end
@@ -89,12 +89,14 @@ class LocationsController < ApplicationController
 
   # GET /locations/1/edit
   def edit
+    @categories = Category.all
     @locations = nil
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
     elsif params.has_key? :ids
-      @locations = Location
+      @ids = params[:ids].split ','
+      @locations = Location.find @ids
     end
   end
 
@@ -146,8 +148,18 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location = Location.find(params[:id])
-    @location.destroy
+    @locations = nil
+
+    if params.has_key? :id
+      location = Location.find params[:id]
+      @locations = [ location ]
+    elsif params.has_key? :ids
+      @locations = Location.find params[:ids]
+    end
+
+    if not @locations.nil?
+      @locations.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to locations_url }

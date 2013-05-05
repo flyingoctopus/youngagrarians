@@ -1,6 +1,44 @@
 <h1>Editing location</h1>
 
-<%= render 'form' %>
+<% if authenticated? %>
+  <%= form_for :locations, :url => multi_update_path(@ids) do |f| %>
 
-<%= link_to 'Show', @location %> |
-<%= link_to 'Back', locations_path %>
+  <% @locations.each do |location| %>
+    <% if location.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+        <ul>
+          <% location.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :name %><br />
+        <%= f.text_field :name %>
+      </div>
+      <div class="field">
+        <%= f.label :content %><br />
+        <%= f.text_area :content %>
+      </div>
+      <div class="field">
+        <%= f.label :address %><br />
+        <%= f.text_field :address %>
+      </div>
+      <div class="field"
+           <%= f.label :is_approved %>
+           <%= f.radio_button :is_approved, "1" %>
+           <%= f.radio_button :is_approved, "0" %>
+      </div>
+      <%= link_to 'Show', location %> | <%= link_to 'Back', locations_path %>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+
+      <% end %>
+      <% end %>
