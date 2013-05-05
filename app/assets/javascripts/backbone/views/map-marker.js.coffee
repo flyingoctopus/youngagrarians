@@ -14,7 +14,6 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       html: @model.get 'description'
       icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_greenA.png"
     @model.marker = @marker
-    console.log 'marker: ', @marker
     @marker
 
   getLocation: =>
