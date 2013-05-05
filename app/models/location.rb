@@ -19,7 +19,6 @@ class Location < ActiveRecord::Base
     if not term.nil? and not term.empty?
       interested_fields = ["address", "name", "content","bioregion"]
       interested_fields.each do |i|
-  Rails.logger.info 'asdf;lkajsdf;laksdjf;asldkfjas;dlfkasdf;lkj'
         result = result + Location.where( i.to_sym => /^#{term}/i )
       end
     end
