@@ -86,18 +86,19 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
     else
       _(markers).each (latlng, i) =>
         location = @get ids[i]
-        if !location.get('markerVisible') and $.goMap.isVisible(location)
-          categories = []
-          $("li.category.active").each (i,el) ->
-            categories.push $(el).data 'type'
+        if !_.isUndefined(location) and !_.isNull(location)
+          if !location.get('markerVisible') and $.goMap.isVisible(location)
+            categories = []
+            $("li.category.active").each (i,el) ->
+              categories.push $(el).data 'type'
 
-          catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
-          showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
+            catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
+            showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
 
-          if catGood and showGood
-            location.set 'markerVisible', true
+            if catGood and showGood
+              location.set 'markerVisible', true
 
-        else if location.get('markerVisible') and !$.goMap.isVisible(location)
-          location.set "markerVisible", false
+          else if location.get('markerVisible') and !$.goMap.isVisible(location)
+            location.set "markerVisible", false
 
     true
