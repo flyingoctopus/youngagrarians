@@ -70,8 +70,7 @@ class LocationsController < ApplicationController
         end
 
         # do things at your leeeisurrree
-        Location.new(:resource_type => row[0] ||= '',
-                     :category => cat,
+        l = Location.new(:resource_type => row[0] ||= '',
                      :subcategory => row[2] ||= '',
                      :name => row[3] ||= '',
                      :bioregion => row[4] ||= '',
@@ -82,7 +81,11 @@ class LocationsController < ApplicationController
                      :twitter_url => row[9] ||= '',
                      :description => row[10] ||= '',
                      :content => row[11] ||= '',
-                     :is_approved => 1 ).save
+                         :is_approved => 1 )
+        if not cat.nil?
+          l.category_id = cat.id
+        end
+        l.save
       end
       redirect_to :locations
     end
