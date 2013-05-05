@@ -177,7 +177,7 @@ body.ya {
 
     #map {
       width: 960px;
-      height: 350px;
+      height: 550px;
       padding-top: 10px;
     }
 
@@ -199,13 +199,13 @@ body.ya {
 
     #category-list {
       position: absolute;
-      top: 130px;
-      right: -15px;
+      top: 110px;
+      right: -100px;
       z-index: 200;
 
       ul#sidebar {
         li.category {
-          width: 150px;
+          width: 165px;
           a.category-link {
             i.icon {
               margin-right: 10px;

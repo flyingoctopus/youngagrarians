@@ -8,6 +8,22 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   locationToAdd: null
   locationModel: null
 
+  initialize: (options) ->
+    @collection.on 'reset', (models) =>
+      _.defer () =>
+        console.log 'children: ', @children
+        @children.each ( child ) =>
+          console.log 'child: ', child
+          marker = child.createMarker()
+          console.log 'marker: ', marker
+
+        center = $("#go-search").data('province') + ", Canada"
+        $.goMap.setMap
+          address: center
+          zoom: 5
+        #$.goMap.fitBounds 'visible'
+
+
   events:
     'click a#add-to-map' : 'addLocation'
     'click button.next'  : 'showNextStep'
@@ -127,16 +143,13 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         .html model.get('name')
       select.append opt
 
-  onRender: () =>
-    console.log 'rendering map!'
+  onShow: () =>
     @show = []
     @map = $("#map").goMap
       latitude: 54.826008
       longitude: -125.200195
       zoom: 5
       maptype: 'ROADMAP'
-
-    console.log 'map: ', @map
 
     $.goMap.createListener(
       {type:'map'}
@@ -152,7 +165,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
-    console.log 'wooo collection: ', @collection
+    console.log 'collection: ', @collection.length
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
@@ -160,15 +173,3 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   filter: (data) =>
     @collection.trigger 'map:update', {type: 'filter', data: data}
-
-  # move these somewhere else, like the view
-  # the collection doesn't care about which ones are visible in the map
-  # just the results list
-  getMapBounds: () =>
-    bounds = $.goMap.getBounds()
-    console.log 'map center: ', $.goMap.map.getCenter()
-    console.log 'southwest ( bottom right ): ', bounds.getSouthWest()
-    console.log 'northeast ( top left ): ', bounds.getNorthEast()
-
-  filterType: (type) =>
-    console.log 'filtering type to hidden'

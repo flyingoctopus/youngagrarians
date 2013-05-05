@@ -35,9 +35,7 @@ YA.addInitializer (options) ->
   sidebar = new Youngagrarians.Views.Sidebar locations: Locations
   @.categories.show sidebar
   map = new Youngagrarians.Views.Map collection: Locations
-  console.log 'showing map: ', map
   @.map.show map
-  console.log 'map? ', @.map
   results = new Youngagrarians.Views.Results collection: Locations, map: map
   @.results.show results
 
