@@ -11,11 +11,8 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   initialize: (options) ->
     @collection.on 'reset', (models) =>
       _.defer () =>
-        console.log 'children: ', @children
         @children.each ( child ) =>
-          console.log 'child: ', child
           marker = child.createMarker()
-          console.log 'marker: ', marker
 
         center = $("#go-search").data('province') + ", Canada"
         $.goMap.setMap
@@ -42,7 +39,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   doSearch: (e) =>
     e.preventDefault()
-    console.log 'search time!'
     terms = $("#map-search-terms").val()
 
     province = $(e.target).data('province') + ", Canada"
@@ -50,7 +46,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       address: province
       zoom: 5
 
-    console.log 'searching for: ', terms
     $.ajax
       type: "POST"
       url: "/~youngagr/search"
@@ -165,7 +160,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
-    console.log 'collection: ', @collection.length
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
