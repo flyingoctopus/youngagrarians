@@ -3,26 +3,31 @@ class LocationsController < ApplicationController
   require 'fileutils'
   require 'iconv'
 
+  @tmp = {}
+
   def search
     @locations = Location.search params[:terms]
     respond_to do |format|
-      format.json { render json: @locations }
+      format.json { render :json =>  @locations }
     end
   end
 
   # GET /locations
   # GET /locations.json
   def index
+	Rails.logger.info '---------------------------------'
     respond_to do |format|
       format.html {
         if not authenticated?
           redirect_to :root
         end
+	Rails.logger.info '+++++++++=========------------------'
         @locations = Location.all
       }# index.html.erb
       format.json {
+	Rails.logger.info '==================------------------'
         @locations = Location.where( :is_approved => true ).all
-        render json: @locations
+        render :json =>  @locations
       }
     end
   end
@@ -34,7 +39,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @location }
+      format.json { render :json =>  @location }
     end
   end
 
@@ -45,17 +50,17 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @location }
+      format.json { render :json =>  @location }
     end
   end
 
   # custom!
   def excel_import
     if params.has_key? :dump and params[:dump].has_key? :excel_file
-      tmp = params[:dump][:excel_file].tempfile
+      @tmp = params[:dump][:excel_file].tempfile
 
       Spreadsheet.client_encoding = 'UTF-8'
-      book = Spreadsheet.open tmp.path
+      book = Spreadsheet.open @tmp.path
       sheet1 = book.worksheet 0
       sheet1.each_with_index do |row, i|
         # skip the first row dummy
@@ -100,11 +105,11 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.json { render json: @location, status: :created, location: @location }
+        format.html { redirect_to @location, :notice => 'Location was successfully created.' }
+        format.json { render :json =>  @location, :status => :created, :location => @location }
       else
-        format.html { render action: "new" }
-        format.json { render json: @location.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.json { render :json =>  @location.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -129,11 +134,11 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @errors.empty?
-        format.html { redirect_to :locations, notice: 'Locations successfully updated.'}
+        format.html { redirect_to :locations, :notice => 'Locations successfully updated.'}
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @errors, status: :unprocessable_entity }
+        format.html { render :action =>"edit" }
+        format.json { render :json =>  @errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -165,4 +170,6 @@ class LocationsController < ApplicationController
 end
 
 # WAT
-FileUtils.rm tmp.path
+if @tmp
+  FileUtils.rm @tmp.path unless nil
+end
