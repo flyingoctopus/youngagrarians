@@ -135,7 +135,7 @@ class AccountsController < ApplicationController
           redirect_to(params[:return_url] || :root) #, :notice => t('auth.signed_in')
         end
         format.json do
-          render :json => { success: 1, user: current_user }
+          render :json => { :success => 1, :user => current_user }
         end
       end
     else
@@ -145,7 +145,7 @@ class AccountsController < ApplicationController
           render :login, :status => 401, :layout => 'application'
         end
         format.json do
-          render :json => { success: 0, user: nil, error: I18n.t('accounts.unauthenticated'), warden: warden.message }
+          render :json => { :success => 0, :user => nil, :error => I18n.t('accounts.unauthenticated'), :warden => warden.message }
         end
       end
     end
