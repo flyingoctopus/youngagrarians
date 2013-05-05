@@ -30,10 +30,25 @@ class window.Admin
         console.log 'got ids: ', ids
 
         if type == "edit"
-          console.log 'need to edit!'
+          url = window.location.href + "/" + ids.join(',') + "/multi-edit"
+          window.location.href = url
         else if type == "delete"
           if confirm 'Are you sure you want to delete all of these?'
-            console.log "they're sure!"
+            $.ajax
+              type: "POST"
+              url: "/~youngagr/locations/" + ids.join(",") + "/multi-delete"
+              data:
+                _method: "DELETE"
+                ids: ids
+              success: (data,status,xhr) ->
+                window.location.reload true
+
           console.log 'need to delete'
         else if type == "approve"
-          console.log 'need to approve'
+          $.ajax
+            type: "POST"
+            url: "/~youngagr/locations/" + ids.join(",") + "/approve"
+            data:
+              ids: ids
+            success: (data,status,xhr) ->
+              window.location.reload true

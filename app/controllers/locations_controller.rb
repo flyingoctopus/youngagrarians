@@ -15,17 +15,15 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-	Rails.logger.info '---------------------------------'
+    @categories = Category.all
     respond_to do |format|
       format.html {
         if not authenticated?
           redirect_to :root
         end
-	Rails.logger.info '+++++++++=========------------------'
         @locations = Location.all
       }# index.html.erb
       format.json {
-	Rails.logger.info '==================------------------'
         @locations = Location.where( :is_approved => true ).all
         render :json =>  @locations
       }
@@ -65,29 +63,41 @@ class LocationsController < ApplicationController
       sheet1.each_with_index do |row, i|
         # skip the first row dummy
         next if i == 0
+
+        cat = nil
+        if not row[1].empty?
+          cat = Category.find_or_create_by_name( row[1] )
+        end
+
         # do things at your leeeisurrree
-        Location.new(:icon => row[0] ||= '',
-                     :subcategory => row[1] ||= '',
+        Location.new(:resource_type => row[0] ||= '',
+                     :category => cat,
+                     :subcategory => row[2] ||= '',
                      :name => row[3] ||= '',
                      :bioregion => row[4] ||= '',
                      :address => row[5] ||= '',
-                     :phone => row[5] ||= '',
-                     :url => row[6] ||= '',
-                     :facebook_url => row[7] ||= '',
-                     :twitter_url => row[8] ||= '',
-                     :content => row[9] ||= '').save
+                     :phone => row[6] ||= '',
+                     :url => row[7] ||= '',
+                     :fb_url => row[8] ||= '',
+                     :twitter_url => row[9] ||= '',
+                     :description => row[10] ||= '',
+                     :content => row[11] ||= '',
+                     :is_approved => 1 ).save
       end
+      redirect_to :locations
     end
   end
 
   # GET /locations/1/edit
   def edit
+    @categories = Category.all
     @locations = nil
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
     elsif params.has_key? :ids
-      @locations = Location
+      @ids = params[:ids].split ','
+      @locations = Location.find @ids
     end
   end
 
@@ -110,18 +120,19 @@ class LocationsController < ApplicationController
   # PUT /locations/1
   # PUT /locations/1.json
   def update
-    @locations = nil
+    @locations = []
+    @errors = []
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
-    elsif params.has_key? :ids
-      @locations = Location.find params[:ids]
-    end
-
-    @errors = []
-    @locations.each do |l|
-      if not l.update_attributes params[l.id][:location]
-        @errors.push l.errors
+    elsif params.has_key? :locations
+      params[:locations][:location].each do |data|
+        l = Location.find data[0]
+        if not l.update_attributes data[1]
+          pp l.errors
+          @errors.push l.errors
+        end
+        @locations.push l
       end
     end
 
@@ -139,8 +150,20 @@ class LocationsController < ApplicationController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location = Location.find(params[:id])
-    @location.destroy
+    @locations = nil
+
+    if params.has_key? :id
+      location = Location.find params[:id]
+      @locations = [ location ]
+    elsif params.has_key? :ids
+      @locations = Location.find params[:ids].split(",")
+    end
+
+    if not @locations.empty?
+      @locations.each do |l|
+        l.destroy
+      end
+    end
 
     respond_to do |format|
       format.html { redirect_to locations_url }
@@ -149,7 +172,7 @@ class LocationsController < ApplicationController
   end
 
   def approve
-    @locations = Location.find params[:ids]
+    @locations = Location.find params[:ids].split(",")
     @locations.each do |l|
       l.is_approved = true
       l.save
