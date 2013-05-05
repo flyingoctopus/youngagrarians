@@ -4,4 +4,5 @@
  *= require scaffolds.css
  *= require bootstrap_and_overrides.css
  *= require home.css
+ *= require admin.css
  */
