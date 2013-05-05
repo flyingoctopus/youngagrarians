@@ -1,0 +1,34 @@
+#edit-locations {
+  h1 {
+
+  }
+
+  form {
+    ul {
+      li.locations-item {
+        margin-bottom: 10px;
+        border-bottom: solid 1px black;
+        div.control-group {
+          label.control-label {
+
+          }
+          div.controls {
+            select {
+              width: 550px;
+            }
+
+            input {
+              width: 550px;
+            }
+
+            textarea {
+              display: inline-block;
+              width: 550px;
+              min-height: 100px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -30,13 +30,11 @@
 
     <% @locations.each do |location| %>
     <% unless location.blank? %>
-    <% Rails.logger.info '=======location.inspect=======' %>
-    <% Rails.logger.info location.inspect %>
     <tr class="row">
       <td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
       <td class="span2"><%= link_to location.name, location %></td>
       <td class="span2"><%= location.address %></td>
-      <td class="span2"><!%= location.category.name %></td>
+      <td class="span2"><%= @categories.select{ |c| c.id == location.category_id}[0].name %></td>
       <td class="span2"><%= location.subcategory %></td>
       <td class="span2"><%= location.is_approved ? 'yes' : 'no' %></td>
       <td class="span1">

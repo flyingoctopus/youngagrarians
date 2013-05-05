@@ -7,7 +7,7 @@ scope "/~youngagr" do
 
     match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
     match 'locations/:ids/multi-update' => 'locations#update', :as => :multi_update
-    match 'locations/:ids/multi-delete' => 'locations#delete', :as => :multi_delete
+    match 'locations/:ids/multi-delete' => 'locations#destroy', :as => :multi_delete
     match 'locations/:ids/approve' => 'locations#approve', :as => :approve
 
   get "home/index"
