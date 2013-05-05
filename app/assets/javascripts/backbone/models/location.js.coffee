@@ -1,6 +1,6 @@
 class Youngagrarians.Models.Location extends Backbone.RelationalModel
   paramRoot: 'location'
-  url: '/locations'
+  url: '/~youngagr/locations'
 
   relations: [
     type: 'HasOne'
@@ -32,7 +32,7 @@ Youngagrarians.Models.Location.setup()
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
-  url: '/locations'
+  url: '/~youngagr/locations'
   show: []
 
   initialize: (options) ->

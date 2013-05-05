@@ -43,7 +43,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     console.log 'searching for: ', terms
     $.ajax
       type: "POST"
-      url: "/search"
+      url: "/~youngagr/search"
       data:
         terms: terms
       success: (data,status,xhr) =>
