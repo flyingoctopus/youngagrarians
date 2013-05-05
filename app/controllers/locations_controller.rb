@@ -60,9 +60,16 @@ class LocationsController < ApplicationController
       sheet1.each_with_index do |row, i|
         # skip the first row dummy
         next if i == 0
+
+        cat = nil
+        if not row[1].empty?
+          cat = Category.create( :name => row[1] )
+        end
+
         # do things at your leeeisurrree
         Location.new(:icon => row[0] ||= '',
-                     :subcategory => row[1] ||= '',
+                     :category => cat
+                     :subcategory => row[2] ||= '',
                      :name => row[3] ||= '',
                      :bioregion => row[4] ||= '',
                      :address => row[5] ||= '',
