@@ -3,6 +3,7 @@
 <div id="locations-admin-list">
   <%= form_for :locations_update do |f| %>
   <%= f.hidden_field 'submit_type' %>
+
   <ul id="form-actions" class="unstyled inline">
     <li>
       <button class="btn btn-mini" id="edit-all" type="submit" value="edit">Edit Selected</button><br/>
@@ -35,10 +36,9 @@
       <td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
       <td class="span2"><%= link_to location.name, location %></td>
       <td class="span2"><%= location.address %></td>
-      <!--<td class="span2"><!%= location.category.name %></td> this does not
-work -->
+      <td class="span2"><!%= location.category.name %></td>
       <td class="span2"><%= location.subcategory %></td>
-      <td class="span2"><%= location.is_approved %></td>
+      <td class="span2"><%= location.is_approved ? 'yes' : 'no' %></td>
       <td class="span1">
         <%= link_to 'Edit', edit_location_path(location) %><br/>
         <%= link_to 'Destroy', location, :method => :delete, :data => { :confirm => 'Are you sure?' } %>

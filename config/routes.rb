@@ -5,6 +5,10 @@ scope "/~youngagr" do
   match 'locations/excel_import' => 'locations#excel_import'
   resources :locations
 
+    match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
+    match 'locations/:ids/multi-update' => 'locations#update', :as => :multi_update
+    match 'locations/:ids/multi-delete' => 'locations#delete', :as => :multi_delete
+    match 'locations/:ids/approve' => 'locations#approve', :as => :approve
 
   get "home/index"
   root :to => "home#index"

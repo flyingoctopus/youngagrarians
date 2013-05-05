@@ -4,7 +4,7 @@ class Location < ActiveRecord::Base
 
   belongs_to :category
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :subcategory, :is_approved
+  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :subcategory, :is_approved, :category, :type
 
   def gmaps4rails_address
     "#{address}"
@@ -19,7 +19,7 @@ class Location < ActiveRecord::Base
     if not term.nil? and not term.empty?
       interested_fields = ["address", "name", "content","bioregion"]
       interested_fields.each do |i|
-	Rails.logger.info 'asdf;lkajsdf;laksdjf;asldkfjas;dlfkasdf;lkj'
+  Rails.logger.info 'asdf;lkajsdf;laksdjf;asldkfjas;dlfkasdf;lkj'
         result = result + Location.where( i.to_sym => /^#{term}/i )
       end
     end
