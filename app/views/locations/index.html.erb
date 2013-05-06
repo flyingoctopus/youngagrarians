@@ -1,5 +1,11 @@
 <h1>Listing locations</h1>
 
+<% if not @filtered %>
+<%= link_to "Show Only Unapproved", locations_filtered_path(true) %>
+<% else %>
+<%= link_to "Show All", locations_path %>
+<% end %>
+
 <div id="locations-admin-list">
   <%= form_for :locations_update do |f| %>
   <%= f.hidden_field 'submit_type' %>
@@ -48,7 +54,6 @@
   <% end %>
 
   <ul id="admin-locations-links" class="unstyled inline">
-    <li><%= link_to 'New Location', new_location_path %></li>
     <li><%= link_to 'Import', 'locations/excel_import' %></li>
   </ul>
 </div>

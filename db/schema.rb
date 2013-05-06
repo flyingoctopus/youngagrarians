@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505205034) do
+ActiveRecord::Schema.define(:version => 20130506041545) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20130505205034) do
     t.string   "twitter_url"
     t.text     "description"
     t.string   "subcategory"
-    t.boolean  "is_approved"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.boolean  "is_approved",   :default => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "category_id"
     t.string   "resource_type"
   end

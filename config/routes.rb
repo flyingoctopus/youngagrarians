@@ -2,13 +2,16 @@ Youngagrarians::Application.routes.draw do
 scope "/~youngagr" do
   resources :categories
 
-  match 'locations/excel_import' => 'locations#excel_import'
+    match 'locations/excel_import' => 'locations#excel_import'
+    match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
   resources :locations
 
     match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
     match 'locations/:ids/multi-update' => 'locations#update', :as => :multi_update
     match 'locations/:ids/multi-delete' => 'locations#destroy', :as => :multi_delete
     match 'locations/:ids/approve' => 'locations#approve', :as => :approve
+
+
 
   get "home/index"
   root :to => "home#index"
