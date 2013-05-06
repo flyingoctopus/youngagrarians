@@ -69,23 +69,25 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
     if data.type == "filter"
       data = data.data
       _(markers).each (latlng,i) =>
-        m = @get ids[i]
+        id = ids[i].replace("location-","")
+        m = @get id
+        if !_.isUndefined(m) and !_.isNull(m)
+          catGood = _(data).indexOf( m.get('category').get('name') ) >= 0
+          showGood = if @show.length > 0 then _(@show).indexOf(m.id) >= 0 else true
 
-        catGood = _(data).indexOf( m.get('category').get('name') ) >= 0
-        showGood = if @show.length > 0 then _(@show).indexOf(m.id) >= 0 else true
-
-        if catGood and showGood
-          $.goMap.showHideMarker m.id, true
-          m.marker.setVisible true
-        else
-          $.goMap.showHideMarker m.id, false
+          if catGood and showGood
+            $.goMap.showHideMarker m.id, true
+            m.marker.setVisible true
+          else
+            $.goMap.showHideMarker m.id, false
           m.marker.setVisible false
 
-        m.set 'markerVisible', m.marker.visible
+          m.set 'markerVisible', m.marker.visible
 
     else
       _(markers).each (latlng, i) =>
-        location = @get ids[i]
+        id = ids[i].replace("location-","")
+        location = @get id
         if !_.isUndefined(location) and !_.isNull(location)
           if !location.get('markerVisible') and $.goMap.isVisible(location)
             categories = []

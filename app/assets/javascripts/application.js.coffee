@@ -22,8 +22,6 @@ make = (tagName, attributes, content ) ->
 Backbone.View.make = make
 Backbone.Marionette.View.make = make
 
-Backbone.Model.prototype.idAttribute = "_id"
-
 Backbone.Marionette.Renderer.render = (template, data) ->
   if !JST[template]
     throw "Template '" + template + "' not found!"
