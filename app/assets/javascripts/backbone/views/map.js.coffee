@@ -111,14 +111,18 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       @locationModel.set 'category_id', $("select#category").val()
       @locationModel.set 'category', category
       @locationModel.set 'name', $("input#name").val()
-      @locationModel.set 'content', $('textarea#description').val()
+      @locationModel.set 'description', $('textarea#description').val()
+      @locationModel.set 'fb_url', $('input#facebok').val()
+      @locationModel.set 'twitter_url', $('input#twitter').val()
+      @locationModel.set 'url', $('input#url').val()
+      @locationModel.set 'phone', $('input#phone').val()
 
       window.Locations.create @locationModel
 
       func = () ->
         $("#add-to-map").fadeIn()
-        $("#step4").fadeOut()
         @currentStep = 1
+        $("#add-to-map-form").slideUp()
 
       _.delay func, 10000
 
@@ -127,6 +131,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     e.preventDefault()
     $("#add-to-map").fadeOut()
     @currentStep = 1
+
+    $("form#add-to-map-form ul.unstyled li").fadeOut()
+    $("li#step" + @currentStep ).fadeIn()
+
     @doStep()
 
     $("#add-to-map-form").slideDown()
@@ -134,7 +142,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     select = $("select#category")
     window.Categories.each (model) =>
       opt = $("<option>")
-        .attr( 'value', model.get('_id'))
+        .attr( 'value', model.get('id'))
         .html model.get('name')
       select.append opt
 

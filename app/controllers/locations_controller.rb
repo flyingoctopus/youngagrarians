@@ -21,7 +21,19 @@ class LocationsController < ApplicationController
         if not authenticated?
           redirect_to :root
         end
-        @locations = Location.all
+
+        @filtered = !params[:filtered].nil?
+        puts "\n\nfiltered: #{@filtered}"
+        @locations = []
+
+        if @filtered
+          puts "only getting unapproved"
+          @locations = Location.where( :is_approved => 0 ).all
+        else
+          puts "getting all!"
+          @locations = Location.all
+        end
+
       }# index.html.erb
       format.json {
         @locations = Location.where( :is_approved => true ).all
