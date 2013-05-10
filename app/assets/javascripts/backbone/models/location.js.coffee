@@ -79,11 +79,11 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
           showGood = if @show.length > 0 then _(@show).indexOf(m.id) >= 0 else true
 
           if catGood and showGood
-            $.goMap.showHideMarker m.id, true
+            $.goMap.showHideMarker 'location-'+m.id, true
             m.marker.setVisible true
           else
-            $.goMap.showHideMarker m.id, false
-          m.marker.setVisible false
+            $.goMap.showHideMarker 'location-'+m.id, false
+            m.marker.setVisible false
 
           m.set 'markerVisible', m.marker.visible
 
