@@ -1,30 +1,59 @@
 <h1>Listing locations</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Content</th>
-    <th>Address</th>
-    <th>Type</th>
-    <th>Is Approved</th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @locations.each do |location| %>
-  <tr>
-    <td><%= link_to location.name, location %></td>
-    <td><%= location.content %></td>
-    <td><%= location.address %></td>
-    <td><%= location.type %></td>
-    <td><%= location.is_approved %></td>
-    <td><%= link_to 'Show', location %></td>
-    <td><%= link_to 'Edit', edit_location_path(location) %></td>
-    <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<% if not @filtered %>
+<%= link_to "Show Only Unapproved", locations_filtered_path(true) %>
+<% else %>
+<%= link_to "Show All", locations_path %>
 <% end %>
-</table>
 
-<br />
+<div id="locations-admin-list">
+  <%= form_for :locations_update do |f| %>
+  <%= f.hidden_field 'submit_type' %>
 
-<%= link_to 'New Location', new_location_path %>
+  <ul id="form-actions" class="unstyled inline">
+    <li>
+      <button class="btn btn-mini" id="edit-all" type="submit" value="edit">Edit Selected</button><br/>
+    </li>
+    <li>
+      <button class="btn btn-mini" id="delete-all" type="submit" value="delete">Delete Selected</button>
+    </li>
+    <li>
+      <button class="btn btn-mini" id="approve-all" type="submit" value="approve">Approve Selected</button>
+    </li>
+  </ul>
+
+  <table class="container">
+    <tr class="row">
+      <th></th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Category</th>
+      <th>Sub Category</th>
+      <th>Is Approved</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <% @locations.each do |location| %>
+    <% unless location.blank? %>
+    <tr class="row">
+      <td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
+      <td class="span2"><%= link_to location.name, location %></td>
+      <td class="span2"><%= location.address %></td>
+      <td class="span2"><%= @categories.select{ |c| c.id == location.category_id}[0].name %></td>
+      <td class="span2"><%= location.subcategory %></td>
+      <td class="span2"><%= location.is_approved ? 'yes' : 'no' %></td>
+      <td class="span1">
+        <%= link_to 'Edit', edit_location_path(location) %><br/>
+        <%= link_to 'Destroy', location, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+      </td>
+    </tr>
+    <% end %>
+    <% end %>
+  </table>
+  <% end %>
+
+  <ul id="admin-locations-links" class="unstyled inline">
+    <li><%= link_to 'Import', 'locations/excel_import' %></li>
+  </ul>
+</div>

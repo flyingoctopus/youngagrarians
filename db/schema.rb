@@ -11,6 +11,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20130506041545) do
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "locations", :force => true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
+    t.string   "address"
+    t.string   "name"
+    t.text     "content"
+    t.string   "bioregion"
+    t.string   "phone"
+    t.string   "url"
+    t.string   "fb_url"
+    t.string   "twitter_url"
+    t.text     "description"
+    t.string   "subcategory"
+    t.boolean  "is_approved",   :default => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "category_id"
+    t.string   "resource_type"
+  end
+
+  add_index "locations", ["is_approved"], :name => "index_locations_on_is_approved"
+
+  create_table "users", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_salt"
+    t.string   "encrypted_password"
+    t.string   "password_reset_key"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
 
 end

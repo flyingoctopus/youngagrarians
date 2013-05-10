@@ -8,6 +8,15 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   locationToAdd: null
   locationModel: null
 
+  initialize: (options) ->
+    @collection.on 'reset', (models) =>
+      _.defer () =>
+        @children.each ( child ) =>
+          marker = child.createMarker()
+
+        #$.goMap.fitBounds 'visible'
+
+
   events:
     'click a#add-to-map' : 'addLocation'
     'click button.next'  : 'showNextStep'
@@ -17,7 +26,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'click li.province' : 'changeProvince'
 
   changeProvince: (e) =>
-    console.log "change province"
     province = $(e.target).text()
     $("button#go-search").data('province', province).html("Search in "+province)
 
@@ -27,45 +35,21 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   doSearch: (e) =>
     e.preventDefault()
-    console.log 'search time!'
     terms = $("#map-search-terms").val()
 
     province = $(e.target).data('province') + ", Canada"
-    ###
-    geocoder = new GClientGeocoder()
-    geocoder.getLatLng province, (point) ->
-      console.log 'got point: ', point
-    ###
     $.goMap.setMap
       address: province
       zoom: 5
 
-    console.log 'searching for: ', terms
     $.ajax
       type: "POST"
-      url: "/search"
+      url: "/~youngagr/search"
       data:
         terms: terms
       success: (data,status,xhr) =>
         @collection.setShow _(data).pluck('_id')
-        ###
-        _($.goMap.markers).each (marker) =>
-          if show.indexOf(marker) >= 0
-            $.goMap.showHideMarker marker, true
-            @collection.get(marker).set('markerVisible', true)
-          else
-            $.goMap.showHideMarker marker, false
-            @collection.get(marker).set('markerVisible', false)
-        ###
-        ###
-        _(data).each (location) =>
-
-          console.log 'got location: ', location.latitude, location.longitude
-          _(@children).each (child) =>
-            if child.getLocation().lat == location.latitude and child.getLocation().long == location.longitutde
-              child.hideMarker()
         $.goMap.fitBounds()
-        ###
 
   showNextStep: (e) =>
     e.preventDefault()
@@ -124,14 +108,18 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       @locationModel.set 'category_id', $("select#category").val()
       @locationModel.set 'category', category
       @locationModel.set 'name', $("input#name").val()
-      @locationModel.set 'content', $('textarea#description').val()
+      @locationModel.set 'description', $('textarea#description').val()
+      @locationModel.set 'fb_url', $('input#facebok').val()
+      @locationModel.set 'twitter_url', $('input#twitter').val()
+      @locationModel.set 'url', $('input#url').val()
+      @locationModel.set 'phone', $('input#phone').val()
 
       window.Locations.create @locationModel
 
       func = () ->
         $("#add-to-map").fadeIn()
-        $("#step4").fadeOut()
         @currentStep = 1
+        $("#add-to-map-form").slideUp()
 
       _.delay func, 10000
 
@@ -140,6 +128,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     e.preventDefault()
     $("#add-to-map").fadeOut()
     @currentStep = 1
+
+    $("form#add-to-map-form ul.unstyled li").fadeOut()
+    $("li#step" + @currentStep ).fadeIn()
+
     @doStep()
 
     $("#add-to-map-form").slideDown()
@@ -147,17 +139,18 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     select = $("select#category")
     window.Categories.each (model) =>
       opt = $("<option>")
-        .attr( 'value', model.get('_id'))
+        .attr( 'value', model.get('id'))
         .html model.get('name')
       select.append opt
 
-  onRender: () =>
+  onShow: () =>
     @show = []
     @map = $("#map").goMap
       latitude: 54.826008
       longitude: -125.200195
       zoom: 5
       maptype: 'ROADMAP'
+      scrollwheel: false
 
     $.goMap.createListener(
       {type:'map'}
@@ -173,30 +166,15 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
+    center = $("#go-search").data('province') + ", Canada"
+    $.goMap.setMap
+      address: center
+      zoom: 5
+
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
-      $.goMap.fitBounds 'visible'
+      #$.goMap.fitBounds 'visible'
 
   filter: (data) =>
-    ###
-    _($.goMap.markers).each (marker) ->
-      $.goMap.showHideMarker marker, true
-
-    _(data).each (d) ->
-      $.goMap.showHideMarkerByGroup d, false
-    ###
     @collection.trigger 'map:update', {type: 'filter', data: data}
-    #$.goMap.fitBounds 'visible'
-
-  # move these somewhere else, like the view
-  # the collection doesn't care about which ones are visible in the map
-  # just the results list
-  getMapBounds: () =>
-    bounds = $.goMap.getBounds()
-    console.log 'map center: ', $.goMap.map.getCenter()
-    console.log 'southwest ( bottom right ): ', bounds.getSouthWest()
-    console.log 'northeast ( top left ): ', bounds.getNorthEast()
-
-  filterType: (type) =>
-    console.log 'filtering type to hidden'

@@ -51,7 +51,7 @@ body.ya {
 
         p.navbar-text {
           position: absolute;
-          left: 785px;
+          left: 725px;
           z-index:200;
         }
 
@@ -107,9 +107,8 @@ body.ya {
 
   #main {
     width: 960px;
-    margin: 0 auto;
+    margin: 60px auto;
     border-top: solid 1px black;
-    padding-top: 15px;
     position: relative;
 
     #results {
@@ -128,10 +127,39 @@ body.ya {
       }
     }
 
+
+  }
+}
+    #category-list {
+      width: 175px;
+      position: absolute;
+      top: 300px;
+      right: 0px;
+      z-index: 200;
+      max-height: 330px;
+      overflow: hidden;
+
+      ul#sidebar {
+        li.category {
+          width: 165px;
+          background-color: white;
+          border-radius: 5px;
+          a.category-link {
+            i.icon {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+
+
+#map-container {
+  width: 100%;
     #map-search {
       width: 960px;
+      margin: 30px auto 10px;
       display: block;
-      margin-bottom: 10px;
       padding-bottom: 10px;
       border-bottom: solid 3px black;
 
@@ -176,13 +204,21 @@ body.ya {
     }
 
     #map {
-      width: 960px;
-      height: 350px;
+      width: 100%;
+      min-height: 400px;
       padding-top: 10px;
+
+      .map-marker {
+        p {
+          overflow-y: scroll;
+          max-height: 100px;
+        }
+      }
     }
 
     #add-to-map-container {
-
+      width: 960px;
+      margin: 0 auto;
       #add-to-map-form {
         border: solid 1px black;
       }
@@ -197,25 +233,6 @@ body.ya {
       }
     }
 
-    #category-list {
-      position: absolute;
-      top: 130px;
-      right: -15px;
-      z-index: 200;
-
-      ul#sidebar {
-        li.category {
-          width: 150px;
-          a.category-link {
-            i.icon {
-              margin-right: 10px;
-            }
-          }
-        }
-      }
-    }
-
-  }
 }
 
 footer {
@@ -230,5 +247,36 @@ footer {
     padding-left: 10px;
     padding-bottom: 20px;
     border-top: solid 1px #666;
+  }
+}
+
+#locations-admin-list {
+  table {
+    tr {
+      th {
+        text-align: center;
+      }
+
+      td {
+        border-bottom: solid 1px black;
+        margin-bottom: 5px;
+        text-align: center;
+        a:hover {
+          background: white;
+        }
+      }
+    }
+  }
+
+  ul#admin-locations-links {
+    li {
+      a {
+
+      }
+
+      a:hover {
+        background: white;
+      }
+    }
   }
 }

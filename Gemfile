@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
+gem 'rake', '~> 10.0.4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,6 +9,8 @@ gem 'rails', '3.2.12'
 gem 'mysql2'
 gem 'sqlite3'
 
+gem 'rails-backbone'
+gem 'marionette-rails'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -23,7 +26,7 @@ group :assets do
 	gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'mongoid', '~> 3.1.2'
+#gem 'mongoid', '~> 3.1.2'
 
 gem 'gmaps4rails'
 gem 'geocoder'
@@ -40,19 +43,19 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'warden',                 '~> 1.2.1'
 
 group :development, :test do
+	gem 'rb-readline',					'~> 0.4.2'
 	gem 'thin',                 '~> 1.4.1'
 	gem 'quiet_assets'
 
-	gem 'rb-readline',					'~> 0.4.2'
 	gem 'randexp',              '~> 0.1.7'
 	gem 'rspec-rails',          '~> 2.11.0'
 	gem 'email_spec',           '~> 1.2.1'
 	gem 'database_cleaner',     '~> 0.8.0'
-	gem 'factory_girl_rails',   '~> 3.5.0'
+	# gem 'factory_girl_rails',   '~> 3.5.0'
 	gem 'mail_safe',            '~> 0.3.1'
 	gem 'awesome_print',        '~> 1.0.2'
 	gem 'pry',                  '~> 0.9.10'
-	gem 'remarkable_mongoid',   '~> 0.6.0'
+	#gem 'remarkable_mongoid',   '~> 0.6.0'
 	gem 'fakeweb',              '~>1.3.0'
 	gem 'forgery',              '~>0.5.0'
 	gem 'table_print',          '~> 1.0.0'
@@ -68,7 +71,7 @@ group :development, :test do
 	gem 'jasmine',              '~> 1.2.1'
 
 	# Mongoid RSpec
-	gem 'mongoid-rspec'
+	#gem 'mongoid-rspec'
 
 	# Docs
 	gem 'chef', '~> 11.4.0'

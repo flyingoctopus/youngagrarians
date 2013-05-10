@@ -1,12 +1,8 @@
-class User
-  include Mongoid::Document
+class User < ActiveRecord::Base
+  #include Mongoid::Document
   include Passwordable
 
-  field :first_name, type: String
-  field :last_name, type: String
-  field :username, type: String
-  field :email, type: String
-  field :password, type: String
+  attr_accessible :first_name, :last_name, :username, :email
 
   validates_presence_of :first_name
   validates_presence_of :last_name
@@ -16,7 +12,6 @@ class User
   validates_format_of :email, :with => /\A([-a-z0-9!\#$%&'*+\/=?^_`{|}~]+\.)*[-a-z0-9!\#$%&'*+\/=?^_`{|}~]+@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
   before_validation :sanitize_data
-
 
   def full_name
     "#{first_name} #{last_name}"
@@ -29,4 +24,3 @@ class User
     self.email = email.downcase.strip if email
   end
 end
-

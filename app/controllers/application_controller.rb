@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   rescue_from NotFoundError,                     :with => :not_found         # 404 Not Found
   rescue_from UserNotFoundError,                 :with => :user_not_found    # 404 Not Found
   rescue_from SessionNotFoundError,              :with => :session_not_found # 404 Not Found
-  rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found         # 404 Not Found
+  #rescue_from Mongoid::Errors::DocumentNotFound, :with => :not_found         # 404 Not Found
 
   # Display error when the request is bad
   #

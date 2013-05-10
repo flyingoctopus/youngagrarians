@@ -5,10 +5,7 @@ module Passwordable
 
   included do
     attr_accessor :password
-
-    field :password_salt,      :type => String
-    field :encrypted_password, :type => String
-    field :password_reset_key, :type => String
+    attr_accessible :password, :encrypted_password, :password_reset_key
 
     validates_presence_of :password, :on => :create
 

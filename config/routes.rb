@@ -1,9 +1,17 @@
 Youngagrarians::Application.routes.draw do
+scope "/~youngagr" do
   resources :categories
 
-
+    match 'locations/excel_import' => 'locations#excel_import'
+    match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
   resources :locations
-  match 'locations/excel_import' => 'locations#excel_import'
+
+    match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
+    match 'locations/:ids/multi-update' => 'locations#update', :as => :multi_update
+    match 'locations/:ids/multi-delete' => 'locations#destroy', :as => :multi_delete
+    match 'locations/:ids/approve' => 'locations#approve', :as => :approve
+
+
 
   get "home/index"
   root :to => "home#index"
@@ -81,4 +89,5 @@ Youngagrarians::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+end
 end

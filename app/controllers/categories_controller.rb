@@ -2,11 +2,15 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @categories }
+      format.html {
+        @categories = Category.all
+      }
+      format.json {
+        exclude_list = ["Web","Web Resource","Publication"]
+        @categories = Category.where( "name not in (?)", exclude_list)
+        render :json => @categories
+      }
     end
   end
 
@@ -17,7 +21,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @category }
+      format.json { render :json => @category }
     end
   end
 
@@ -28,7 +32,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @category }
+      format.json { render :json => @category }
     end
   end
 
@@ -44,11 +48,11 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to @category, notice: 'Category was successfully created.' }
-        format.json { render json: @category, status: :created, location: @category }
+        format.html { redirect_to @category, :notice => 'Category was successfully created.' }
+        format.json { render :json => @category, :status => :created, :location => @category }
       else
-        format.html { render action: "new" }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.json { render :json => @category.errors, status => :unprocessable_entity }
       end
     end
   end
@@ -60,11 +64,11 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.update_attributes(params[:category])
-        format.html { redirect_to @category, notice: 'Category was successfully updated.' }
+        format.html { redirect_to @category, :notice => 'Category was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.json { render :json => @category.errors, :status => :unprocessable_entity }
       end
     end
   end
