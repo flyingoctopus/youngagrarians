@@ -28,6 +28,9 @@ class Youngagrarians.Models.Location extends Backbone.RelationalModel
   lng: =>
     return @get 'longitude'
 
+  locUrl: =>
+    base = $("#root_url").data('url') + '/locations/' + @id
+
 Youngagrarians.Models.Location.setup()
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
