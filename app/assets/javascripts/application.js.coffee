@@ -2,10 +2,12 @@
 #= require jquery_ujs
 #= require twitter/bootstrap
 #= require jquery.gomap
+#= require jquery.nicescroll
 #= require underscore
 #= require backbone
 #= require backbone.marionette
 #= require backbone-relational
+#= require backbone-modelref
 #= require backbone/youngagrarians
 #= require bootstrap-setup
 #= require admin_class

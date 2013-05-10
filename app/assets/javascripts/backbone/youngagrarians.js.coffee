@@ -32,7 +32,7 @@ YA.addInitializer (options) ->
   Backbone.history.start()
 
 YA.addInitializer (options) ->
-  sidebar = new Youngagrarians.Views.Sidebar locations: Locations
+  sidebar = new Youngagrarians.Views.Sidebar collection: Categories
   @.categories.show sidebar
   map = new Youngagrarians.Views.Map collection: Locations
   @.map.show map

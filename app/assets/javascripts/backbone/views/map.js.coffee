@@ -14,10 +14,13 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @children.each ( child ) =>
           marker = child.createMarker()
 
+<<<<<<< HEAD
         center = $("#go-search").data('province') + ", Canada"
         $.goMap.setMap
           address: center
           zoom: 5
+=======
+>>>>>>> 7e8ae3c2811d87567e4748323ebcc52a0edd7725
         #$.goMap.fitBounds 'visible'
 
 
@@ -53,6 +56,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         terms: terms
       success: (data,status,xhr) =>
         @collection.setShow _(data).pluck('_id')
+<<<<<<< HEAD
+=======
+        $.goMap.fitBounds()
+>>>>>>> 7e8ae3c2811d87567e4748323ebcc52a0edd7725
 
   showNextStep: (e) =>
     e.preventDefault()
@@ -153,6 +160,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       longitude: -125.200195
       zoom: 5
       maptype: 'ROADMAP'
+<<<<<<< HEAD
+=======
+      scrollwheel: false
+>>>>>>> 7e8ae3c2811d87567e4748323ebcc52a0edd7725
 
     $.goMap.createListener(
       {type:'map'}
@@ -168,10 +179,22 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
+<<<<<<< HEAD
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
       $.goMap.fitBounds 'visible'
+=======
+    center = $("#go-search").data('province') + ", Canada"
+    $.goMap.setMap
+      address: center
+      zoom: 5
+
+    if @collection.length
+      _(@children).each (child) ->
+        child.createMarker()
+      #$.goMap.fitBounds 'visible'
+>>>>>>> 7e8ae3c2811d87567e4748323ebcc52a0edd7725
 
   filter: (data) =>
     @collection.trigger 'map:update', {type: 'filter', data: data}
