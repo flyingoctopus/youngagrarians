@@ -207,6 +207,13 @@ body.ya {
       width: 100%;
       min-height: 400px;
       padding-top: 10px;
+
+      .map-marker {
+        p {
+          overflow-y: scroll;
+          max-height: 100px;
+        }
+      }
     }
 
     #add-to-map-container {
