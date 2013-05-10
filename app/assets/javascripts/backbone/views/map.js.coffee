@@ -53,6 +53,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         terms: terms
       success: (data,status,xhr) =>
         @collection.setShow _(data).pluck('_id')
+        $.goMap.fitBounds()
 
   showNextStep: (e) =>
     e.preventDefault()
@@ -153,6 +154,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       longitude: -125.200195
       zoom: 5
       maptype: 'ROADMAP'
+      scrollwheel: false
 
     $.goMap.createListener(
       {type:'map'}
