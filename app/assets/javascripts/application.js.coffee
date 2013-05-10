@@ -7,6 +7,7 @@
 #= require backbone
 #= require backbone.marionette
 #= require backbone-relational
+#= require backbone-modelref
 #= require backbone/youngagrarians
 #= require bootstrap-setup
 #= require admin_class

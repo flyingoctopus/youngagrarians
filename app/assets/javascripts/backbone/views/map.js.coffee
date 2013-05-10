@@ -14,10 +14,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @children.each ( child ) =>
           marker = child.createMarker()
 
-        center = $("#go-search").data('province') + ", Canada"
-        $.goMap.setMap
-          address: center
-          zoom: 5
         #$.goMap.fitBounds 'visible'
 
 
@@ -170,10 +166,15 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @collection.trigger 'map:update', {type: 'dragend', data: event}
     )
 
+    center = $("#go-search").data('province') + ", Canada"
+    $.goMap.setMap
+      address: center
+      zoom: 5
+
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
-      $.goMap.fitBounds 'visible'
+      #$.goMap.fitBounds 'visible'
 
   filter: (data) =>
     @collection.trigger 'map:update', {type: 'filter', data: data}
