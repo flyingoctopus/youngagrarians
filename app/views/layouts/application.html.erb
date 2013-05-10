@@ -62,18 +62,21 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="map-container"></div>
+		<div id="category-list"></div>
+
+
 		<div class="container" id="main">
 			<div class="row">
 				<div class="span10">
 					<%= bootstrap_flash %>
-					<div id="map-container"></div>
+
 					<div id="results">
 						<%= yield %>
 					</div>
 				</div>
 
-				<div class="span2" id="category-list">
-				</div><!--/span-->
 
 			</div><!--/row-->
 
@@ -87,7 +90,7 @@
 				 ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
-		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "application", :debug => true %>
 		<script type="text/javascript">
 			_.defer(
 			function(){

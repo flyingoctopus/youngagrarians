@@ -2,6 +2,7 @@
 #= require jquery_ujs
 #= require twitter/bootstrap
 #= require jquery.gomap
+#= require jquery.nicescroll
 #= require underscore
 #= require backbone
 #= require backbone.marionette
