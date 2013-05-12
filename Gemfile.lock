@@ -145,6 +145,7 @@ GEM
       rspec (>= 2.9)
     moped (1.4.4)
     multi_json (1.7.2)
+    mysql2 (0.3.11)
     net-ssh (2.6.6)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
@@ -197,6 +198,7 @@ GEM
     rake (10.0.3)
     randexp (0.1.7)
     rb-fsevent (0.9.3)
+    rb-readline (0.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.4)
@@ -300,12 +302,14 @@ DEPENDENCIES
   marionette-rails
   mongoid (~> 3.1.2)
   mongoid-rspec
+  mysql2
   pry (~> 0.9.10)
   quiet_assets
   rails (= 3.2.12)
   rails-backbone
   randexp (~> 0.1.7)
   rb-fsevent (~> 0.9.1)
+  rb-readline (~> 0.4.2)
   remarkable_mongoid (~> 0.6.0)
   rspec-rails (~> 2.11.0)
   sass
