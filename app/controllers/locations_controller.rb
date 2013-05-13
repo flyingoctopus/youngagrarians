@@ -6,7 +6,14 @@ class LocationsController < ApplicationController
   @tmp = {}
 
   def search
-    @locations = Location.search params[:terms]
+    @locations = []
+    if not params[:province].nil?
+      @locations = Location.search params[:terms], params[:province]
+    else
+      @locations = Location.search params[:terms]
+    end
+
+
     respond_to do |format|
       format.json { render :json =>  @locations }
     end
