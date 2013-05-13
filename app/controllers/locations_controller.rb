@@ -30,14 +30,11 @@ class LocationsController < ApplicationController
         end
 
         @filtered = !params[:filtered].nil?
-        puts "\n\nfiltered: #{@filtered}"
         @locations = []
 
         if @filtered
-          puts "only getting unapproved"
           @locations = Location.where( :is_approved => 0 ).all
         else
-          puts "getting all!"
           @locations = Location.all
         end
 
