@@ -168,13 +168,12 @@ body.ya {
         margin: 0 auto;
         margin-bottom: 10px;
 
-        input#map-search {
+        input#map-search-terms {
           width: 350px;
-          border: solid 1px black;
-          border-radius: 0px;
           display: inline-block;
           vertical-align: middle;
           white-space: nowrap;
+          margin-top: -16px;
         }
 
         a#map-search-clear {

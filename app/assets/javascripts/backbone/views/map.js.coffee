@@ -25,7 +25,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   changeProvince: (e) =>
     province = $(e.target).text()
-    $("button#go-search").data('province', province).html("Search in "+province)
+    $("button#go-search").data('province', province).text province
 
   clearSearch: (e) =>
     e.preventDefault()
