@@ -16,6 +16,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'add'   : 'addMarker'
 
   initialize: (options) =>
+    window.onresize = @resizeMap
+
+  resizeMap: (e) =>
+    console.log 'need to resize map'
 
   addMarkers: (col) =>
     _.defer =>
