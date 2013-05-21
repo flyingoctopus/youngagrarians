@@ -90,6 +90,16 @@
 				 ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
+		<script type="text/javascript">
+			var script = '<script type="text/javascript" src="http://google-maps-' +
+					'utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble';
+			if (document.location.search.indexOf('compiled') !== -1) {
+				script += '-compiled';
+			}
+			script += '.js"><' + '/script>';
+			document.write(script);
+		</script>
+
 		<%= javascript_include_tag "application", :debug => true %>
 		<script type="text/javascript">
 			_.defer(
@@ -106,5 +116,6 @@
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 		<div id="root_url" data-url="<%= root_path %>" class="hide">What what</div>
+		<div id="modal"></div>
 	</body>
 </html>

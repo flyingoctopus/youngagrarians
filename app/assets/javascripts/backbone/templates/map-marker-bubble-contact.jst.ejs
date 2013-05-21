@@ -1,0 +1,19 @@
+<div>
+	<ul class="unstyled info">
+		<% if ( !_(address).isEmpty() ){ %>
+		<li class="address"><%= address %></li>
+		<% } %>
+
+		<% if ( !_(phone).isEmpty() ){ %>
+		<li class="phone"><%= phone %></li>
+		<% } %>
+
+		<% if ( !_(twitter_url).isEmpty() ){ %>
+		<li class="twitter"><a href="<%= twitter_url %>" target="_BLANK">Twitter</a></li>
+		<% } %>
+
+		<% if ( !_(fb_url).isEmpty() ){ %>
+		<li class="facebook"><a href="<%= fb_url %>" target="_blank">Facebook</a></li>
+		<% } %>
+	</ul>
+</div>

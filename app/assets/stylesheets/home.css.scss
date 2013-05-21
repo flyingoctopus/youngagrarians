@@ -132,10 +132,10 @@ body.ya {
     #category-list {
       width: 175px;
       position: absolute;
-      top: 300px;
+      top: 320px;
       right: 0px;
       z-index: 200;
-      max-height: 330px;
+      max-height: 350px;
       overflow: hidden;
 
       ul#sidebar {
@@ -206,17 +206,35 @@ body.ya {
       min-height: 400px;
       padding-top: 10px;
 
-      .map-marker {
-        p {
-          overflow-y: scroll;
-          max-height: 100px;
+      .gomapMarker {
+        width: 550px;
+        .map-marker {
+          h3 {
+            max-width: 550px;
+          }
+
+          p {
+            overflow-y: scroll;
+            max-height: 100px;
+            max-width: 550px;
+          }
+
+          ul {
+            width: 550px;
+          }
         }
       }
+
     }
 
     #add-to-map-container {
-      width: 960px;
-      margin: 0 auto;
+      width: 150px;
+      position: absolute;
+      display: inline-block;
+      z-index: 10;
+      top: 285px;
+      margin-top: -30px;
+      right: 110px;
       #add-to-map-form {
         border: solid 1px black;
       }
