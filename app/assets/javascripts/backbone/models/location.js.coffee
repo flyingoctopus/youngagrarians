@@ -47,12 +47,9 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
     categories = []
     $("li.category.active").each (i,el) ->
       categories.push $(el).data 'type'
-
     @mapUpdate
-      type:
-        'filter'
-      data:
-        categories
+      type: 'filter'
+      data: categories
 
   clearShow: () =>
     @show = []
@@ -87,8 +84,8 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
             m.marker.setVisible false
 
           m.set 'markerVisible', m.marker.visible
-    else if data.type == "show"
 
+    else if data.type == "show"
       $.goMap.setMap
         latitude: data.data.lat()
         longitude: data.data.lng()
@@ -98,7 +95,6 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
 
       _(markers).each (latlng, i) =>
         id = parseInt ids[i].replace("location-","")
-        console.log 'ids:', id, data.data.id, data.data.get('id')
         if id != data.data.get("id")
           $.goMap.showHideMarker ids[i], false
         else
@@ -117,14 +113,18 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
         id = ids[i].replace("location-","")
         location = @get id
         if !_.isUndefined(location) and !_.isNull(location)
+
+
+          categories = []
+          $("li.category.active").each (i,el) ->
+            categories.push $(el).data 'name'
+
+          catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
+          showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
+          markerVisible = location.get 'markerVisible'
+          goMapVis = $.goMap.isVisible location
+
           if !location.get('markerVisible') and $.goMap.isVisible(location)
-            categories = []
-            $("li.category.active").each (i,el) ->
-              categories.push $(el).data 'type'
-
-            catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
-            showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
-
             if catGood and showGood
               $.goMap.showHideMarker ids[i], true
 

@@ -14,48 +14,61 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         @children.each ( child ) =>
           marker = child.createMarker()
 
-        ###
-        center = $("#go-search").data('province') + ", Canada"
-        $.goMap.setMap
-          address: center
-          zoom: 5
-        ###
-        #$.goMap.fitBounds 'visible'
-
-
   events:
     'click a#add-to-map' : 'addLocation'
     'click button.next'  : 'showNextStep'
     'click button.prev'  : 'showPrevStep'
-    'click button#go-search' : 'doSearch'
+    'click button#go-search' : 'doSearchProvince'
+    'submit form#map-search-form' : 'doSearch'
     'click a#map-search-clear' : 'clearSearch'
     'click li.province' : 'changeProvince'
 
   changeProvince: (e) =>
     province = $(e.target).text()
-    $("button#go-search").data('province', province).html("Search in "+province)
+    $("button#go-search").data('province', province).text province
 
   clearSearch: (e) =>
     e.preventDefault()
     @collection.clearShow()
 
+  searchSuccess: (data,status,xhr) =>
+    ids = _(data).pluck 'id'
+    locations = _(ids).map (id) ->
+      'location-'+id
+
+    showLocations = () =>
+      $.goMap.fitBounds('markers', locations )
+      if ( locations.length <= 1 )
+         $.goMap.setMap
+          zoom: 10
+      @collection.setShow ids
+
+    _.delay showLocations, 100
+
+
   doSearch: (e) =>
     e.preventDefault()
     terms = $("#map-search-terms").val()
-
-    province = $(e.target).data('province') + ", Canada"
-    $.goMap.setMap
-      address: province
-      zoom: 5
 
     $.ajax
       type: "POST"
       url: "/~youngagr/search"
       data:
         terms: terms
-      success: (data,status,xhr) =>
-        @collection.setShow _(data).pluck('_id')
-        $.goMap.fitBounds()
+      success: @searchSuccess
+
+  doSearchProvince: (e) =>
+    e.preventDefault()
+    terms = $("#map-search-terms").val()
+    province = $(e.target).data('province')
+
+    $.ajax
+      type: "POST"
+      url: "/~youngagr/search"
+      data:
+        terms: terms
+        province: province
+      success: @searchSuccess
 
   showNextStep: (e) =>
     e.preventDefault()
@@ -158,29 +171,30 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       maptype: 'ROADMAP'
       scrollwheel: false
 
-    $.goMap.createListener(
-      {type:'map'}
-      'zoom_changed'
-      (event) =>
-        @collection.trigger 'map:update', {type: 'zoom', data: event}
-    )
-
-    $.goMap.createListener(
-      {type: 'map'}
-      'dragend'
-      (event) =>
-        @collection.trigger 'map:update', {type: 'dragend', data: event}
-    )
-
     center = $("#go-search").data('province') + ", Canada"
     $.goMap.setMap
       address: center
       zoom: 5
 
+    $.goMap.createListener(
+      'map'
+      'zoom_changed'
+      (event) =>
+        @collection.trigger 'map:update', {type: 'zoom', data: event}
+        true
+    )
+
+    $.goMap.createListener(
+      'map'
+      'dragend'
+      (event) =>
+        @collection.trigger 'map:update', {type: 'dragend', data: event}
+        true
+    )
+
     if @collection.length
       _(@children).each (child) ->
         child.createMarker()
-      #$.goMap.fitBounds 'visible'
 
   filter: (data) =>
     @collection.trigger 'map:update', {type: 'filter', data: data}

@@ -14,12 +14,35 @@ class Location < ActiveRecord::Base
     super :include => :category, :except => [ :category_id, :is_approved ]
   end
 
-  def self.search(term)
+  def self.search(term, province = nil)
     result = []
     if not term.nil? and not term.empty?
       interested_fields = ["address", "name", "content","bioregion"]
+
+      provinces = {
+        "Alberta" => "AB",
+        "British Columbia" => "BC",
+        "Manitoba" => "MB",
+        "New Brunswick" => "NB",
+        "Newfoundland" => "NL",
+        "Nova Scotia" => "NS",
+        "Ontario" => "ON",
+        "Prince Edward Island" => "PE",
+        "Quebec" => "QC",
+        "Saskatchewan" => "SK",
+        "Northwest Territories" => "NT",
+        "Nunavut" => "NU",
+        "Yukon" => "YT"
+      }
+
       interested_fields.each do |i|
-        result = result + Location.where( i.to_sym => /^#{term}/i )
+        #result = result + Location.where( i.to_sym => /^#{term}/i )
+        if province.nil?
+          result = result + Location.find( :all, :conditions => ["#{i} LIKE ?", "%#{term}%"])
+        else
+          abbrev = provinces[province]
+          result = result + Location.find( :all, :conditions => ["#{i} LIKE ? AND ( address LIKE ? OR address LIKE ? )", "%#{term}%", "%#{abbrev}%", "%#{province}%"])
+        end
       end
     end
     return result.uniq

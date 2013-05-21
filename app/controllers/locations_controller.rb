@@ -6,7 +6,14 @@ class LocationsController < ApplicationController
   @tmp = {}
 
   def search
-    @locations = Location.search params[:terms]
+    @locations = []
+    if not params[:province].nil?
+      @locations = Location.search params[:terms], params[:province]
+    else
+      @locations = Location.search params[:terms]
+    end
+
+
     respond_to do |format|
       format.json { render :json =>  @locations }
     end
@@ -23,14 +30,11 @@ class LocationsController < ApplicationController
         end
 
         @filtered = !params[:filtered].nil?
-        puts "\n\nfiltered: #{@filtered}"
         @locations = []
 
         if @filtered
-          puts "only getting unapproved"
           @locations = Location.where( :is_approved => 0 ).all
         else
-          puts "getting all!"
           @locations = Location.all
         end
 

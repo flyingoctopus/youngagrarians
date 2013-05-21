@@ -17,6 +17,8 @@ group :assets do
 	gem 'sass-rails',   '~> 3.2.3'
 	gem 'coffee-rails', '~> 3.2.1'
 	gem 'eco'
+	gem 'rails-backbone'
+	gem 'marionette-rails'
 
 	gem 'haml'
 	gem 'sass'
@@ -42,7 +44,6 @@ gem 'warden',                 '~> 1.2.1'
 
 group :development, :test do
 	gem 'rb-readline',					'~> 0.4.2'
-
 	gem 'thin',                 '~> 1.4.1'
 	gem 'quiet_assets'
 
@@ -54,7 +55,8 @@ group :development, :test do
 	gem 'mail_safe',            '~> 0.3.1'
 	gem 'awesome_print',        '~> 1.0.2'
 	gem 'pry',                  '~> 0.9.10'
-	gem 'remarkable_mongoid',   '~> 0.6.0'
+	#gem 'remarkable_mongoid',   '~> 0.6.0'
+
 	gem 'fakeweb',              '~>1.3.0'
 	gem 'forgery',              '~>0.5.0'
 	gem 'table_print',          '~> 1.0.0'

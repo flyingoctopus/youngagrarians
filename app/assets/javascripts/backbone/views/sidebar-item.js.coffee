@@ -11,5 +11,8 @@ class Youngagrarians.Views.SidebarItem extends Backbone.Marionette.ItemView
     @$el.toggleClass 'active'
     @trigger 'filter', @$el
 
+  onShow: =>
+    @$el.data 'type', @model.get('name')
+
   onRender: =>
     @$el.data 'type', @model.get('type')
