@@ -16,6 +16,34 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'add'   : 'addMarker'
 
   initialize: (options) =>
+    _.bindAll @, 'resizeMap'
+    window.onresize = @resizeMap
+
+  resizeMap: (e) =>
+    console.log 'need to resize map!', e
+    bodyHeight = document.body.offsetHeight
+    mapTop = @$el.position().top
+    mapHeight = @$el.height()
+
+    console.log 'bodyHeight: ', bodyHeight
+
+    bodyHeight -= mapHeight
+
+    console.log 'bodyHeight: ', bodyHeight
+    console.log 'mapTop: ', mapTop
+    console.log 'mapHeight: ', mapHeight
+
+    newMinHeight = (bodyHeight - mapTop) - 75;
+
+
+    if newMinHeight < 400
+      newMinHeight = 400
+    console.log 'new min height:', newMinHeight
+
+
+
+    @$el.css
+      minHeight: newMinHeight + 'px'
 
   addMarkers: (col) =>
     _.defer =>
