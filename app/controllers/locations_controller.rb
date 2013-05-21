@@ -13,7 +13,6 @@ class LocationsController < ApplicationController
       @locations = Location.search params[:terms]
     end
 
-
     respond_to do |format|
       format.json { render :json =>  @locations }
     end
@@ -38,9 +37,15 @@ class LocationsController < ApplicationController
           @locations = Location.all
         end
 
+
       }# index.html.erb
       format.json {
         @locations = Location.where( :is_approved => true ).all
+
+        @locations.each do |l|
+          l.category = @categories.select { |cat| cat.id == l.category_id }[0]
+        end
+
         render :json =>  @locations
       }
     end

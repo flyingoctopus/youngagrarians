@@ -108,16 +108,14 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
           $.goMap.showHideMarker ids[i], true
           loc = @get ids[i]
 
+      categories = []
+      $("li.category.active").each (i,el) ->
+        categories.push $(el).data 'type'
+
       _(markers).each (latlng, i) =>
-        id = ids[i].replace("location-","")
+        id = parseInt ids[i].replace("location-","")
         location = @get id
         if !_.isUndefined(location) and !_.isNull(location)
-
-
-          categories = []
-          $("li.category.active").each (i,el) ->
-            categories.push $(el).data 'name'
-
           catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
           showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
           markerVisible = location.get 'markerVisible'

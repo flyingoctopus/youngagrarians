@@ -38,10 +38,10 @@ class Location < ActiveRecord::Base
       interested_fields.each do |i|
         #result = result + Location.where( i.to_sym => /^#{term}/i )
         if province.nil?
-          result = result + Location.find( :all, :conditions => ["#{i} LIKE ?", "%#{term}%"])
+          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ?", "%#{term}%"])
         else
           abbrev = provinces[province]
-          result = result + Location.find( :all, :conditions => ["#{i} LIKE ? AND ( address LIKE ? OR address LIKE ? )", "%#{term}%", "%#{abbrev}%", "%#{province}%"])
+          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ? AND ( address LIKE ? OR address LIKE ? )", "%#{term}%", "%#{abbrev}%", "%#{province}%"])
         end
       end
     end
