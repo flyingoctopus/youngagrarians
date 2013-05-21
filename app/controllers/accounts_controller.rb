@@ -120,7 +120,7 @@ class AccountsController < ApplicationController
 
   def login
     if authenticated?
-      redirect_to(params[:return_url] || :root)
+      redirect_to :locations_path
     else
       render :login, :layout => get_layout
     end
