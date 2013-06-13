@@ -1,25 +1,23 @@
-class Youngagrarians.Views.Sidebar extends Backbone.Marionette.CollectionView
-  tagName: 'ul'
-  className: 'nav nav-stacked nav-pills'
-  id: 'sidebar'
+class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
+  template: "backbone/templates/sidebar"
   itemView: Youngagrarians.Views.SidebarItem
 
-  initialize: () ->
-    @on 'itemview:filter', @showHide
+  regions:
+    provinces: "#map-provinces"
+    bioregions: "#map-bioregions"
+    categories: "#map-category"
+    legend: "#map-legend-container"
+    search: "#map-search"
+
+  initialize: (options) ->
+    @app = options.app
+    @provincesView = new Youngagrarians.Views.Provinces app: @app
+    @bioregionsView = new Youngagrarians.Views.Bioregions app: @app
+    @categoriesView = new Youngagrarians.Views.Categories app: @app, collection: @collection
+    @legendView = new Youngagrarians.Views.Legend app: @app, collection: @collection
 
   onRender: =>
-    @types = @collection.pluck 'name'
-    $("#category-list").niceScroll
-      cursorcolor: '#08c'
-      autohidemode: false
-
-  showHide: (ev) =>
-    target = ev.el
-    type = ev.model.get('name')
-
-    if @types.indexOf(type) < 0
-      @types.push type
-    else
-      @types = _(@types).without type
-
-    @trigger 'filter', @types
+    @.provinces.show @provincesView
+    @.bioregions.show @bioregionsView
+    @.categories.show @categoriesView
+    @.legend.show @legendView

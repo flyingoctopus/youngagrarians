@@ -1,298 +1,226 @@
 body.ya {
-  font-size: 12px;
-  color: #666666;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  line-height: 20px;
+	font-size: 12px;
+	color: #666666;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 20px;
 
-  #ya-nav {
-    width: 960px;
-    margin: 0 auto;
-    background: none;
+	#ya-nav {
+		background: none;
+		 margin-bottom: 0;
+		.navbar-inner {
+			border: 0px;
+			border-radius: 0px;
+			background: none;
+			padding-right: 0;
+			padding-left: 0;
 
-    .navbar-inner {
-      border: 0px;
-      border-radius: 0px;
-      background: none;
-      padding-right: 0;
-      padding-left: 0;
+			h1.title {
+				display: inline-block;
+				font-weight: 800 !important;
+				font-size: 36px !important;
 
-      h1.title {
-        margin: -10px 0 -0px -25px;
-        display: inline-block;
-        width: 960px;
-        font-weight: 800 !important;
-        font-size: 36px !important;
-        line-height: 36px;
+				a.brand {
+					font-style: italic;
+					font-size: 36px;
+					margin: 0;
+					text-decoration: none;
+					span {
+						color: black;
+						display: block;
+					}
+				}
+				a.brand:hover {
+					background: white;
+				}
+			}
 
-        a.brand {
-          font-style: italic;
-          font-size: 36px;
-          line-height: 36px;
-          margin: 0;
-          text-decoration: none;
-          height: 120px;
-          span {
-            color: black;
-            display: block;
-            padding: 64px 10px 0 10px;
-          }
-        }
-        a.brand:hover {
-          background: white;
-        }
-      }
+			div.nav-collapse {
+				clear: both;
+				display: inline-block;
 
-      div.nav-collapse {
-        width: 960px;
-        border-bottom: solid 1px black;
-        clear: both;
-        margin: -19px 0 -1px 0;
-        display: inline-block;
+				p.navbar-text {
+					 position: absolute;
+					 z-index:200;
+					 width: 350px;
+					 top: -60px;
+				}
 
-        p.navbar-text {
-          position: absolute;
-          left: 725px;
-          z-index:200;
-        }
+				ul.nav {
+					background: white;
+					width: 100%;
+					margin: 0px;
+					padding: 0px;
+					float: left;
 
-        ul.nav {
-          background: white;
-          width: 100%;
-          margin: 0px;
-          padding: 0px;
-          float: left;
+					li {
+						background: none;
+						padding-bottom: 5px;
+						text-transform: uppercase;
+						margin: 0px;
+						margin-bottom: -6px;
+						padding: 0px;
+						float: left;
+						position: relative;
 
-          li {
-            background: none;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            margin: 0px;
-            margin-bottom: -6px;
-            padding: 0px;
-            float: left;
-            position: relative;
+						a {
+							background: none;
+							color: #666;
+							padding: 17px 10px 7px 10px;
+							font-size: 11px;
+							font-style: normal;
+							font-weight: bold;
+							font-family: Helvetica, Arial, Trebuchet MS, Verdana;
 
-            a {
-              background: none;
-              color: #666;
-              padding: 17px 10px 7px 10px;
-              font-size: 11px;
-              font-style: normal;
-              font-weight: bold;
-              font-family: Helvetica, Arial, Trebuchet MS, Verdana;
+						}
+					}
 
-            }
-          }
+					li:hover {
+						a {
+							border-bottom: 5px solid black;
+						}
+					}
 
-          li:hover {
-            a {
-              border-bottom: 5px solid black;
-            }
-          }
+					li.active {
+						background: none;
+						a {
+							text-shadow: none;
+							box-shadow: none;
+							background: none;
+							color: black;
+							border-bottom: 5px solid black;
+						}
+					}
+				}
+			}
+		}
+	}
 
-          li.active {
-            background: none;
-            a {
-              text-shadow: none;
-              box-shadow: none;
-              background: none;
-              color: black;
-              border-bottom: 5px solid black;
-            }
-          }
-        }
-      }
-    }
-  }
+	#results-container {
+		width: 960px;
+		margin: 15px auto;
+		border-top: solid 1px black;
+		position: relative;
 
-  #main {
-    width: 960px;
-    margin: 15px auto;
-    border-top: solid 1px black;
-    position: relative;
+		#results {
+			width: 960px;
 
-    #results {
-      width: 960px;
+			ul.results-list {
+				margin: 30px auto 0;
+				width: 700px;
 
-      ul.results-list {
-        margin: 30px auto 0;
-        width: 700px;
+				li {
+					p.location-description {
+						margin: 0;
+						padding: 0;
+					}
+				}
+			}
+		}
 
-        li {
-          p.location-description {
-            margin: 0;
-            padding: 0;
-          }
-        }
-      }
-    }
-
-  }
+	}
 }
-    #category-list {
-      width: 175px;
-      position: absolute;
-      top: 320px;
-      right: 0px;
-      z-index: 200;
-      max-height: 350px;
-      overflow: hidden;
 
-      ul#sidebar {
-        li.category {
-          width: 165px;
-          background-color: white;
-          border-radius: 5px;
-          a.category-link {
-            i.icon {
-              margin-right: 10px;
-            }
-          }
-        }
-      }
-    }
+#main {
+	 height: 600px;
+	 margin: 0;
+	 padding: 0;
+	 position: relative;
+	 .row {
 
+			#map {
+				 margin-right: 100px;
+				 height: 600px;
+				 width: 1190px;
+			}
 
-#map-container {
-  width: 100%;
-    #map-search {
-      width: 960px;
-      margin: 30px auto 10px;
-      display: block;
-      padding-bottom: 10px;
-      border-bottom: solid 3px black;
+			#sidebar {
+				 position: absolute;
+				 left: 1190px;
+				 width: 100px;
 
-      form#map-search-form {
-        width: 660px;
-        margin: 0 auto;
-        margin-bottom: 10px;
+				 input, select {
+						margin: 0;
+						width: 180px;
+						margin-bottom: 5px;
+				 }
 
-        input#map-search-terms {
-          width: 350px;
-          display: inline-block;
-          vertical-align: middle;
-          white-space: nowrap;
-          margin-top: -16px;
-        }
+				 button {
+						width: 180px;
+						margin-top: 10px;
+				 }
 
-        a#map-search-clear {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          margin-left: -20px;
-          i {
-            width: 16px;
-            height: 16px;
-          }
-        }
-
-        a#mamp-search-clear:hover {
-          background: white;
-          i {
-            background: white;
-          }
-        }
-
-        .btn-group {
-          margin: 0;
-          padding: 0;
-          top: -8px;
-        }
-      }
-    }
-
-    #map {
-      width: 100%;
-      min-height: 400px;
-      padding-top: 10px;
-
-      .gomapMarker {
-        width: 550px;
-        .map-marker {
-          h3 {
-            max-width: 550px;
-          }
-
-          p {
-            overflow-y: scroll;
-            max-height: 100px;
-            max-width: 550px;
-          }
-
-          ul {
-            width: 550px;
-          }
-        }
-      }
-
-    }
-
-    #add-to-map-container {
-      width: 150px;
-      position: absolute;
-      display: inline-block;
-      z-index: 10;
-      top: 285px;
-      margin-top: -30px;
-      right: 110px;
-      #add-to-map-form {
-        border: solid 1px black;
-      }
-
-      #actions {
-        float: right;
-        margin-right: 10px;
-        a {
-          margin: 10px 0 0 0;
-          padding: 5px;
-        }
-      }
-    }
-
+				 h3 {
+						font-size: 15pt;
+						width: 150px;
+						a.pull-right {
+							 text-decoration: none;
+							 font-size: 7pt;
+						}
+				 }
+			}
+	 }
 }
+
+#map-legend-container {
+	 ul {
+			width: 150px;
+			li {
+				 img {
+						width: 16px;
+						height: 16px;
+						display: inline-block;
+				 }
+
+				 span {
+						font-size: 10pt;
+				 }
+			}
+	 }
+}
+
 
 footer {
-  background: black;
-  color: white;
-  margin-bottom: -10px;
-  margin-top: 10px;
-  padding-top: 20px;
-  p {
-    margin-top: -5px;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-bottom: 20px;
-    border-top: solid 1px #666;
-  }
+	background: black;
+	color: white;
+	margin-bottom: -10px;
+	margin-top: 10px;
+	padding-top: 20px;
+	p {
+		margin-top: -5px;
+		padding-top: 10px;
+		padding-left: 10px;
+		padding-bottom: 20px;
+		border-top: solid 1px #666;
+	}
 }
 
 #locations-admin-list {
-  table {
-    tr {
-      th {
-        text-align: center;
-      }
+	table {
+		tr {
+			th {
+				text-align: center;
+			}
 
-      td {
-        border-bottom: solid 1px black;
-        margin-bottom: 5px;
-        text-align: center;
-        a:hover {
-          background: white;
-        }
-      }
-    }
-  }
+			td {
+				border-bottom: solid 1px black;
+				margin-bottom: 5px;
+				text-align: center;
+				a:hover {
+					background: white;
+				}
+			}
+		}
+	}
 
-  ul#admin-locations-links {
-    li {
-      a {
+	ul#admin-locations-links {
+		li {
+			a {
 
-      }
+			}
 
-      a:hover {
-        background: white;
-      }
-    }
-  }
+			a:hover {
+				background: white;
+			}
+		}
+	}
 }

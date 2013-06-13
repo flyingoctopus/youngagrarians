@@ -4,6 +4,20 @@ class Youngagrarians.Models.Category extends Backbone.RelationalModel
   defaults:
     name: null
 
+  relations: [
+    type: 'HasMany'
+    key: 'subcategory'
+    relatedModel: 'Youngagrarians.Models.Subcategory'
+    includeInJSON: [Backbone.Model.prototype.idAttribute, 'name']
+    collectionType: 'Youngagrarians.Collections.SubcategoryCollection'
+    reverseRelation:
+      key: 'location'
+      includeInJSON: '_id'
+  ]
+
+  getIcon: =>
+    return 'assets/map-icons/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
+
 Youngagrarians.Models.Category.setup()
 
 class Youngagrarians.Collections.CategoriesCollection extends Backbone.Collection

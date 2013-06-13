@@ -3,8 +3,9 @@ class Location < ActiveRecord::Base
   acts_as_gmappable
 
   belongs_to :category
+  has_and_belongs_to_many :subcategory
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :subcategory, :is_approved, :category_id, :resource_type
+  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :is_approved, :category_id, :resource_type
 
   def gmaps4rails_address
     "#{address}"
@@ -17,7 +18,7 @@ class Location < ActiveRecord::Base
   def self.search(term, province = nil)
     result = []
     if not term.nil? and not term.empty?
-      interested_fields = ["address", "name", "content","bioregion"]
+      interested_fields = ["address", "name", "content","bioregion","phone","url","fb_url","twitter_url","description"]
 
       provinces = {
         "Alberta" => "AB",

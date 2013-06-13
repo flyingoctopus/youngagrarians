@@ -9,13 +9,16 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       data = @model.toJSON()
       data.link = @model.locUrl()
 
+      category = @model.get('category').get('name')
+      icon = @model.get('category').getIcon()
+
       @marker = $.goMap.createMarker
         latitude: @model.get 'latitude'
         longitude: @model.get 'longitude'
         id: 'location-' + @model.id
-        group: @model.get('category').get('name')
+        group: category
         title: @model.get 'name'
-        icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_greenA.png"
+        icon: icon
 
       @model.marker = @marker
 

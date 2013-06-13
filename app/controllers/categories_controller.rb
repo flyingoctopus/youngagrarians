@@ -3,12 +3,9 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     respond_to do |format|
-      format.html {
-        @categories = Category.all
-      }
+      @categories = Category.all
+      format.html
       format.json {
-        exclude_list = ["Web","Web Resource","Publication"]
-        @categories = Category.where( "name not in (?)", exclude_list)
         render :json => @categories
       }
     end

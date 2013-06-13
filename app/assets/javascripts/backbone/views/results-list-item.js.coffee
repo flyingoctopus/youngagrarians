@@ -11,7 +11,6 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
     @$el.hide()
     if _(@ignore).indexOf( @model.get('category').get('name') ) >= 0
       @$el.find('a').attr('target','_blank').attr 'href', @model.get('url')
-
     else
       @$el.find('a').attr 'href', @model.locUrl()
 

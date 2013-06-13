@@ -7,53 +7,57 @@
 <% end %>
 
 <div id="locations-admin-list">
-  <%= form_for :locations_update do |f| %>
-  <%= f.hidden_field 'submit_type' %>
+	<%= form_for :locations_update do |f| %>
+	<%= f.hidden_field 'submit_type' %>
 
-  <ul id="form-actions" class="unstyled inline">
-    <li>
-      <button class="btn btn-mini" id="edit-all" type="submit" value="edit">Edit Selected</button><br/>
-    </li>
-    <li>
-      <button class="btn btn-mini" id="delete-all" type="submit" value="delete">Delete Selected</button>
-    </li>
-    <li>
-      <button class="btn btn-mini" id="approve-all" type="submit" value="approve">Approve Selected</button>
-    </li>
-  </ul>
+	<ul id="form-actions" class="unstyled inline">
+		<li>
+			<button class="btn btn-mini" id="edit-all" type="submit" value="edit">Edit Selected</button><br/>
+		</li>
+		<li>
+			<button class="btn btn-mini" id="delete-all" type="submit" value="delete">Delete Selected</button>
+		</li>
+		<li>
+			<button class="btn btn-mini" id="approve-all" type="submit" value="approve">Approve Selected</button>
+		</li>
+	</ul>
 
-  <table class="container">
-    <tr class="row">
-      <th></th>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Category</th>
-      <th>Sub Category</th>
-      <th>Is Approved</th>
-      <th></th>
-      <th></th>
-    </tr>
+	<table class="container">
+		<tr class="row">
+			<th></th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Category</th>
+			<th>Sub Category</th>
+			<th>Is Approved</th>
+			<th></th>
+			<th></th>
+		</tr>
 
-    <% @locations.each do |location| %>
-    <% unless location.blank? %>
-    <tr class="row">
-      <td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
-      <td class="span2"><%= link_to location.name, location %></td>
-      <td class="span2"><%= location.address %></td>
-      <td class="span2"><%= @categories.select{ |c| c.id == location.category_id}[0].name %></td>
-      <td class="span2"><%= location.subcategory %></td>
-      <td class="span2"><%= location.is_approved ? 'yes' : 'no' %></td>
-      <td class="span1">
-        <%= link_to 'Edit', edit_location_path(location) %><br/>
-        <%= link_to 'Destroy', location, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
-      </td>
-    </tr>
-    <% end %>
-    <% end %>
-  </table>
-  <% end %>
+		<% @locations.each do |location| %>
+		<% unless location.blank? %>
+		<tr class="row">
+			<td class="span1"><%= check_box_tag '', location.id, false, :class => 'id'  %></td>
+			<td class="span2"><%= link_to location.name, location %></td>
+			<td class="span2"><%= location.address %></td>
+			<td class="span2"><%= location.category.name %></td>
+			<td class="span2">
+				<% location.subcategory.each do |sc| %>
+				<%= sc.name %>,
+				<% end %>
+			</td>
+			<td class="span2"><%= location.is_approved ? 'yes' : 'no' %></td>
+			<td class="span1">
+				<%= link_to 'Edit', edit_location_path(location) %><br/>
+				<%= link_to 'Destroy', location, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+			</td>
+		</tr>
+		<% end %>
+		<% end %>
+	</table>
+	<% end %>
 
-  <ul id="admin-locations-links" class="unstyled inline">
-    <li><%= link_to 'Import', 'locations/excel_import' %></li>
-  </ul>
+	<ul id="admin-locations-links" class="unstyled inline">
+		<li><%= link_to 'Import', 'locations/excel_import' %></li>
+	</ul>
 </div>

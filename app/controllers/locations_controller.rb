@@ -37,7 +37,7 @@ class LocationsController < ApplicationController
           @locations = Location.all
         end
 
-
+        @hide_map = true
       }# index.html.erb
       format.json {
         @locations = Location.where( :is_approved => true ).all
@@ -75,6 +75,8 @@ class LocationsController < ApplicationController
 
   # custom!
   def excel_import
+    @hide_map = true
+
     if params.has_key? :dump and params[:dump].has_key? :excel_file
       @tmp = params[:dump][:excel_file].tempfile
 
@@ -90,22 +92,39 @@ class LocationsController < ApplicationController
           cat = Category.find_or_create_by_name( row[1] )
         end
 
+        subcats = []
+        if not row[2].nil? and not row[2].empty?
+          subcategories = row[2].split ','
+          subcategories.each do |name|
+            sc = Subcategory.find_or_create_by_name name.strip
+            if not cat.nil?
+              sc.category = cat
+              sc.save
+            end
+            subcats.push sc
+          end
+        end
+
         # do things at your leeeisurrree
         l = Location.new(:resource_type => row[0] ||= '',
-                     :subcategory => row[2] ||= '',
-                     :name => row[3] ||= '',
-                     :bioregion => row[4] ||= '',
-                     :address => row[5] ||= '',
-                     :phone => row[6] ||= '',
-                     :url => row[7] ||= '',
-                     :fb_url => row[8] ||= '',
-                     :twitter_url => row[9] ||= '',
-                     :description => row[10] ||= '',
-                     :content => row[11] ||= '',
+                         :name => row[3] ||= '',
+                         :bioregion => row[4] ||= '',
+                         :address => row[5] ||= '',
+                         :phone => row[6] ||= '',
+                         :url => row[7] ||= '',
+                         :fb_url => row[8] ||= '',
+                         :twitter_url => row[9] ||= '',
+                         :description => row[10] ||= '',
+                         :content => row[11] ||= '',
                          :is_approved => 1 )
         if not cat.nil?
           l.category_id = cat.id
         end
+
+        if not subcats.nil?
+          l.subcategory = subcats
+        end
+
         l.save
       end
       redirect_to :locations
