@@ -4,6 +4,3 @@ class Youngagrarians.Views.Legend extends Backbone.Marionette.CollectionView
   className: "unstyled"
 
   itemView: Youngagrarians.Views.LegendItem
-
-  onRender: =>
-    console.log 'legend rendered: ', @$el, @el

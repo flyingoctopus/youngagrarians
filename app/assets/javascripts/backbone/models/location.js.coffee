@@ -1,6 +1,6 @@
 class Youngagrarians.Models.Location extends Backbone.RelationalModel
   paramRoot: 'location'
-  url: '/~youngagr/locations'
+  url: '/~youngagr/map/locations'
 
   relations: [
     type: 'HasOne'
@@ -20,7 +20,7 @@ class Youngagrarians.Models.Location extends Backbone.RelationalModel
     address: null
     name: null
     content: null
-    markerVisible: true
+    markerVisible: false
 
   lat: =>
     return @get 'latitude'
@@ -35,8 +35,36 @@ Youngagrarians.Models.Location.setup()
 
 class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
   model: Youngagrarians.Models.Location
-  url: '/~youngagr/locations'
+  url: '/~youngagr/map/locations'
   show: []
+
+  country: null
+  province: null
+  bioregion: null
+  category: null
+  subcategory: null
+
+  provinceShorthand:
+    "Canada":
+      "BC": "British Columbia"
+      "AB": "Alberta"
+      "SK": "Saskatchewan"
+      "MB": "Manitoba"
+      "ON": "Ontario"
+      "QC": "Quebec"
+      "NB": "New Brunswick"
+      "NS": "Nova Scotia"
+      "PEI": "Prince Edward Island"
+      "NV": "Nunavut"
+      "NT": "Northwest Territories"
+      "YK": "Yukon"
+      "NF": "Newfoundland"
+    "USA":
+      "OR": "Oregon"
+
+  countryAlts:
+    "Canada" : []
+    "USA" : ["United States","US"]
 
   initialize: (options) ->
     @direct = false
@@ -44,53 +72,86 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
 
   setShow: (ids) =>
     @show = ids
-    categories = []
-    $("li.category.active").each (i,el) ->
-      categories.push $(el).data 'type'
     @mapUpdate
-      type: 'filter'
-      data: categories
+      type: 'update'
 
   clearShow: () =>
     @show = []
-    categories = []
-    $("li.category.active").each (i,el) ->
-      categories.push $(el).data 'type'
-
     @mapUpdate
-      type:
-        'filter'
-      data:
-        categories
+      type: 'update'
+
+  isEmpty: (val) =>
+    return _.isUndefined(val) || _.isNull(val)
 
   mapUpdate: (data) =>
     ids = $.goMap.markers
     markers = $.goMap.getMarkers()
 
-    if data.type == "filter"
-      data = data.data
+    if !_.isUndefined(data.data) and !_.isNull(data.data)
+      @country = data.data.country
+      @bioregion = data.data.bioregion
+      @category = data.data.category
+      @subcategory = data.data.subcategory
+      @province = data.data.province
+
+    if data.type == 'update'
       _(markers).each (latlng,i) =>
-        id = ids[i].replace("location-","")
+        id = ids[i].replace "location-", ""
         m = @get id
         if !_.isUndefined(m) and !_.isNull(m)
-          catGood = _(data).indexOf( m.get('category').get('name') ) >= 0
-          showGood = if @show.length > 0 then _(@show).indexOf(m.id) >= 0 else true
+          goodToShow = true
+          if !_.isNull @category
+            locationCategory = m.get('category').id
+            goodToShow = goodToShow && ( locationCategory == @category )
 
-          if catGood and showGood
-            $.goMap.showHideMarker 'location-'+m.id, true
-            m.marker.setVisible true
+          if !_.isNull @subcategory
+            locationSubcategories = m.get('category').get('subcategory').pluck('id')
+            goodToShow = goodToShow && ( _(locationSubcategories).indexOf( @subcategory ) >= 0 )
+
+          locationAddress = m.get("address")
+          if !_.isNull(@province) and !_.isUndefined(@province)
+            shortMatch = locationAddress.match @province
+            fullMatch =  locationAddress.match @provinceShorthand[ @country ][ @province ]
+            goodToShow = goodToShow && ( !_.isNull( shortMatch ) or !_.isNull(fullMatch) )
           else
-            $.goMap.showHideMarker 'location-'+m.id, false
-            m.marker.setVisible false
+            if !_.isNull( @country )
+              countryMatch = !_.isNull locationAddress.match @country
+              altMatch = false
+              _( @countryAlts[ @country ] ).each (country ) =>
+                if !_.isNull( locationAddress.match country )
+                  altMatch = true
 
-          m.set 'markerVisible', m.marker.visible
+              goodToShow = goodToShow && ( countryMatch || altMatch )
 
-    else if data.type == "show"
+          if !_.isNull @bioregion
+            bioMatch = m.get('bioregion').match @bioregion
+            goodToShow = goodToShow && !_.isNull( bioMatch )
+
+          if @show.length > 0
+            goodToShow = goodToShow && ( _(@show).indexOf(m.id) >= 0 )
+
+          if @isEmpty( @category ) and @isEmpty( @country ) and @isEmpty( @province ) and @isEmpty( @bioregion ) and @show.length == 0
+            goodToShow = false
+
+          m.marker.setVisible goodToShow
+          m.set markerVisible: goodToShow
+
+    if data.type == 'zoom' or data.type == 'dragend'
+      _(markers).each (latlng, i) =>
+        id = parseInt ids[i].replace("location-","")
+        location = @get id
+        if !_.isUndefined(location) and !_.isNull(location)
+          isVisible = location.get 'markerVisible'
+          location.set 'markerVisible', ( isVisible && $.goMap.isVisible(location) )
+
+    if data.type == 'filter'
+      console.log 'filtering?'
+
+    if data.type == 'show'
       $.goMap.setMap
         latitude: data.data.lat()
         longitude: data.data.lng()
         zoom: 10
-
       @direct = true
 
       _(markers).each (latlng, i) =>
@@ -101,33 +162,6 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
           $.goMap.showHideMarker ids[i], true
         loc = @get(id)
         loc.set 'markerVisible', loc.marker.visible
-    else
-      if @direct
-        @direct = false
-        _(markers).each (latlng, i) =>
-          $.goMap.showHideMarker ids[i], true
-          loc = @get ids[i]
 
-      categories = []
-      $("li.category.active").each (i,el) ->
-        categories.push $(el).data 'type'
-
-      _(markers).each (latlng, i) =>
-        id = parseInt ids[i].replace("location-","")
-        location = @get id
-        if !_.isUndefined(location) and !_.isNull(location)
-          catGood = _(categories).indexOf( location.get('category').get('name') ) >= 0
-          showGood = if @show.length > 0 then _(@show).indexOf(location.id) >= 0 else true
-          markerVisible = location.get 'markerVisible'
-          goMapVis = $.goMap.isVisible location
-
-          if !location.get('markerVisible') and $.goMap.isVisible(location)
-            if catGood and showGood
-              $.goMap.showHideMarker ids[i], true
-
-          else if location.get('markerVisible') and !$.goMap.isVisible(location)
-            $.goMap.showHideMarker ids[i], false
-
-        location.set "markerVisible", location.marker.visible
 
     true

@@ -32,30 +32,9 @@ YA.addInitializer (options) ->
   Backbone.history.start()
 
 YA.addInitializer (options) ->
-  sidebar = new Youngagrarians.Views.Sidebar collection: Categories, app: @
-  @.sidebar.show sidebar
-  map = new Youngagrarians.Views.Map collection: Locations, app: @
-  @.map.show map
-  results = new Youngagrarians.Views.Results collection: Locations, map: map, app: @
-  @.results.show results
-
-  sidebar.on 'filter', map.filter
-
-
-###
-# D.addInitializer (options) ->
-  @vent.on 'user:login', () =>
-    @headerView.updateHeader()
-    @navView.navVisible()
-
-  @vent.on 'user:logout', () =>
-    @headerView.updateHeader()
-    @navView.navVisible()
-
-  @vent.on 'nav', (e) =>
-    @navView.section e
-    @headerView.section e
-
-D.addInitializer (options) ->
-  @vent.trigger 'nav', Backbone.history.fragment
-###
+  @sidebarView = new Youngagrarians.Views.Sidebar collection: Categories, app: @
+  @.sidebar.show @sidebarView
+  @mapView = new Youngagrarians.Views.Map collection: Locations, app: @
+  @.map.show @mapView
+  @resultsView = new Youngagrarians.Views.Results collection: Locations, map: map, app: @
+  @.results.show @resultsView

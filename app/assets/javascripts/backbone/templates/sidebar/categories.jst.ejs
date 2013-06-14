@@ -1,9 +1,9 @@
 <select id="category">
-	<option data-cat="-1">Pick A Category</option>
+	<option disabled="disabled" selected="selected">Pick A Category</option>
 	<% _.each( items, function(item){ %>
 	<option data-cat="<%= item.id %>"><%= item.name %></option>
 	<% if ( item.subcategory.length > 0 ) { %>
-	<optgroup label="<%= item.name %> Sub-Categories">
+	<optgroup label="<%= item.name %> Sub-Categories" data-cat="<%= item.id %>">
 	<% _.each( item.subcategory, function( subcat ){ %>
 	<option data-subcat="<%= subcat.id %>"><%= subcat.name %></option>
 	<% }); %>

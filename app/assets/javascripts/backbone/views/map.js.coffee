@@ -3,47 +3,89 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   itemView: Youngagrarians.Views.MapMarker
   map: null
 
-  events:
-    'click a#add-to-map' : 'addLocation'
-    'click a#show-about' : 'showAbout'
-    'click button#go-search' : 'doSearchProvince'
-    'submit form#map-search-form' : 'doSearch'
-    'click a#map-search-clear' : 'clearSearch'
-    'click li.province' : 'changeProvince'
+  country: null
+  province: null
+  provinceSelector: 'bc'
+  bioregion: null
+  bioregionSelector: null
+  category: null
+  subcategory: null
+
+  bioregionAreas:
+    'bc':
+      'northeast':
+        #where the map should center when this bioregion is chosen
+        zoomCenter: []
+        #the outline of the shape for this bioregion
+        polygon: []
+      'skeena-north-coast':
+        zoomCenter: []
+        polygon: []
+      'vancouver-island-coast':
+        zoomCenter: []
+        polygon: []
+      'caribo-prince-george':
+        zoomCenter: []
+        polygon: []
+      'thompson-okanagan':
+        zoomCenter: []
+        polygon: []
+      'lower-mainland-southwest':
+        zoomCenter: []
+        polygon: []
+      'kootenay':
+        zoomCenter: []
+        polygon: []
 
   collectionEvents:
     'reset' : 'addMarkers'
     'add'   : 'addMarker'
 
   initialize: (options) =>
-    _.bindAll @, 'resizeMap'
-    window.onresize = @resizeMap
+    @app = options.app
+    @app.vent.on 'bioregion:change', @bioRegionChanged
+    @app.vent.on 'province:change', @provinceChanged
+    @app.vent.on 'category:change', @categoryChanged
+    @app.vent.on 'subcategory:change', @subcategoryChanged
+    @app.vent.on 'search:started', @doSearch
+    @app.vent.on 'search:clear', @clearSearch
 
-  resizeMap: (e) =>
-    console.log 'need to resize map!', e
-    bodyHeight = document.body.offsetHeight
-    mapTop = @$el.position().top
-    mapHeight = @$el.height()
+  triggerCollectionUpdate: =>
+    data =
+      country: @country
+      province: @province
+      category: @category
+      subcategory: @subcategory
+      bioregion: @bioregion
+      event: 'update'
+    @collection.trigger 'map:update', {type: 'update', data: data}
+    @centerMap()
 
-    console.log 'bodyHeight: ', bodyHeight
+  categoryChanged: (category) =>
+    @category = category
+    @subcategory = null
+    @triggerCollectionUpdate()
 
-    bodyHeight -= mapHeight
+  subcategoryChanged: (data) =>
+    @category = data.cat
+    @subcategory = data.subcat
+    @triggerCollectionUpdate()
 
-    console.log 'bodyHeight: ', bodyHeight
-    console.log 'mapTop: ', mapTop
-    console.log 'mapHeight: ', mapHeight
+  provinceChanged: (data) =>
+    @country = data.country
+    @province = data.province
+    if !_.isNull( @province ) and !_.isUndefined( @province )
+      @provinceSelector = @province.toLowerCase()
+    else
+      @provinceSelector = null
+    @bioregion = null
+    @triggerCollectionUpdate()
 
-    newMinHeight = (bodyHeight - mapTop) - 75;
-
-
-    if newMinHeight < 400
-      newMinHeight = 400
-    console.log 'new min height:', newMinHeight
-
-
-
-    @$el.css
-      minHeight: newMinHeight + 'px'
+  bioRegionChanged: (bioregion) =>
+    @bioregion = bioregion
+    if !_.isNull( @bioregion ) and !_.isUndefined( @bioregion )
+      @bioregionSelector = bioregion.toLowerCase().replace " ", "-"
+    @triggerCollectionUpdate()
 
   addMarkers: (col) =>
     _.defer =>
@@ -53,23 +95,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   addMarker: (model) =>
     @addMarkers model.collection
 
-  showAbout: (e) =>
-    e.preventDefault()
-    about = new Youngagrarians.Views.About
-    about.render()
-
-  addLocation: (e) =>
-    e.preventDefault()
-    newLocation = new Youngagrarians.Models.Location
-    addLoc = new Youngagrarians.Views.AddLocation model: newLocation
-    addLoc.render()
-
-  changeProvince: (e) =>
-    province = $(e.target).text()
-    $("button#go-search").data('province', province).text province
-
   clearSearch: (e) =>
-    e.preventDefault()
     @collection.clearShow()
 
   searchSuccess: (data,status,xhr) =>
@@ -79,22 +105,19 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
     showLocations = () =>
       $.goMap.fitBounds('markers', locations )
-      if ( locations.length <= 1 )
-         $.goMap.setMap
+      if locations.length <= 1
+        $.goMap.setMap
           zoom: 10
       @collection.setShow ids
 
     _.delay showLocations, 100
 
   doSearch: (e) =>
-    e.preventDefault()
-    terms = $("#map-search-terms").val()
-
     $.ajax
       type: "POST"
       url: "/~youngagr/search"
       data:
-        terms: terms
+        terms: e
       success: @searchSuccess
 
   doSearchProvince: (e) =>
@@ -110,6 +133,18 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
         province: province
       success: @searchSuccess
 
+  centerMap: =>
+    center = ''
+    if !_.isNull( @province ) and !_.isNull( @country )
+      center = @province + ", " + @country
+    else if !_.isNull( @country )
+      center = @country
+
+    if center != ''
+      $.goMap.setMap
+        address: center
+        zoom: 5
+
   onShow: () =>
     @show = []
     @map = $("#map").goMap
@@ -119,16 +154,19 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       maptype: 'ROADMAP'
       scrollwheel: false
 
-    center = $("#go-search").data('province') + ", Canada"
-    $.goMap.setMap
-      address: center
-      zoom: 5
+    @centerMap()
 
     $.goMap.createListener(
       'map'
       'zoom_changed'
       (event) =>
-        @collection.trigger 'map:update', {type: 'zoom', data: event}
+        data =
+          province: @province
+          category: @category
+          subcategory: @subcategory
+          bioregion: @bioregion
+          event: event
+        @collection.trigger 'map:update', {type: 'zoom', data: data}
         true
     )
 
@@ -136,13 +174,23 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       'map'
       'dragend'
       (event) =>
-        @collection.trigger 'map:update', {type: 'dragend', data: event}
+        data =
+          province: @province
+          category: @category
+          subcategory: @subcategory
+          bioregion: @bioregion
+          event: event
+        @collection.trigger 'map:update', {type: 'dragend', data: data }
         true
     )
 
     if @collection.length
       _(@children).each (child) ->
-        child.createMarker()
+        marker = child.createMarker()
+        marker.setVisible false
+
+    true
 
   filter: (data) =>
+    data = _.extend { province: @province, category: @category, subcategory: @subcategory, bioregion: @bioregion }, data
     @collection.trigger 'map:update', {type: 'filter', data: data}

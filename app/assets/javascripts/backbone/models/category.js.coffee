@@ -16,10 +16,10 @@ class Youngagrarians.Models.Category extends Backbone.RelationalModel
   ]
 
   getIcon: =>
-    return 'assets/map-icons/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
+    return 'map/assets/map-icons/' + @get('name').toLowerCase().replace(' ', '-') + ".png"
 
 Youngagrarians.Models.Category.setup()
 
 class Youngagrarians.Collections.CategoriesCollection extends Backbone.Collection
   model: Youngagrarians.Models.Category
-  url: '/~youngagr/categories'
+  url: '/~youngagr/map/categories'
