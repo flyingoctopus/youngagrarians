@@ -33,7 +33,7 @@ class AccountsController < ApplicationController
     end
 
     if @user.valid?
-      respond_with @user, :location => :root
+      respond_with @user, :location => :locations_path
     else
       render :action => 'new'
     end
@@ -71,7 +71,7 @@ class AccountsController < ApplicationController
     @user = User.new
 
     if authenticated?
-      redirect_to(params[:return_url] || :root)
+      redirect_to(params[:return_url] || :locations_path)
     end
 
     render :forgot_password, :layout => 'application'
@@ -108,7 +108,7 @@ class AccountsController < ApplicationController
         # log them in!
         self.current_user = @user
 
-        redirect_to :root, :notice => t('passwords.updated')
+        redirect_to :locations_path, :notice => t('passwords.updated')
       else
         flash[:notice] = t('passwords.reset_failed')
         render :password_reset, :layout => 'application'
@@ -132,7 +132,7 @@ class AccountsController < ApplicationController
     if authenticated?
       respond_to do |format|
         format.html do
-          redirect_to(params[:return_url] || :root) #, :notice => t('auth.signed_in')
+          redirect_to(params[:return_url] || :locations_path) #, :notice => t('auth.signed_in')
         end
         format.json do
           render :json => { :success => 1, :user => current_user }
@@ -153,7 +153,7 @@ class AccountsController < ApplicationController
 
   def logout
     logout!
-    redirect_to :root, :notice => 'You have been logged out successfully'
+    redirect_to :locations_path, :notice => 'You have been logged out successfully'
   end
 
   def verify_credentials
