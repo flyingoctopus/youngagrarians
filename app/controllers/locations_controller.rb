@@ -88,7 +88,7 @@ class LocationsController < ApplicationController
         next if i == 0
 
         cat = nil
-        if not row[1].empty?
+        if not row[1].nil? and not row[1].empty?
           cat = Category.find_or_create_by_name( row[1] )
         end
 
