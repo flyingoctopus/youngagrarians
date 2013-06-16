@@ -42,3 +42,17 @@ YA.addInitializer (options) ->
   @.map.show @mapView
   @resultsView = new Youngagrarians.Views.Results collection: Locations, map: map, app: @
   @.results.show @resultsView
+
+
+YA.addInitializer (options) ->
+  console.log 'window: ', window
+
+  resizer = (event) ->
+    SKIM_HEIGHT = 20
+    newMapHeight = $(window).height() - $("#ya-nav").height() - SKIM_HEIGHT
+    newMapWidth = $(window).width() - $("#main #sidebar").outerWidth()
+
+    $("#map").css height: newMapHeight+'px', width: newMapWidth+'px'
+
+  window.onresize = resizer
+  resizer()

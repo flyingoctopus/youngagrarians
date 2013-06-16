@@ -15,27 +15,27 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     'bc':
       'northeast':
         #where the map should center when this bioregion is chosen
-        zoomCenter: []
+        zoomCenter: '57.996455,-123.442383'
         #the outline of the shape for this bioregion
-        polygon: []
+        zoomLevel: 6
       'skeena-north-coast':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '56.096556,-130.517578'
+        zoomLevel: 6
       'vancouver-island-coast':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '49.75288,-126.079102'
+        zoomLevel: 7
       'caribo-prince-george':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '52.816043,-121.179199'
+        zoomLevel: 7
       'thompson-okanagan':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '50.625073,-118.520508'
+        zoomLevel: 8
       'lower-mainland-southwest':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '49.239121,-122.629395'
+        zoomLevel: 9
       'kootenay':
-        zoomCenter: []
-        polygon: []
+        zoomCenter: '49.582226,-116.608887'
+        zoomLevel: 8
 
   collectionEvents:
     'reset' : 'addMarkers'
@@ -138,15 +138,24 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   centerMap: =>
     center = ''
+    zoom = 6
     if !_.isNull( @province ) and !_.isNull( @country )
       center = @province + ", " + @country
     else if !_.isNull( @country )
       center = @country
 
+    if !_.isNull( @bioregion )
+      provinceSelector = @province.toLowerCase()
+      bioregionSelector = @bioregion.toLowerCase().replace ' ', '-'
+      center = @bioregionAreas[ provinceSelector ][ bioregionSelector ][ 'zoomCenter' ]
+      zoom = @bioregionAreas[ provinceSelector ][ bioregionSelector ][ 'zoomLevel' ]
+
+    console.log 'center: ', center
+
     if center != ''
       $.goMap.setMap
         address: center
-        zoom: 6
+        zoom: zoom
 
   onShow: () =>
     @show = []

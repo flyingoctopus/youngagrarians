@@ -43,21 +43,31 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
 
           _infoBub.open $.goMap.getMap(), @
 
-          console.log 'window.twttr: ', window.twttr
-          if !_.isUndefined window.twttr
-            console.log 'window.twittr defined!', window.location.origin + _model.locUrl(),_model.locUrl()
-            func = (el) ->
-              console.log 'created share button', el
+          func = () =>
+            if !_.isUndefined window.twttr
+              twttr.widgets.createShareButton(
+                window.location.origin + _model.locUrl(),
+                $("#map-popup-"+_model.id+" .share .twitter")[0],
+                (el) =>
+                  console.log 'created: ', el
+                { text: _model.get('name'), via: 'youngagrarians' }
+              )
 
-            #twttr.widgets.createShareButton( "http://seanhagen.ca" , $("#map-popup-3 .share .twitter")[0], function(el){},{ text: "testing this out", via: 'youngagrarians' })
+            facebookLink = $("#map-popup-"+_model.id+" .share .facebook a")
 
-            twttr.widgets.createShareButton(
-              window.location.origin + _model.locUrl(),
-              _this.$el.find(".twitter")[0],
-              func,
-              { text: _model.get('name'), via: 'youngagrarians' }
-            )
+            link = "https://www.facebook.com/dialog/feed?" +
+              "app_id=542090742493894&" +
+              "link="+_model.locUrl()+"&" +
+              "picture="+window.location.origin+"/~youngagr/assets/map/ya.jpg&" +
+              "name="+ _model.get('name')+"&" +
+              "caption=Location On YoungAgrarians.ca Map&" +
+              "description="+_model.get("description")+"&" +
+              "redirect_uri=" + _model.locUrl()
 
+            facebookLink.attr 'href', link
+            console.log 'link: ', link
+
+          _.delay func, 200
           window.infoBubble = _infoBub
       )
     @marker.setVisible false
