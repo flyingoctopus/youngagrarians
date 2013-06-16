@@ -1,6 +1,8 @@
 Youngagrarians::Application.routes.draw do
   scope "/~youngagr/map" do
     resources :categories
+    resources :subcategories, :only => [:index]
+
     match 'locations/excel_import' => 'locations#excel_import'
     match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
     resources :locations

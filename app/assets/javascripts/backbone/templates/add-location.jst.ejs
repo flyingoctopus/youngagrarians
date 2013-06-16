@@ -2,77 +2,106 @@
 	<form id="add-to-map-form" class="form-horizontal">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3>Add Location</h3>
+			<h3>U-Map Your Location</h3>
 		</div>
 		<div class="modal-body">
 
 			<fieldset>
 				<ul class="unstyled">
-					<li class="control-group">
-						<label for="place" class="control-label">Enter A Location</label>
-						<div class="controls">
-							<input id="location" type="text" id="place"
-										 placeholder="Enter a location, like '150 W Hastings, Vancouver'" />
-						</div>
-					</li>
 
 					<li class="control-group">
-						<p>Add some more information about the location:</p>
-
-						<label for="category" class="control-label">What type of place is this?</label>
-						<div class="controls">
-							<select id="category"></select>
-						</div>
-					</li>
-
-					<li class="control-group">
-						<label for="name" class="control-label">What's the name of this place?</label>
+						<label for="name" class="control-label">Name of Listing</label>
 						<div class="controls">
 							<input type="text" id="name" />
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="bioregion" class="control-label">What is the bioregion of this place?</label>
+						<label for="place" class="control-label">Address</label>
 						<div class="controls">
-							<input type="text" id="bioregion" />
+							<input id="location" type="text" id="place"
+										 placeholder="example: '150 W Hastings, Vancouver'" />
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="description" class="control-label">Give this place a short description.</label>
+						<label for="category" class="control-label">Listing Category</label>
 						<div class="controls">
-							<textarea id="description"></textarea>
+							<select id="category"></select>
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="facebook" class="control-label">Does this place have a Facebook page? Paste the url here!</label>
+						<label for="subcategory" class="control-label">Sub-Category</label>
 						<div class="controls">
-							<input type="url" id="facebook" />
+							<select id="subcategory" disabled="disabled" multiple></select>
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="twitter" class="control-label">Does this place have a Twitter profile? Paste the url here!</label>
+						<label for="bioregion" class="control-label">Bioregion</label>
 						<div class="controls">
-							<input type="url" id="twitter" />
+							<select id="bioregion">
+								<option value="Caribou – Prince George">Caribou – Prince George</option>
+								<option value="Kootenays">Kootenays</option>
+								<option value="Lower Mainland">Lower Mainland</option>
+								<option value="North Coast – Skeena">North Coast – Skeena</option>
+								<option value="Northeast – Fort St. John, Dawson Creek">Northeast – Fort St. John, Dawson Creek</option>
+								<option value="Thompson – Okanagan">Thompson – Okanagan</option>
+								<option value="Vancouver Island – South Coast">Vancouver Island – South Coast</option>
+							</select>
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="phone" class="control-label">Does this place have a phone number?</label>
+						<label for="description" class="control-label">Description</label>
+						<div class="controls">
+							<textarea id="description" placholder="What you do and why a young agrarian would want to find you!"></textarea>
+						</div>
+					</li>
+
+					<li class="control-group">
+						<label for="url" class="control-label">Website URL</label>
+						<div class="controls">
+							<input type="url" id="url" placeholder="Enter the URL here" />
+						</div>
+					</li>
+
+					<li class="control-group">
+						<label for="facebook" class="control-label">Facebook Page URL</label>
+						<div class="controls">
+							<input type="url" id="facebook" placeholder="Enter the URL here"/>
+						</div>
+					</li>
+
+					<li class="control-group">
+						<label for="twitter" class="control-label">Twitter URL</label>
+						<div class="controls">
+							<input type="url" id="twitter" placeholder="Enter the URL here"/>
+						</div>
+					</li>
+
+					<li class="control-group">
+						<label for="phone" class="control-label">Phone Number</label>
 						<div class="controls">
 							<input type="text" id="phone" placeholder="Enter the phone number here" />
 						</div>
 					</li>
 
 					<li class="control-group">
-						<label for="url" class="control-label">Does this place have a website?</label>
+						<label for="email" class="control-label">Email Address</label>
 						<div class="controls">
-							<input type="url" id="url" placeholder="Enter the URL here" />
+							<input type="email" id="email" placeholder="Enter the email address here" />
 						</div>
 					</li>
+
+					<li class="control-group agree">
+						<label for="agree">
+							<input type="checkbox" id="agree" />
+							I agree that the information I am providing is true and correct. I consent to have my information available on the Young Agrarians map.
+						</label>
+					</li>
+
 				</ul>
 			</fieldset>
 

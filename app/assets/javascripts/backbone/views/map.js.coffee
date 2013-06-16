@@ -51,6 +51,9 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     @app.vent.on 'search:clear', @clearSearch
 
   triggerCollectionUpdate: =>
+    if not _.isUndefined( window.infoBubble ) and not _.isNull( window.infoBubble )
+      window.infoBubble.close()
+
     data =
       country: @country
       province: @province
@@ -143,14 +146,14 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     if center != ''
       $.goMap.setMap
         address: center
-        zoom: 5
+        zoom: 6
 
   onShow: () =>
     @show = []
     @map = $("#map").goMap
       latitude: 54.826008
       longitude: -125.200195
-      zoom: 5
+      zoom: 6
       maptype: 'ROADMAP'
       scrollwheel: false
 

@@ -124,13 +124,19 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
               goodToShow = goodToShow && ( countryMatch || altMatch )
 
           if !_.isNull @bioregion
-            bioMatch = m.get('bioregion').match @bioregion
-            goodToShow = goodToShow && !_.isNull( bioMatch )
+            parts = @bioregion.split '-'
+
+            testBio = m.get('bioregion')
+            anyMatch = false
+            anyMatch = anyMatch || !_.isNull( testBio.match( part ) ) for part in parts
+
+            goodToShow = goodToShow && anyMatch
 
           if @show.length > 0
             goodToShow = goodToShow && ( _(@show).indexOf(m.id) >= 0 )
 
-          if @isEmpty( @category ) and @isEmpty( @country ) and @isEmpty( @province ) and @isEmpty( @bioregion ) and @show.length == 0
+          if @isEmpty( @category )
+            #and @isEmpty( @country ) and @isEmpty( @province ) and @isEmpty( @bioregion ) and @show.length == 0
             goodToShow = false
 
           m.marker.setVisible goodToShow
