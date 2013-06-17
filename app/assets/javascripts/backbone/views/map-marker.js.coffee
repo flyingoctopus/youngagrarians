@@ -7,10 +7,16 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
   createMarker: =>
     if _.isNull @marker
       data = @model.toJSON()
-      data.link = @model.locUrl()
+      data.link = encodeURIComponent @model.locUrl()
 
       category = @model.get('category').get('name')
       icon = @model.get('category').getIcon()
+
+      data.category_name = category
+      data.category_icon = icon
+
+      subcategories = @model.get('subcategory').pluck('name').join(' , ')
+      data.subcategories = subcategories
 
       @marker = $.goMap.createMarker
         latitude: @model.get 'latitude'
@@ -33,8 +39,9 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
           if not _.isUndefined( window.infoBubble ) and not _.isNull( window.infoBubble )
             window.infoBubble.close()
 
+
           _infoBub = new InfoBubble
-            maxWidth: 500
+            maxWidth: 830
             maxHeight: 300
             arrowStyle: 2
             content: content
@@ -49,7 +56,6 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
                 window.location.origin + _model.locUrl(),
                 $("#map-popup-"+_model.id+" .share .twitter")[0],
                 (el) =>
-                  console.log 'created: ', el
                 { text: _model.get('name'), via: 'youngagrarians' }
               )
 
@@ -65,7 +71,6 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
               "redirect_uri=" + _model.locUrl()
 
             facebookLink.attr 'href', link
-            console.log 'link: ', link
 
           _.delay func, 200
           window.infoBubble = _infoBub

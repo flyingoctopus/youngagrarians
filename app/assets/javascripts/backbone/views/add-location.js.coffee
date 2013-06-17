@@ -86,6 +86,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
       @model.set 'twitter_url', @$el.find('input#twitter').val()
       @model.set 'url', @$el.find('input#url').val()
       @model.set 'phone', @$el.find('input#phone').val()
+      @model.set 'email', @$el.find("input#email").val()
 
       window.Locations.create @model, wait: true
 

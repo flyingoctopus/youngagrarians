@@ -11,8 +11,8 @@ class Location < ActiveRecord::Base
     "#{address}"
   end
 
-  def as_json(options)
-    super :include => :category, :except => [ :category_id, :is_approved ]
+  def as_json(options = nil)
+    super :include => [ :category, :subcategory ], :except => [ :category_id, :is_approved ]
   end
 
   def self.search(term, province = nil)

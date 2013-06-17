@@ -1,9 +1,15 @@
 <div class='map-marker' id="map-popup-<%= id %>">
 	<% if ( _(url).isEmpty() ){ %>
-	<h3><%= name %></h3>
+	<h3><img src="<%= category_icon %>" /><%= name %></h3>
 	<% } else { %>
-	<h3><a href="<%= url %>" target="_blank"><%= name %></a></h3>
+	<h3><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h3>
 	<% } %>
+	<ul class="unstyled inline category">
+		<li><%= category_name %></li>
+		<% if ( !_.isEmpty( subcategories ) ) { %>
+		<li>(<%= subcategories %>)</li>
+		<% } %>
+	</ul>
 	<p><%= description %></p>
 
 	<div class="contact-info">

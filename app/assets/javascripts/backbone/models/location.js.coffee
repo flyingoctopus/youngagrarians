@@ -3,14 +3,26 @@ class Youngagrarians.Models.Location extends Backbone.RelationalModel
   url: '/~youngagr/map/locations'
 
   relations: [
-    type: 'HasOne'
-    key: 'category'
-    relatedModel: 'Youngagrarians.Models.Category'
-    includeInJSON: Backbone.Model.prototype.idAttribute,
-    collectionType: 'Youngagrarians.Collections.CategoriesCollection'
-    reverseRelation:
-      key: 'location'
-      includeInJSON: '_id'
+    {
+      type: 'HasOne'
+      key: 'category'
+      relatedModel: 'Youngagrarians.Models.Category'
+      includeInJSON: Backbone.Model.prototype.idAttribute,
+      collectionType: 'Youngagrarians.Collections.CategoriesCollection'
+      reverseRelation:
+        key: 'location'
+        includeInJSON: '_id'
+    },
+    {
+      type: 'HasMany'
+      key: 'subcategory'
+      relatedModel: 'Youngagrarians.Models.Subcategory'
+      includeInJSON: Backbone.Model.prototype.idAttribute,
+      collectionType: 'Youngagrarians.Collections.SubcategoryCollection'
+      reverseRelation:
+        key: 'location'
+        includeInJSON: '_id'
+    }
   ]
 
   defaults:
@@ -105,7 +117,7 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
             goodToShow = goodToShow && ( locationCategory == @category )
 
           if !_.isNull @subcategory
-            locationSubcategories = m.get('category').get('subcategory').pluck('id')
+            locationSubcategories = m.get('subcategory').pluck('id')
             goodToShow = goodToShow && ( _(locationSubcategories).indexOf( @subcategory ) >= 0 )
 
           locationAddress = m.get("address")

@@ -138,7 +138,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   centerMap: =>
     center = ''
-    zoom = 6
+    zoom = 5
     if !_.isNull( @province ) and !_.isNull( @country )
       center = @province + ", " + @country
     else if !_.isNull( @country )
@@ -150,8 +150,6 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
       center = @bioregionAreas[ provinceSelector ][ bioregionSelector ][ 'zoomCenter' ]
       zoom = @bioregionAreas[ provinceSelector ][ bioregionSelector ][ 'zoomLevel' ]
 
-    console.log 'center: ', center
-
     if center != ''
       $.goMap.setMap
         address: center
@@ -162,7 +160,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
     @map = $("#map").goMap
       latitude: 54.826008
       longitude: -125.200195
-      zoom: 6
+      zoom: 5
       maptype: 'ROADMAP'
       scrollwheel: false
 

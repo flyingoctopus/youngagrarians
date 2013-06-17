@@ -164,7 +164,7 @@ body.ya {
 	 height: 100%;
 	 min-height: 100%;
 	 width: 100%;
-	 min-width: 500px;
+	 min-width: 800px;
 
 	 .row {
 			width: 100%;
@@ -282,20 +282,41 @@ footer {
 }
 
 div.map-bubble-background {
-	 max-width: 400px;
+	 max-width: 830px;
 	 div.map-marker {
 
 			h3 {
+				 margin: 0;
+				 padding: 0;
+				 img {
+						width: 21px;
+						height: 21px;
+						margin-top: -7px;
+						margin-right: 5px;
+				 }
+
 				 a {
 						text-decoration: none;
 							font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
 				 }
 			}
 
-			.contact-info {
+			ul.category {
+				 margin-bottom: 5px;
+				 padding: 0;
 				 li {
-						margin-top: 5px;
-							font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
+						font-style: italic;
+						margin: 0;
+						padding: 0;
+				 }
+			}
+
+			.contact-info {
+				 margin: 0;
+				 padding: 0;
+				 li {
+						margin: 0;
+						font-family: 'SofiaProSemiBold', Georgia, 'Times New Roman', Times, serif;
 				 }
 
 				 li.address {
@@ -343,4 +364,32 @@ div.map-bubble-background {
 		top: 5px;
 		left: 180px;
 	}
+}
+
+
+#modal {
+	 div.modal {
+			width: 600px;
+	 }
+	 form#add-to-map-form {
+			label {
+				 margin-left: -20px;
+				 margin-right: 10px;
+			}
+			.controls {
+				 margin-left: 150px;
+
+				 input, textarea {
+						width: 340px;
+				 }
+
+				 select {
+						width: 355px;
+				 }
+			}
+
+			.control-group.agree {
+				 margin-left: 20px;
+			}
+	 }
 }

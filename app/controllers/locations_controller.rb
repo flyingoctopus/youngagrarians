@@ -105,11 +105,22 @@ class LocationsController < ApplicationController
           end
         end
 
+        address = row[5] || ''
+        newaddress = nil
+        if not address.match(/^[Bb][Oo][Xx]/).nil? or not address.match(/^[Pp][Oo] [Bb][Oo][Xx]/).nil?
+          newaddress = address.match(/[A-Z-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]/)
+          if newaddress.nil?
+            newaddress = address.match(/[0-9]{5}/)
+          end
+        end
+        if not newaddress.nil?
+          address = newaddress[0]
+        end
         # do things at your leeeisurrree
         l = Location.new(:resource_type => row[0] ||= '',
                          :name => row[3] ||= '',
                          :bioregion => row[4] ||= '',
-                         :address => row[5] ||= '',
+                         :address => address,
                          :phone => row[6] ||= '',
                          :url => row[7] ||= '',
                          :fb_url => row[8] ||= '',
