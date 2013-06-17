@@ -18,6 +18,8 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       subcategories = @model.get('subcategory').pluck('name').join(' , ')
       data.subcategories = subcategories
 
+      console.log 'model: ', @model.toJSON()
+
       @marker = $.goMap.createMarker
         latitude: @model.get 'latitude'
         longitude: @model.get 'longitude'
