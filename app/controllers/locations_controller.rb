@@ -88,7 +88,7 @@ class LocationsController < ApplicationController
         next if i == 0
         if ( row[3].nil? or row[3].empty? ) and ( row[5].nil? or row[5].empty? ) and
             ( row[4].nil? or row[4].empty? ) and ( row[1].nil? or row[1].empty? )
-          next
+          break
         end
 
         cat = nil

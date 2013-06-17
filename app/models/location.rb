@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   include Gmaps4rails::ActsAsGmappable
-  acts_as_gmappable
+  acts_as_gmappable :process_geocoding => :process
 
   belongs_to :category
   has_and_belongs_to_many :subcategory
@@ -9,6 +9,13 @@ class Location < ActiveRecord::Base
 
   def gmaps4rails_address
     "#{address}"
+  end
+
+  def process
+    if address.nil? || address.empty?
+      return false
+    end
+    true
   end
 
   def as_json(options = nil)
