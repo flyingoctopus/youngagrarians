@@ -3,6 +3,9 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
   tagName: "li"
   className: "result-item"
 
+  category: null
+  subcategory: null
+
   serializeData: =>
     data = @model.toJSON()
     data.img = @model.get('category').getIcon()
@@ -10,10 +13,36 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
     data
 
   initialize: (options) ->
-    @model.on 'change', @changeShow, @
+    @app = options.app
+    @app.vent.on 'category:change', @categoryChanged
+    @app.vent.on 'subcategory:change', @subcategoryChanged
+
+    #@model.on 'change', @changeShow, @
 
   onShow: (options) =>
     @$el.hide()
+
+  categoryChanged: (cat) =>
+    @category = cat
+    if @model.get('category').get('id') == cat
+      @$el.show()
+    else
+      @$el.hide()
+
+  subcategoryChanged: (data) =>
+    @category = data.cat
+    @subcategory = data.subcat
+
+    modelSubcategories = @model.get('subcategory').pluck('id')
+
+    console.log @category, @model.get('category').get('id')
+    console.log @subcategory, modelSubcategories
+    console.log '------------------------'
+
+    if @model.get('category').get('id') == @category and _(modelSubcategories).indexOf(@subcategory) >= 0
+      @$el.show()
+    else
+      @$el.hide()
 
   changeShow: (model) =>
     if @model.get 'markerVisible'

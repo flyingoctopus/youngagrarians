@@ -11,6 +11,13 @@ class Location < ActiveRecord::Base
     "#{address}"
   end
 
+  def process_geocoding
+    if address.nil? || address.empty?
+      return false
+    end
+    true
+  end
+
   def as_json(options = nil)
     super :include => [ :category, :subcategory ], :except => [ :category_id, :is_approved ]
   end
