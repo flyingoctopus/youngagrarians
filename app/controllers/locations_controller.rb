@@ -153,6 +153,7 @@ class LocationsController < ApplicationController
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
+      @ids = [ location.id ]
     elsif params.has_key? :ids
       @ids = params[:ids].split ','
       @locations = Location.find @ids
