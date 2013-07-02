@@ -47,12 +47,12 @@ YA.addInitializer (options) ->
 YA.addInitializer (options) ->
   console.log 'window: ', window
 
-  resizer = (event) ->
+  resizer = (event) =>
     SKIM_HEIGHT = 80
-    newMapHeight = $(window).height() - $("#ya-nav").height() - SKIM_HEIGHT
-    newMapWidth = $(window).width() - $("#main #sidebar").outerWidth()
+    @newMapHeight = $(window).height() - $("#ya-nav").height() - SKIM_HEIGHT
+    @newMapWidth = $(window).width() - $("#main #sidebar").outerWidth()
 
-    $("#map").css height: newMapHeight+'px', width: newMapWidth+'px'
+    $("#map").css height: @newMapHeight+'px', width: @newMapWidth+'px'
 
   window.onresize = resizer
   resizer()

@@ -103,7 +103,10 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   searchSuccess: (data,status,xhr) =>
     ids = _(data).pluck 'id'
-    locations = _(ids).map (id) ->
+    locations = _(data).filter (v) ->
+      v.address != ""
+
+    locations = _(locations).pluck('id').map (id) ->
       'location-'+id
 
     showLocations = () =>
@@ -118,7 +121,7 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
   doSearch: (e) =>
     $.ajax
       type: "POST"
-      url: "/~youngagr/search"
+      url: "/~youngagr/map/search"
       data:
         terms: e
       success: @searchSuccess

@@ -1,11 +1,11 @@
 class Youngagrarians.Views.Search extends Backbone.Marionette.ItemView
   template: "backbone/templates/sidebar/search"
 
-  tagName: "form"
-  id: "search-form"
+  id: "search-form-container"
   className: "form-horizontal"
 
   events:
+    'submit form#search-form': 'doMapSearch'
     'click button#start-search': 'doMapSearch'
     'click a#map-search-clear' : 'clearSearch'
 
