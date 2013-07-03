@@ -3,7 +3,7 @@ Youngagrarians::Application.routes.draw do
     resources :categories
     resources :subcategories, :only => [:index]
 
-    match 'locations/excel_import' => 'locations#excel_import'
+    match 'locations/excel_import' => 'locations#excel_import', :as => :excel_import
     match 'locations/filtered/:filtered' => 'locations#index', :as => :locations_filtered
     resources :locations
     match 'locations/:ids/multi-edit' => 'locations#edit', :as => :multi_edit
