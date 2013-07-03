@@ -75,7 +75,7 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
                 "description="+_model.get("description")+"&" +
                 "redirect_uri=" + _model.locUrl()
 
-              facebookLink.attr 'href', link
+              #facebookLink.attr 'href', link
 
             _.delay func, 200
             window.infoBubble = _infoBub
