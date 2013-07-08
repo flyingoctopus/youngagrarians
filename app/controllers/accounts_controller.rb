@@ -1,7 +1,11 @@
 class AccountsController < ApplicationController
   before_filter :authenticate!, :except => [ :login, :login_post, :logout, :new, :create, :forgot_password, :retrieve_password, :password_reset, :reset_password ]
-
+  before_filter :hide_map
   respond_to :html
+
+  def hide_map
+    @hide_map = true
+  end
 
   def show
     respond_with @user = current_user
@@ -132,7 +136,7 @@ class AccountsController < ApplicationController
     if authenticated?
       respond_to do |format|
         format.html do
-          redirect_to(params[:return_url] || :locations_path) #, :notice => t('auth.signed_in')
+          redirect_to(params[:return_url] || :locations) #, :notice => t('auth.signed_in')
         end
         format.json do
           render :json => { :success => 1, :user => current_user }
@@ -141,6 +145,7 @@ class AccountsController < ApplicationController
     else
       respond_to do |format|
         format.html do
+          puts 'invalid auth!'
           flash[:notice] = t('auth.invalid')
           render :login, :status => 401, :layout => 'application'
         end
@@ -153,7 +158,7 @@ class AccountsController < ApplicationController
 
   def logout
     logout!
-    redirect_to :locations_path, :notice => 'You have been logged out successfully'
+    redirect_to :locations, :notice => 'You have been logged out successfully'
   end
 
   def verify_credentials

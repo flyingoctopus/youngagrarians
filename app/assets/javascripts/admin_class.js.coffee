@@ -3,9 +3,8 @@ class window.Admin
     _.bindAll @, 'listInit'
     @listInit()
 
-
   listInit: () =>
-    form = $("#locations-admin-list form")
+    form = $("#locations-admin-list form#locations-form")
     console.log "form: ", form
     if form.length > 0
       $("button#edit-all").on 'click', (e) =>
