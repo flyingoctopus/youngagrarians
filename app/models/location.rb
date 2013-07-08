@@ -25,6 +25,18 @@ class Location < ActiveRecord::Base
   def self.search(term, province = nil)
     result = []
     if not term.nil? and not term.empty?
+
+      category = Category.find_by_name term
+      subcategory = Category.find_by_name term
+
+      if not category.nil?
+        result = result + Location.find( :all, :conditions => ["category_id = ?", category.id] )
+      end
+
+      if not subcategory.nil?
+        result = result + Location.all( :include => :subcategory, :conditions => ["subcategories.id = ?", subcategory.id ])
+      end
+
       interested_fields = ["address", "name", "content","bioregion","phone","url","fb_url","twitter_url","description"]
 
       provinces = {
@@ -51,6 +63,9 @@ class Location < ActiveRecord::Base
           abbrev = provinces[province]
           result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ? AND ( address LIKE ? OR address LIKE ? )", "%#{term}%", "%#{abbrev}%", "%#{province}%"])
         end
+
+
+
       end
     end
     return result.uniq
