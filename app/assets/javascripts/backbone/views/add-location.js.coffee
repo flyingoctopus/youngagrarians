@@ -58,8 +58,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
     e.preventDefault()
 
     agree = @$el.find("input#agree")
-    if agree.is(":checked") and false
-
+    if agree.is(":checked")
       location = $("input#location").val()
       @model.set 'address', location
 
