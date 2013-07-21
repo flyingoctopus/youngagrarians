@@ -6,7 +6,7 @@ class Youngagrarians.Views.Bioregions extends Backbone.Marionette.ItemView
       1: "Northeast"
       2: "Skeena-North Coast"
       3: "Vancouver Island-Coast"
-      4: "Caribo-Prince George"
+      4: "Cariboo-Prince George"
       5: "Thompson-Okanagan"
       6: "Lower Mainland-Southwest"
       7: "Kootenay"
