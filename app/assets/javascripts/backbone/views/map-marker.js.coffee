@@ -57,11 +57,12 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
 
             func = () =>
               if !_.isUndefined window.twttr
+                text = _model.get('name') + ': ' + _model.locUrl()
                 twttr.widgets.createShareButton(
-                  window.location.origin + _model.locUrl(),
+                  _model.locUrl(),
                   $("#map-popup-"+_model.id+" .share .twitter")[0],
                   (el) =>
-                  { text: _model.get('name'), via: 'youngagrarians' }
+                  { text: text, via: 'youngagrarians' }
                 )
 
               facebookLink = $("#map-popup-"+_model.id+" .share .facebook a")
