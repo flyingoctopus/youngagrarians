@@ -50,7 +50,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
   cancelAdd: (e) =>
     e.preventDefault()
     @$el.find("div.modal.hide.fade").modal 'hide'
-    _.defer() =>
+    _.defer () =>
       @$el.remove()
     true
 

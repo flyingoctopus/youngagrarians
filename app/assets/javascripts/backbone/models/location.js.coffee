@@ -12,16 +12,6 @@ class Youngagrarians.Models.Location extends Backbone.RelationalModel
       reverseRelation:
         key: 'location'
         includeInJSON: '_id'
-    },
-    {
-      type: 'HasMany'
-      key: 'subcategory'
-      relatedModel: 'Youngagrarians.Models.Subcategory'
-      includeInJSON: Backbone.Model.prototype.idAttribute,
-      collectionType: 'Youngagrarians.Collections.SubcategoryCollection'
-      reverseRelation:
-        key: 'location'
-        includeInJSON: '_id'
     }
   ]
 

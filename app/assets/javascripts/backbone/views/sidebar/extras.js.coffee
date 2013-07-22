@@ -12,7 +12,6 @@ class Youngagrarians.Views.Extras extends Backbone.Marionette.ItemView
 
   addLocation: (e) =>
     e.preventDefault()
-    console.log 'need to add location'
     newLocation = new Youngagrarians.Models.Location
     addLoc = new Youngagrarians.Views.AddLocation model: newLocation
     addLoc.render()

@@ -15,7 +15,7 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
       data.category_name = category
       data.category_icon = icon
 
-      subcategories = @model.get('subcategory').pluck('name').join(' , ')
+      subcategories = _( @model.get('subcategory') ).pluck('name').join(' , ')
       data.subcategories = subcategories
 
       lat = @model.get 'latitude'

@@ -24,8 +24,6 @@ class Youngagrarians.Views.Categories extends Backbone.Marionette.ItemView
     selected = $(e.target).find(':selected')
     categoryId = selected.data('cat')
 
-    console.log 'category changed'
-
     if _.isUndefined categoryId
       subcategoryId = selected.data('subcat')
       categoryId = selected.parent().data 'cat'
