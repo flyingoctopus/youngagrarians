@@ -45,8 +45,6 @@ YA.addInitializer (options) ->
 
 
 YA.addInitializer (options) ->
-  console.log 'window: ', window
-
   resizer = (event) =>
     SKIM_HEIGHT = 80
     @newMapHeight = $(window).height() - $("#ya-nav").height() - SKIM_HEIGHT
@@ -56,3 +54,6 @@ YA.addInitializer (options) ->
 
   window.onresize = resizer
   resizer()
+
+
+YA.addInitializer (options) ->

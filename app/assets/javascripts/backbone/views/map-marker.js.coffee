@@ -67,16 +67,20 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
 
               facebookLink = $("#map-popup-"+_model.id+" .share .facebook a")
 
-              link = "https://www.facebook.com/dialog/feed?" +
-                "app_id=542090742493894&" +
-                "link="+_model.locUrl()+"&" +
-                "picture="+window.location.origin+"/~youngagr/assets/map/ya.jpg&" +
-                "name="+ _model.get('name')+"&" +
-                "caption=Location On YoungAgrarians.ca Map&" +
-                "description="+_model.get("description")+"&" +
-                "redirect_uri=" + _model.locUrl()
+              facebookLink.on 'click', (e) ->
+                e.preventDefault()
+                img = $("#fb_img").data('img')
+                data = {
+                  method: 'feed',
+                  link: _model.locUrl(),
+                  picture: img,
+                  name: "YoungAgrarians Map: " + _model.get('name'),
+                  caption: 'A location on the YoungAgrarians Resource Map'
+                  description: _model.get("description")
+                }
 
-              #facebookLink.attr 'href', link
+                FB.ui data, (response) ->
+                  console.log 'response: ', response
 
             _.delay func, 200
             window.infoBubble = _infoBub

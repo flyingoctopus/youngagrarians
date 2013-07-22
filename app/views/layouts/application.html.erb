@@ -10,7 +10,7 @@
 		<meta property="fb:app_id" content="542090742493894" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="YoungAgrarians Resource Map" />
-		<meta property="og:image" content="http://youngagrarians.files.wordpress.com/2012/03/leahpeaches-med.jpg?w=340&h=220<%= request.protocol %><%= request.host %><%= root_path %>/assets/ya.jpg" />
+		<meta property="og:image" content="<%= request.protocol %><%= request.host %><%= root_path %>/assets/ya.jpg" />
 		<meta property="og:description" content="We are mapping resources relevant to new/young farmers wanting to get into farming and food growing. Our focus is on the ecological/organic (certified or uncertified) sector." />
 		<meta property="og:url" content="<%= request.protocol %><%= request.host %><%= root_path %>" />
 
@@ -105,6 +105,29 @@
 			document.write(script);
 		</script>
 
+<script>
+	window.fbAsyncInit = function() {
+		// init the FB JS SDK
+		FB.init({
+			appId      : '542090742493894',                        // App ID from the app dashboard
+			channelUrl : '//199.167.16.67/~youngagr/map/channel.html', // Channel file for x-domain comms
+			status     : true,                                 // Check Facebook Login status
+			xfbml      : true                                  // Look for social plugins on the page
+		});
+
+		// Additional initialization code such as adding Event Listeners goes here
+	};
+
+	// Load the SDK asynchronously
+	(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/all.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+</script>
+
 		<%= javascript_include_tag "application" %>
 		<script type="text/javascript">
 
@@ -119,6 +142,7 @@
 		<!-- Twitter Share JS -->
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		<div id="root_url" data-url="<%= request.protocol %><%= request.host %><%= root_path %>" class="hide">What what</div>
+		<div id="fb_img" data-img="<%= request.protocol %><%= request.host %><%= root_path %>/assets/ya.jpg"></div>
 		<div id="modal"></div>
 
 	</body>
