@@ -7,7 +7,7 @@
 <% end %>
 
 <div id="locations-admin-list">
-	<%= form_for :locations_update, html: { id: 'locations-form' } do |f| %>
+	<%= form_for :locations_update, :html => { :id => 'locations-form' } do |f| %>
 	<%= f.hidden_field 'submit_type' %>
 
 	<ul id="form-actions" class="unstyled inline">

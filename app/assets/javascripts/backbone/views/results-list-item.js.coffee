@@ -35,11 +35,6 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
 
     modelSubcategories = _(@model.get('subcategory')).pluck('id')
 
-    console.log @category, @model.get('category').get('id')
-    console.log @subcategory, modelSubcategories
-    console.log @model.get('category').get('id') == @category, _(modelSubcategories).indexOf(@subcategory) >= 0
-    console.log '------------------------'
-
     if @model.get('category').get('id') == @category and _(modelSubcategories).indexOf(@subcategory) >= 0
       @$el.show()
     else
