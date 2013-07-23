@@ -5,6 +5,7 @@
 <% else %>
 <%= link_to "Show All", locations_path %>
 <% end %>
+<%= link_to "Create User", create_account_path %>
 
 <div id="locations-admin-list">
 	<%= form_for :locations_update, :html => { :id => 'locations-form' } do |f| %>
