@@ -107,7 +107,7 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
             goodToShow = goodToShow && ( locationCategory == @category )
 
           if !_.isNull @subcategory
-            locationSubcategories = m.get('subcategory').pluck('id')
+            locationSubcategories = _(m.get('subcategory')).pluck('id')
             goodToShow = goodToShow && ( _(locationSubcategories).indexOf( @subcategory ) >= 0 )
 
           locationAddress = m.get("address")
