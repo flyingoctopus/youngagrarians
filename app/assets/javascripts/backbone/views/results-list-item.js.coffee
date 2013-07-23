@@ -33,7 +33,7 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
     @category = data.cat
     @subcategory = data.subcat
 
-    modelSubcategories = @model.get('subcategory').pluck('id')
+    modelSubcategories = _(@model.get('subcategory')).pluck('id')
 
     console.log @category, @model.get('category').get('id')
     console.log @subcategory, modelSubcategories
