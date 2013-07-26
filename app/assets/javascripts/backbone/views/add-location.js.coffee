@@ -78,6 +78,7 @@ class Youngagrarians.Views.AddLocation extends Backbone.Marionette.View
 
       @model.set 'subcategory', subcategories
 
+      @model.set 'postal', @$el.find('input#postal').val()
       @model.set 'bioregion', @$el.find('input#bioregion').val()
       @model.set 'name', @$el.find("input#name").val()
       @model.set 'description', @$el.find('textarea#description').val()

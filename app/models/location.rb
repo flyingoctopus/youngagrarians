@@ -37,7 +37,7 @@ class Location < ActiveRecord::Base
         result = result + Location.all( :include => :subcategory, :conditions => ["subcategories.id = ?", subcategory.id ])
       end
 
-      interested_fields = ["address", "name", "content","bioregion","phone","url","fb_url","twitter_url","description"]
+      interested_fields = ["address", "name", "postal", "content","bioregion","phone","url","fb_url","twitter_url","description"]
 
       provinces = {
         "Alberta" => "AB",
