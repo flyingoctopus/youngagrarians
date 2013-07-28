@@ -149,7 +149,7 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
     @categories = Category.all
-    @subcategories = @location.category.
+    # @subcategories = @location.category.
     @locations = nil
     @hide_map = true
     if params.has_key? :id
