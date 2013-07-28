@@ -102,6 +102,7 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
         m = @get id
         if !_.isUndefined(m) and !_.isNull(m)
           goodToShow = true
+
           if !_.isNull @category
             locationCategory = m.get('category').id
             goodToShow = goodToShow && ( locationCategory == @category )
@@ -126,12 +127,13 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
               goodToShow = goodToShow && ( countryMatch || altMatch )
 
           if !_.isNull @bioregion
-            parts = @bioregion.split '-'
+            bio = m.get("bioregion")
+            match = @bioregion.match bio
 
-            testBio = m.get('bioregion')
-            anyMatch = false
-            anyMatch = anyMatch || !_.isNull( testBio.match( part ) ) for part in parts
-            goodToShow = goodToShow && anyMatch
+            if bio.length > 0 and !_.isNull( match )
+              goodToShow = goodToShow && true
+            else
+              goodToShow = false
 
           if @show.length > 0
             goodToShow = goodToShow && ( _(@show).indexOf(m.id) >= 0 )

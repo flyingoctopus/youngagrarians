@@ -5,6 +5,7 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
 
   category: null
   subcategory: null
+  bioregion: null
 
   serializeData: =>
     data = @model.toJSON()
@@ -14,10 +15,10 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
 
   initialize: (options) ->
     @app = options.app
-    @app.vent.on 'category:change', @categoryChanged
-    @app.vent.on 'subcategory:change', @subcategoryChanged
-
-    #@model.on 'change', @changeShow, @
+    #@app.vent.on 'category:change', @categoryChanged
+    #@app.vent.on 'subcategory:change', @subcategoryChanged
+    #@app.vent.on 'bioregion:change', @bioregionChanged
+    @model.on 'change', @changeShow, @
 
   onShow: (options) =>
     @$el.hide()
@@ -40,7 +41,17 @@ class Youngagrarians.Views.ResultItem extends Backbone.Marionette.ItemView
     else
       @$el.hide()
 
+  bioregionChanged: (data) =>
+    bio = @model.get("bioregion")
+    match = data.match bio
+
+    if bio.length > 0 and !_.isNull(match)
+      @$el.show()
+    else
+      @$el.hide()
+
   changeShow: (model) =>
+    console.log 'marker visible: ', @model.get 'markerVisible'
     if @model.get 'markerVisible'
       if $.goMap.isVisible @model
         @$el.show()

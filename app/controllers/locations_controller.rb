@@ -55,7 +55,7 @@ class LocationsController < ApplicationController
   # GET /locations/1.json
   def show
     @location = Location.find(params[:id])
-
+    @hide_map = true
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json =>  @location }
@@ -66,7 +66,7 @@ class LocationsController < ApplicationController
   # GET /locations/new.json
   def new
     @location = Location.new
-
+    @hide_map = true
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json =>  @location }
@@ -149,7 +149,9 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
     @categories = Category.all
+    @subcategories = @location.category.
     @locations = nil
+    @hide_map = true
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
@@ -164,7 +166,7 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(params[:location])
-
+    @hide_map = true
     respond_to do |format|
       if @location.save
         format.html { redirect_to @location, :notice => 'Location was successfully created.' }
@@ -181,6 +183,7 @@ class LocationsController < ApplicationController
   def update
     @locations = []
     @errors = []
+    @hide_map = true
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]

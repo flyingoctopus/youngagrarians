@@ -2,7 +2,7 @@
 <h1>Editing location</h1>
 
 <% if authenticated? %>
-	<%= form_for :locations, :url => multi_update_path(@ids.join(",")), :html => { :class => 'form-horizontal' } do |f| %>
+	<%= form_for :locations, :url => multi_update_path(@ids.join(",")), :html => { :class => 'form-horizontal edit-location' } do |f| %>
 	<ul class="unstyled">
 		<% @locations.each do |location| %>
 			<li class="locations-item">
@@ -49,9 +49,27 @@
 					<div class="control-group">
 						<%= ff.label :category, :class => "control-label" %>
 						<div class="controls">
-							<%= ff.select :category_id, @categories.collect { |c| [c.name, c.id] } %>
+							<%= ff.select :category_id, @categories.collect { |c| [c.name, c.id] }, {},{ :class => 'category-select'} %>
 						</div>
 					</div>
+
+					<div class="control-group">
+						<%= ff.label :subcategory, :class => "control-label" %>
+						<div class="controls">
+							<% selected = location.subcategory.collect { |sc| sc.id } %>
+							<select class="subcategory" multiple>
+								<% location.category.subcategory.each do |sc| %>
+								<!-- <%= sc.name %> -->
+								<% if selected.include? sc.id %>
+								<option value="<%= sc.id %>" selected="selected"><%= sc.name %></option>
+								<% else %>
+								<option value="<%= sc.id %>"><%= sc.name %></option>
+								<% end %>
+								<% end %>
+							</select>
+						</div>
+					</div>
+
 
 					<div class="control-group">
 						<%= ff.label :phone, :class => "control-label" %>
@@ -83,7 +101,6 @@
 
 					<div class="controls-group">
 						<%= ff.label :is_approved, :class => "control-label" %>
-						<p>ia: <%= location.is_approved %></p>
 						<div class="controls">
 							<%= ff.label :is_approved, "Approved" %>
 							<%= ff.radio_button :is_approved, true %>

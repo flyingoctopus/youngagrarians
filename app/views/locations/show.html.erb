@@ -15,7 +15,22 @@
 	<%= @location.address %>
 </p>
 
+<p>
+	<b>Bioregion:</b>
+	<%= @location.bioregion %>
+</p>
 
+<p>
+	<b>Category:</b>
+	<%= @location.category.name %>
+</p>
+
+<p>
+	<b>Sub-categories:</b>
+	<% @location.subcategory.each do |sc| %>
+	<%= sc.name %>,
+	<% end %>
+</p>
 
 <%= link_to 'Edit', edit_location_path(@location) %> |
 <%= link_to 'Back', locations_path %>
