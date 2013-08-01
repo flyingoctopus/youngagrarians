@@ -33,6 +33,13 @@
 					</div>
 
 					<div class="control-group">
+						<%= ff.label :postal, :class => 'control-label' %>
+						<div class="controls">
+							<%= ff.text_field :postal %>
+						</div>
+					</div>
+
+					<div class="control-group">
 						<%= ff.label :description, :class => "control-label" %>
 						<div class="controls">
 							<%= ff.text_area :description %>
@@ -70,11 +77,17 @@
 						</div>
 					</div>
 
-
 					<div class="control-group">
 						<%= ff.label :phone, :class => "control-label" %>
 						<div class="controls">
 							<%= ff.text_field :phone %>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<%= ff.label :email, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :email %>
 						</div>
 					</div>
 

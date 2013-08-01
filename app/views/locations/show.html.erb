@@ -32,5 +32,31 @@
 	<% end %>
 </p>
 
+<p>
+	<b>Email:</b>
+	<%= @location.email %>
+</p>
+
+<% if not @location.url.nil? %>
+<p>
+	<b>Url: </b>
+	<%= link_to @location.url, @location.url %>
+</p>
+<% end %>
+
+<% if not @location.fb_url.nil? %>
+<p>
+	<b>Facebook: </b>
+	<%= @location.fb_url %>
+</p>
+<% end %>
+
+<% if not @location.twitter_url.nil? %>
+<p>
+	<b>Twitter: </b>
+	<%= @location.twitter_url %>
+</p>
+<% end %>
+
 <%= link_to 'Edit', edit_location_path(@location) %> |
 <%= link_to 'Back', locations_path %>

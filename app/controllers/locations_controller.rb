@@ -131,6 +131,7 @@ class LocationsController < ApplicationController
                          :twitter_url => row[9] ||= '',
                          :description => row[10] ||= '',
                          :content => row[11] ||= '',
+                         :email => row[12] ||= '',
                          :is_approved => 1 )
         if not cat.nil?
           l.category_id = cat.id
