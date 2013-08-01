@@ -83,7 +83,13 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
       type: 'update'
 
   isEmpty: (val) =>
-    return _.isUndefined(val) || _.isNull(val)
+    provinceSelected = $("select#provinces").prop 'selectedIndex'
+    bioregionSelected = $("select#bioregions").prop 'selectedIndex'
+    categorySelected = $("select#category").prop 'selectedIndex'
+
+    if provinceSelected > 0 or bioregionSelected > 0 or categorySelected > 0
+      return _.isUndefined(val) || _.isNull(val)
+    return false
 
   mapUpdate: (data) =>
     ids = $.goMap.markers
@@ -114,7 +120,9 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
           locationAddress = m.get("address")
           if !_.isNull(@province) and !_.isUndefined(@province)
             shortMatch = locationAddress.match @province
-            fullMatch =  locationAddress.match @provinceShorthand[ @country ][ @province ]
+            fullMatch = null
+            if !_.isUndefined @provinceShorthand[ @country ]
+              fullMatch = locationAddress.match @provinceShorthand[ @country ][ @province ]
             goodToShow = goodToShow && ( !_.isNull( shortMatch ) or !_.isNull(fullMatch) )
           else
             if !_.isNull( @country )
@@ -136,7 +144,13 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
               goodToShow = false
 
           if @show.length > 0
-            goodToShow = goodToShow && ( _(@show).indexOf(m.id) >= 0 )
+            provinceSelected = $("select#provinces").prop 'selectedIndex'
+            bioregionSelected = $("select#bioregions").prop 'selectedIndex'
+            categorySelected = $("select#category").prop 'selectedIndex'
+            if provinceSelected > 0 or bioregionSelected > 0 or categorySelected > 0
+              goodToShow = goodToShow && ( _(@show).indexOf(m.id) >= 0 )
+            else
+              goodToShow = ( _(@show).indexOf(m.id) >= 0 )
 
           if @isEmpty( @category )
             goodToShow = false

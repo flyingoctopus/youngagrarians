@@ -128,6 +128,8 @@ class Youngagrarians.Views.Map extends Backbone.Marionette.CompositeView
 
   doSearchProvince: (e) =>
     e.preventDefault()
+    console.log 'here'
+
     terms = $("#map-search-terms").val()
     province = $(e.target).data('province')
 

@@ -15,6 +15,8 @@ class Youngagrarians.Views.Search extends Backbone.Marionette.ItemView
   doMapSearch: (e) =>
     e.preventDefault()
     terms = @$el.find("input#search").val()
+    $("select#provinces").prop 'selectedIndex', 0
+    $("select#category").prop 'selectedIndex', 0
 
     if terms == ''
       @$el.find("span.alert").slideDown()
