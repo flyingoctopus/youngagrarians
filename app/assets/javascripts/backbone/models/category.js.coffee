@@ -23,3 +23,12 @@ Youngagrarians.Models.Category.setup()
 class Youngagrarians.Collections.CategoriesCollection extends Backbone.Collection
   model: Youngagrarians.Models.Category
   url: '/~youngagr/map/categories'
+
+  comparator: ( a, b ) =>
+    aName = a.get('name')
+    bName = b.get('name')
+    if aName == bName
+      return 0
+    else if aName < bName
+      return -1
+    return 1
