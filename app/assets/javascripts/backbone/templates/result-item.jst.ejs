@@ -1,2 +1,13 @@
-<p class="location-description"><strong><a href=""><%= name %></a></strong></p>
+<img src="<%= img %>" />
+<p class="location-description">
+	<strong>
+		<% if ( !_.isEmpty( url ) ) { %>
+		<% if ( _.isNull( url.match( 'http://' ) ) ) { url = 'http://' + url } %>
+		<a href="<%= url %>" target="_blank"><%= name %></a>
+		<% } else { %>
+		<%= name %>
+		<% }%>
+
+	</strong>
+</p>
 <p><%= description %></p>

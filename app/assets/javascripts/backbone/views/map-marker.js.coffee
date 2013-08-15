@@ -7,42 +7,85 @@ class Youngagrarians.Views.MapMarker extends Backbone.Marionette.ItemView
   createMarker: =>
     if _.isNull @marker
       data = @model.toJSON()
-      data.link = @model.locUrl()
+      data.link = encodeURIComponent @model.locUrl()
 
-      @marker = $.goMap.createMarker
-        latitude: @model.get 'latitude'
-        longitude: @model.get 'longitude'
-        id: 'location-' + @model.id
-        group: @model.get('category').get('name')
-        title: @model.get 'name'
-        icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_greenA.png"
+      category = @model.get('category').get('name')
+      icon = @model.get('category').getIcon()
 
-      @model.marker = @marker
+      data.category_name = category
+      data.category_icon = icon
 
-      content = JST['backbone/templates/map-marker-bubble'](data)
-      contact = JST['backbone/templates/map-marker-bubble-contact'](data)
-      share   = JST['backbone/templates/map-marker-bubble-share'](data)
+      subcategories = _( @model.get('subcategory') ).pluck('name').join(' , ')
+      data.subcategories = subcategories
 
-      $.goMap.createListener(
-        { type: 'marker', marker: @marker.id },
-        'click',
-        () ->
-          if not _.isUndefined( window.infoBubble ) and not _.isNull( window.infoBubble )
-            window.infoBubble.close()
+      lat = @model.get 'latitude'
+      long = @model.get 'longitude'
 
-          _infoBub = new InfoBubble
-            maxWidth: 600
-            arrowStyle: 2
+      if !_.isUndefined( lat ) and !_.isNull( lat ) and !_.isUndefined( long ) and !_.isNull( long )
+        @marker = $.goMap.createMarker
+          latitude: @model.get 'latitude'
+          longitude: @model.get 'longitude'
+          id: 'location-' + @model.id
+          group: category
+          title: @model.get 'name'
+          icon: icon
 
-          _infoBub.open $.goMap.getMap(), @
+        @model.marker = @marker
 
-          _infoBub.addTab 'Information', content
-          _infoBub.addTab 'Contact', contact
-          _infoBub.addTab 'Share', share
+        content = JST['backbone/templates/map-marker-bubble'](data)
 
-          window.infoBubble = _infoBub
-      )
+        _model = @model
+        _this = @
+        $.goMap.createListener(
+          { type: 'marker', marker: @marker.id },
+          'click',
+          () ->
+            if not _.isUndefined( window.infoBubble ) and not _.isNull( window.infoBubble )
+              window.infoBubble.close()
 
+
+            _infoBub = new InfoBubble
+              disableAnimation: true
+              maxWidth: YA.newMapWidth * 0.8
+              maxHeight: 300
+              arrowStyle: 2
+              content: content
+              backgroundClassName: 'map-bubble-background'
+              borderRadius: 0
+
+            _infoBub.open $.goMap.getMap(), @
+
+            func = () =>
+              if !_.isUndefined window.twttr
+                text = _model.get('name')
+                twttr.widgets.createShareButton(
+                  _model.locUrl(),
+                  $("#map-popup-"+_model.id+" .share .twitter")[0],
+                  (el) =>
+                  { text: text, via: 'youngagrarians' }
+                )
+
+              facebookLink = $("#map-popup-"+_model.id+" .share .facebook a")
+
+              facebookLink.on 'click', (e) ->
+                e.preventDefault()
+                img = $("#fb_img").data('img')
+                data = {
+                  method: 'feed',
+                  link: _model.locUrl(),
+                  picture: img,
+                  name: "YoungAgrarians Map: " + _model.get('name'),
+                  caption: 'A location on the YoungAgrarians Resource Map'
+                  description: _model.get("description")
+                }
+
+                FB.ui data, (response) ->
+                  console.log 'response: ', response
+
+            _.delay func, 200
+            window.infoBubble = _infoBub
+        )
+        @marker.setVisible false
     @marker
 
   getLocation: =>

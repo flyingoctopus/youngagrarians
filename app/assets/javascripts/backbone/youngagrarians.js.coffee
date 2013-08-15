@@ -13,13 +13,14 @@
 @YA = new Backbone.Marionette.Application()
 
 YA.addRegions
-  map: "#map-container"
-  categories: "#category-list"
+  map: "#map"
+  sidebar: "#sidebar"
   results: "#results"
 
 YA.addInitializer (options) ->
   window.Locations = new Youngagrarians.Collections.LocationsCollection()
   window.Categories = new Youngagrarians.Collections.CategoriesCollection()
+  window.Subcategories = new Youngagrarians.Collections.SubcategoryCollection()
 
   window.Categories.fetch
     reset: true
@@ -27,16 +28,32 @@ YA.addInitializer (options) ->
   window.Locations.fetch
     reset: true
 
+  window.Subcategories.fetch
+    reset: true
+
 YA.addInitializer (options) ->
   router = new Youngagrarians.Routers.LocationsRouter()
   Backbone.history.start()
 
 YA.addInitializer (options) ->
-  sidebar = new Youngagrarians.Views.Sidebar collection: Categories
-  @.categories.show sidebar
-  map = new Youngagrarians.Views.Map collection: Locations
-  @.map.show map
-  results = new Youngagrarians.Views.Results collection: Locations, map: map
-  @.results.show results
+  @sidebarView = new Youngagrarians.Views.Sidebar collection: Categories, app: @
+  @.sidebar.show @sidebarView
+  @mapView = new Youngagrarians.Views.Map collection: Locations, app: @
+  @.map.show @mapView
+  @resultsView = new Youngagrarians.Views.Results collection: Locations, map: map, app: @
+  @.results.show @resultsView
 
-  sidebar.on 'filter', map.filter
+
+YA.addInitializer (options) ->
+  resizer = (event) =>
+    SKIM_HEIGHT = 80
+    @newMapHeight = $(window).height() - $("#ya-nav").height() - SKIM_HEIGHT
+    @newMapWidth = $(window).width() - $("#main #sidebar").outerWidth()
+
+    $("#map").css height: @newMapHeight+'px', width: @newMapWidth+'px'
+
+  window.onresize = resizer
+  resizer()
+
+
+YA.addInitializer (options) ->

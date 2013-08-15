@@ -1,25 +1,43 @@
-class Youngagrarians.Views.Sidebar extends Backbone.Marionette.CollectionView
-  tagName: 'ul'
-  className: 'nav nav-stacked nav-pills'
-  id: 'sidebar'
+class Youngagrarians.Views.Sidebar extends Backbone.Marionette.Layout
+  template: "backbone/templates/sidebar"
   itemView: Youngagrarians.Views.SidebarItem
 
-  initialize: () ->
-    @on 'itemview:filter', @showHide
+  regions:
+    provinces: "#map-provinces"
+    bioregions: "#map-bioregions"
+    categories: "#map-category"
+    legend: "#map-legend-container"
+    search: "#map-search"
+    extras: "#extras"
+
+  events:
+    "click a.hide-show": "toggleLegend"
+
+  initialize: (options) ->
+    @app = options.app
+    @provincesView = new Youngagrarians.Views.Provinces app: @app
+    @bioregionsView = new Youngagrarians.Views.Bioregions app: @app
+    @categoriesView = new Youngagrarians.Views.Categories app: @app, collection: @collection
+    @legendView = new Youngagrarians.Views.Legend app: @app, collection: @collection
+    @searchView = new Youngagrarians.Views.Search app: @app
+    @extrasView = new Youngagrarians.Views.Extras app: @app
 
   onRender: =>
-    @types = @collection.pluck 'name'
-    $("#category-list").niceScroll
-      cursorcolor: '#08c'
-      autohidemode: false
+    @.provinces.show @provincesView
+    @.bioregions.show @bioregionsView
+    @.categories.show @categoriesView
+    @.legend.show @legendView
+    @.search.show @searchView
+    @.extras.show @extrasView
 
-  showHide: (ev) =>
-    target = ev.el
-    type = ev.model.get('name')
+  toggleLegend: (e) =>
+    e.preventDefault()
 
-    if @types.indexOf(type) < 0
-      @types.push type
+    currentlyShown = !!$(e.target).data('legend-shown')
+
+    if currentlyShown
+      $(e.target).data('legend-shown', 0).text("Show")
+      $( @legendView.el ).hide()
     else
-      @types = _(@types).without type
-
-    @trigger 'filter', @types
+      $(e.target).data('legend-shown', 1).text("Hide")
+      $( @legendView.el ).show()

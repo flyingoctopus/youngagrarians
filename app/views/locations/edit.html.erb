@@ -2,111 +2,141 @@
 <h1>Editing location</h1>
 
 <% if authenticated? %>
-  <%= form_for :locations, :url => multi_update_path(@ids.join(",")), :html => { :class => 'form-horizontal' } do |f| %>
-  <ul class="unstyled">
-    <% @locations.each do |location| %>
-      <li class="locations-item">
-        <%= f.fields_for :location, location, :index => location.id do |ff| %>
-          <% if location.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
-              <ul>
-                <% location.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
+	<%= form_for :locations, :url => multi_update_path(@ids.join(",")), :html => { :class => 'form-horizontal edit-location' } do |f| %>
+	<ul class="unstyled">
+		<% @locations.each do |location| %>
+			<li class="locations-item">
+				<%= f.fields_for :location, location, :index => location.id do |ff| %>
+					<% if location.errors.any? %>
+						<div id="error_explanation">
+							<h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+							<ul>
+								<% location.errors.full_messages.each do |msg| %>
+								<li><%= msg %></li>
+								<% end %>
+							</ul>
+						</div>
+					<% end %>
 
-          <div class="control-group">
-            <%= ff.label :name, :class => 'control-label' %>
-            <div class="controls">
-              <%= ff.text_field :name %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :name, :class => 'control-label' %>
+						<div class="controls">
+							<%= ff.text_field :name %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :address, :class=> 'control-label' %>
-            <div class="controls">
-              <%= ff.text_field :address %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :address, :class=> 'control-label' %>
+						<div class="controls">
+							<%= ff.text_field :address %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :description, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_area :description %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :postal, :class => 'control-label' %>
+						<div class="controls">
+							<%= ff.text_field :postal %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :bioregion, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :bioregion %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :description, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_area :description %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :category, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.select :category_id, @categories.collect { |c| [c.name, c.id] } %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :bioregion, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :bioregion %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :subcategory, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :subcategory %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :category, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.select :category_id, @categories.collect { |c| [c.name, c.id] }, {},{ :class => 'category-select'} %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :phone, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :phone %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :subcategory, :class => "control-label" %>
+						<div class="controls">
+							<% selected = location.subcategory.collect { |sc| sc.id } %>
+							<select class="subcategory" multiple>
+								<% location.category.subcategory.each do |sc| %>
+								<!-- <%= sc.name %> -->
+								<% if selected.include? sc.id %>
+								<option value="<%= sc.id %>" selected="selected"><%= sc.name %></option>
+								<% else %>
+								<option value="<%= sc.id %>"><%= sc.name %></option>
+								<% end %>
+								<% end %>
+							</select>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :url, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :url %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :phone, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :phone %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :fb_url, "Facebook URL", :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :fb_url %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :email, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :email %>
+						</div>
+					</div>
 
-          <div class="control-group">
-            <%= ff.label :twitter_url, :class => "control-label" %>
-            <div class="controls">
-              <%= ff.text_field :twitter_url %>
-            </div>
-          </div>
+					<div class="control-group">
+						<%= ff.label :url, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :url %>
+						</div>
+					</div>
 
-          <div class="controls-group">
-            <%= ff.label :is_approved, :class => "control-label" %>
-            <p>ia: <%= location.is_approved %></p>
-            <div class="controls">
-              <%= ff.label :is_approved, "Approved" %>
-              <%= ff.radio_button :is_approved, true %>
-              <%= ff.label :is_approved, "Not Approved" %>
-              <%= ff.radio_button :is_approved, false %>
-            </div>
-          </div>
-          <%= link_to 'Show', location %> | <%= link_to 'Back', locations_path %>
-          <hr>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-  <% end %>
+					<div class="control-group">
+						<%= ff.label :fb_url, "Facebook URL", :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :fb_url %>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<%= ff.label :twitter_url, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :twitter_url %>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<%= ff.label :show_until, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.text_field :show_until, :type => "date" %>
+						</div>
+					</div>
+
+					<div class="controls-group">
+						<%= ff.label :is_approved, :class => "control-label" %>
+						<div class="controls">
+							<%= ff.label :is_approved, "Approved" %>
+							<%= ff.radio_button :is_approved, true %>
+							<%= ff.label :is_approved, "Not Approved" %>
+							<%= ff.radio_button :is_approved, false %>
+						</div>
+					</div>
+					<%= link_to 'Show', location %> | <%= link_to 'Back', locations_path %>
+					<hr>
+				<% end %>
+			</li>
+		<% end %>
+	</ul>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
+	<% end %>
 <% end %>
 </div>

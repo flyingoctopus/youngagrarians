@@ -37,10 +37,10 @@ class LocationsController < ApplicationController
           @locations = Location.all
         end
 
-
+        @hide_map = true
       }# index.html.erb
       format.json {
-        @locations = Location.where( :is_approved => true ).all
+        @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today ).all
 
         @locations.each do |l|
           l.category = @categories.select { |cat| cat.id == l.category_id }[0]
@@ -55,7 +55,7 @@ class LocationsController < ApplicationController
   # GET /locations/1.json
   def show
     @location = Location.find(params[:id])
-
+    @hide_map = true
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json =>  @location }
@@ -66,7 +66,7 @@ class LocationsController < ApplicationController
   # GET /locations/new.json
   def new
     @location = Location.new
-
+    @hide_map = true
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json =>  @location }
@@ -75,6 +75,8 @@ class LocationsController < ApplicationController
 
   # custom!
   def excel_import
+    @hide_map = true
+
     if params.has_key? :dump and params[:dump].has_key? :excel_file
       @tmp = params[:dump][:excel_file].tempfile
 
@@ -84,28 +86,61 @@ class LocationsController < ApplicationController
       sheet1.each_with_index do |row, i|
         # skip the first row dummy
         next if i == 0
+        if ( row[3].nil? or row[3].empty? ) and ( row[5].nil? or row[5].empty? ) and
+            ( row[4].nil? or row[4].empty? ) and ( row[1].nil? or row[1].empty? )
+          break
+        end
 
         cat = nil
-        if not row[1].empty?
+        if not row[1].nil? and not row[1].empty?
           cat = Category.find_or_create_by_name( row[1] )
         end
 
+        subcats = []
+        if not row[2].nil? and not row[2].empty?
+          subcategories = row[2].split ','
+          subcategories.each do |name|
+            sc = Subcategory.find_or_create_by_name name.strip
+            if not cat.nil?
+              sc.category = cat
+              sc.save
+            end
+            subcats.push sc
+          end
+        end
+
+        address = row[5] || ''
+        newaddress = nil
+        if not address.match(/^[Bb][Oo][Xx]/).nil? or not address.match(/^[Pp][Oo] [Bb][Oo][Xx]/).nil?
+          newaddress = address.match(/[A-Z-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]/)
+          if newaddress.nil?
+            newaddress = address.match(/[0-9]{5}/)
+          end
+        end
+        if not newaddress.nil?
+          address = newaddress[0]
+        end
         # do things at your leeeisurrree
         l = Location.new(:resource_type => row[0] ||= '',
-                     :subcategory => row[2] ||= '',
-                     :name => row[3] ||= '',
-                     :bioregion => row[4] ||= '',
-                     :address => row[5] ||= '',
-                     :phone => row[6] ||= '',
-                     :url => row[7] ||= '',
-                     :fb_url => row[8] ||= '',
-                     :twitter_url => row[9] ||= '',
-                     :description => row[10] ||= '',
-                     :content => row[11] ||= '',
+                         :name => row[3] ||= '',
+                         :bioregion => row[4] ||= '',
+                         :address => address,
+                         :phone => row[6] ||= '',
+                         :url => row[7] ||= '',
+                         :fb_url => row[8] ||= '',
+                         :twitter_url => row[9] ||= '',
+                         :description => row[10] ||= '',
+                         :content => row[11] ||= '',
+                         :email => row[12] ||= '',
                          :is_approved => 1 )
         if not cat.nil?
           l.category_id = cat.id
         end
+
+        if not subcats.nil?
+          l.subcategory = subcats
+        end
+
         l.save
       end
       redirect_to :locations
@@ -115,10 +150,13 @@ class LocationsController < ApplicationController
   # GET /locations/1/edit
   def edit
     @categories = Category.all
+    # @subcategories = @location.category.
     @locations = nil
+    @hide_map = true
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]
+      @ids = [ location.id ]
     elsif params.has_key? :ids
       @ids = params[:ids].split ','
       @locations = Location.find @ids
@@ -129,7 +167,7 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(params[:location])
-
+    @hide_map = true
     respond_to do |format|
       if @location.save
         format.html { redirect_to @location, :notice => 'Location was successfully created.' }
@@ -146,6 +184,7 @@ class LocationsController < ApplicationController
   def update
     @locations = []
     @errors = []
+    @hide_map = true
     if params.has_key? :id
       location = Location.find(params[:id])
       @locations = [ location ]

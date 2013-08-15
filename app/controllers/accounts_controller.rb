@@ -1,7 +1,11 @@
 class AccountsController < ApplicationController
-  before_filter :authenticate!, :except => [ :login, :login_post, :logout, :new, :create, :forgot_password, :retrieve_password, :password_reset, :reset_password ]
-
+  before_filter :authenticate!, :except => [ :login, :login_post, :logout, :forgot_password, :retrieve_password, :password_reset, :reset_password ]
+  before_filter :hide_map
   respond_to :html
+
+  def hide_map
+    @hide_map = true
+  end
 
   def show
     respond_with @user = current_user
@@ -27,13 +31,13 @@ class AccountsController < ApplicationController
     @code = params[:code]
     if @user = User.create(params[:user])
       if @user.valid?
-        self.current_user = @user
+        #self.current_user = @user
         #Notifications.account_created(@user).deliver #TODO: Notifications!
       end
     end
 
     if @user.valid?
-      respond_with @user, :location => :root
+      respond_with @user, :location => :locations
     else
       render :action => 'new'
     end
@@ -71,7 +75,7 @@ class AccountsController < ApplicationController
     @user = User.new
 
     if authenticated?
-      redirect_to(params[:return_url] || :root)
+      redirect_to(params[:return_url] || :locations_path)
     end
 
     render :forgot_password, :layout => 'application'
@@ -108,7 +112,7 @@ class AccountsController < ApplicationController
         # log them in!
         self.current_user = @user
 
-        redirect_to :root, :notice => t('passwords.updated')
+        redirect_to :locations_path, :notice => t('passwords.updated')
       else
         flash[:notice] = t('passwords.reset_failed')
         render :password_reset, :layout => 'application'
@@ -120,7 +124,7 @@ class AccountsController < ApplicationController
 
   def login
     if authenticated?
-      redirect_to(params[:return_url] || :root)
+      redirect_to :locations_path
     else
       render :login, :layout => get_layout
     end
@@ -132,7 +136,7 @@ class AccountsController < ApplicationController
     if authenticated?
       respond_to do |format|
         format.html do
-          redirect_to(params[:return_url] || :root) #, :notice => t('auth.signed_in')
+          redirect_to(params[:return_url] || :locations) #, :notice => t('auth.signed_in')
         end
         format.json do
           render :json => { :success => 1, :user => current_user }
@@ -141,6 +145,7 @@ class AccountsController < ApplicationController
     else
       respond_to do |format|
         format.html do
+          puts 'invalid auth!'
           flash[:notice] = t('auth.invalid')
           render :login, :status => 401, :layout => 'application'
         end
@@ -153,7 +158,7 @@ class AccountsController < ApplicationController
 
   def logout
     logout!
-    redirect_to :root, :notice => 'You have been logged out successfully'
+    redirect_to :locations, :notice => 'You have been logged out successfully'
   end
 
   def verify_credentials

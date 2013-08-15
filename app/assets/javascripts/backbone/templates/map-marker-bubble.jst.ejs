@@ -1,8 +1,44 @@
-<div class='map-marker'>
-	<% if ( !_(url).isEmpty() ){ %>
-	<h3><%= name %></h3>
+<div class='map-marker' id="map-popup-<%= id %>">
+	<% if ( _(url).isEmpty() ){ %>
+	<h3><img src="<%= category_icon %>" /><%= name %></h3>
 	<% } else { %>
-	<h3><a href="<%= url %>" target="_blank"><%= name %></a></h3>
+	<h3><img src="<%= category_icon %>" /><a href="<%= url %>" target="_blank"><%= name %></a></h3>
 	<% } %>
+	<ul class="unstyled inline category">
+		<li><%= category_name %></li>
+		<% if ( !_.isEmpty( subcategories ) ) { %>
+		<li>(<%= subcategories %>)</li>
+		<% } %>
+	</ul>
 	<p><%= description %></p>
+
+	<div class="contact-info">
+		<ul class="unstyled info">
+			<% if ( !_(address).isEmpty() ){ %>
+			<li class="address"><%= address %></li>
+			<% } %>
+
+			<% if ( !_(phone).isEmpty() ){ %>
+			<li class="phone"><%= phone %></li>
+			<% } %>
+
+			<% if ( !_(twitter_url).isEmpty() ){ %>
+			<li class="twitter"><a href="<%= twitter_url %>" target="_BLANK">Twitter</a></li>
+			<% } %>
+
+			<% if ( !_(fb_url).isEmpty() ){ %>
+			<li class="facebook"><a href="<%= fb_url %>" target="_blank">Facebook</a></li>
+			<% } %>
+		</ul>
+	</div>
+
+	<div class="share">
+		<p>Share this location with your friends!</p>
+		<ul class="unstyled inline social">
+			<li class="twitter"></li>
+			<li class="facebook">
+				<a href="http://www.facebook.com/sharer/sharer.php?u=<%= link %>" target="_blank">Share On Facebook</a>
+			</li>
+		</ul>
+	</div>
 </div>

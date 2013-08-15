@@ -11,7 +11,7 @@ Rails.configuration.middleware.use Warden::Manager do |manager|
   manager.serialize_from_session do |obj|
     begin
       return obj[:class].find(obj[:id])
-    rescue Mongoid::Errors::DocumentNotFound => e
+    rescue ActiveRecord::RecordNotFound => e
       return nil
     end
   end

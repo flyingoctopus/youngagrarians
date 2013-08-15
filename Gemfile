@@ -56,6 +56,7 @@ group :development, :test do
 	gem 'awesome_print',        '~> 1.0.2'
 	gem 'pry',                  '~> 0.9.10'
 	#gem 'remarkable_mongoid',   '~> 0.6.0'
+
 	gem 'fakeweb',              '~>1.3.0'
 	gem 'forgery',              '~>0.5.0'
 	gem 'table_print',          '~> 1.0.0'
@@ -76,4 +77,5 @@ group :development, :test do
 	# Docs
 	gem 'chef', '~> 11.4.0'
 	gem 'yard', '~> 0.8.5.2'
+
 end
