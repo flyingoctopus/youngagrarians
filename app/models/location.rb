@@ -5,7 +5,7 @@ class Location < ActiveRecord::Base
   belongs_to :category
   has_and_belongs_to_many :subcategory
 
-  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal
+  attr_accessible :latitude, :longitude, :gmaps, :address, :name, :content, :bioregion, :phone, :url, :fb_url, :twitter_url, :description, :is_approved, :category_id, :resource_type, :email, :postal, :show_until
 
   def gmaps4rails_address
     "#{address}"
@@ -58,10 +58,10 @@ class Location < ActiveRecord::Base
       interested_fields.each do |i|
         #result = result + Location.where( i.to_sym => /^#{term}/i )
         if province.nil?
-          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ?", "%#{term}%"])
+          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ? AND show_until < ?", "%#{term}%", Date.today])
         else
           abbrev = provinces[province]
-          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ? AND ( address LIKE ? OR address LIKE ? )", "%#{term}%", "%#{abbrev}%", "%#{province}%"])
+          result = result + Location.find( :all, :conditions => ["is_approved = 1 AND #{i} LIKE ? AND ( address LIKE ? OR address LIKE ? ) AND show_until > ?", "%#{term}%", "%#{abbrev}%", "%#{province}%", Date.today])
         end
 
 

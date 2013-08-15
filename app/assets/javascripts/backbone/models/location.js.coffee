@@ -72,6 +72,15 @@ class Youngagrarians.Collections.LocationsCollection extends Backbone.Collection
     @direct = false
     @on 'map:update', @mapUpdate, @
 
+  comparator: ( a, b ) =>
+    aName = a.get('name')
+    bName = b.get('name')
+    if aName == bName
+      return 0
+    else if aName < bName
+      return -1
+    return 1
+
   setShow: (ids) =>
     @show = ids
     @mapUpdate

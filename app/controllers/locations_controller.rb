@@ -40,7 +40,7 @@ class LocationsController < ApplicationController
         @hide_map = true
       }# index.html.erb
       format.json {
-        @locations = Location.where( :is_approved => true ).all
+        @locations = Location.where( "is_approved = 1 AND ( show_until is null OR show_until > ? )", Date.today ).all
 
         @locations.each do |l|
           l.category = @categories.select { |cat| cat.id == l.category_id }[0]
